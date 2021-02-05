@@ -9,8 +9,9 @@ import UIKit
 import SnapKit
 
 
-class PriceChangeBoxView: RoundedCornersView {
-        
+class PriceChangeBoxView: UIView {
+    
+    lazy var box = RoundedCornersView()
     lazy var change = UILabel()
     
     override init(frame: CGRect) {
@@ -36,18 +37,26 @@ class PriceChangeBoxView: RoundedCornersView {
     
     private func commonInit() {
         
-        layer.cornerRadius = 10
         
+        addSubview(box)
         addSubview(change)
         
-        backgroundColor = UIColor.systemGreen
+        backgroundColor = .clear
         
-        change.textColor = UIColor.white
+        box.layer.cornerRadius = 10
+        box.backgroundColor = .systemGreen
+        box.alpha = 0.07
+        
+        change.textColor = .systemGreen
         change.textAlignment = .center
-        change.font = UIFont.systemFont(ofSize: 15)
+        change.font = .systemFont(ofSize: 15)
     }
     
     override func updateConstraints() {
+        
+        box.snp.makeConstraints { make in
+            make.top.bottom.left.right.equalToSuperview()
+        }
         
         change.snp.makeConstraints { make in
             make.top.bottom.left.right.equalToSuperview()

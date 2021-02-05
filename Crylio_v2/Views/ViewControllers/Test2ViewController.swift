@@ -13,12 +13,14 @@ class Test2ViewController: UIViewController, UIScrollViewDelegate {
     
     var navigationTopBar = NavigationTopBarView()
     var header = CryptoDetailHeaderView(name: "Bitcoin", symbol: "BTC", type: "Coin")
-    var menu = HorizontalMenu(items: ["Details", "Holding", "History"])
+    var menu = HorizontalMenu(items: ["Details", "Holding", "Orders", "Transactions", "Transactions", "Transactions"], scrollable: true)
     
     lazy var scrollView: CryptoDetailsScrollView = {
-                let view = CryptoDetailsScrollView()
-                view.contentSize = CGSize(width: 414, height: 2000)
-                return view
+        let view = CryptoDetailsScrollView()
+        view.contentSize = CGSize(width: 428, height: 2000)
+        view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        view.contentInsetAdjustmentBehavior = .never
+        return view
     }()
     
     override func viewDidLoad() {
@@ -35,79 +37,60 @@ class Test2ViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(header)
         view.addSubview(navigationTopBar)
         view.addSubview(menu)
-                
+        
+//        view.backgroundColor = .cyan
+//        scrollView.backgroundColor = .blue
+//        header.backgroundColor = .green
+//        menu.backgroundColor = .red
+//        navigationTopBar.backgroundColor = .brown
+//        navigationTopBar.topBar.backgroundColor = .systemPink
         
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.height.width.equalToSuperview()
         }
         
         navigationTopBar.snp.makeConstraints { make in
             make.left.width.top.equalToSuperview()
-            make.height.equalTo(145)
+            make.height.equalTo(91 + 35 + 8)
         }
         
         header.snp.makeConstraints { make in
             make.left.width.top.equalToSuperview()
             make.height.equalTo(155)
         }
-        
+                
         menu.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview()
-            make.height.equalTo(40)
-            make.top.equalTo(header.snp.bottom).offset(15)
+            make.width.equalToSuperview().offset(-16)
+            make.height.equalTo(35)
+            make.top.equalTo(header.snp.bottom)
         }
         
     }
     
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let y = scrollView.contentOffset.y
+        let yOffset = scrollView.contentOffset.y
         
-        print(y)
+        header.transform = CGAffineTransform(translationX: 0, y: max(-header.bounds.height, header.bounds.minY - yOffset))
+        
+        menu.snp.remakeConstraints { make in
+            make.left.equalToSuperview().offset(16)
+            make.width.equalToSuperview().offset(-16)
+            make.height.equalTo(35)
+            make.top.equalTo(max(navigationTopBar.topBar.frame.maxY, header.frame.maxY))
+        }
+                        
+        navigationTopBar.blurredView.alpha = 1 - header.frame.maxY/navigationTopBar.topBar.frame.maxY
 
-        if y >= 0.0 {
+        if max(navigationTopBar.topBar.frame.maxY, header.frame.maxY) == navigationTopBar.topBar.frame.maxY {
+            navigationTopBar.topBar.alpha = 0
+            header.alpha = 0
             
-            header.snp.updateConstraints { make in
-                make.top.equalToSuperview().offset(-y)
-            }
-            
-            if header.frame.maxY <= navigationTopBar.topBar.frame.maxY - 8 {
-                
-                let alphaOffset = abs(header.frame.maxY - navigationTopBar.topBar.frame.maxY)/100
-                
-                navigationTopBar.blurredView.alpha = alphaOffset*2
-                navigationTopBar.topBar.alpha = 0
-                header.alpha = 0
-                
-                menu.snp.remakeConstraints { make in
-                    make.left.equalToSuperview().offset(16)
-                    make.right.equalToSuperview()
-                    make.height.equalTo(40)
-                    make.bottom.equalTo(navigationTopBar).offset(-8)
-                    
-                }
-            } else {
-                menu.snp.remakeConstraints { make in
-                    make.left.equalToSuperview().offset(16)
-                    make.right.equalToSuperview()
-                    make.height.equalTo(40)
-                    make.top.equalTo(header.snp.bottom).offset(15)
-                }
-                navigationTopBar.topBar.alpha = 1
-                header.alpha = 1
-            }
         } else {
-            header.snp.updateConstraints { make in
-                make.top.equalToSuperview()
-            }
-            
-            menu.snp.remakeConstraints { make in
-                make.left.equalToSuperview().offset(16)
-                make.right.equalToSuperview()
-                make.height.equalTo(40)
-                make.top.equalTo(header.snp.bottom).offset(15)
-            }
+            navigationTopBar.blurredView.alpha = 0
+            navigationTopBar.topBar.alpha = 1
+            header.alpha = 1
         }
         
         if header.frame.minY <= navigationTopBar.title.frame.maxY - header.nameLabel.frame.minY - header.nameLabel.frame.height/2 {
@@ -116,11 +99,16 @@ class Test2ViewController: UIViewController, UIScrollViewDelegate {
             navigationTopBar.hideTitle()
         }
     }
+    
 }
 
 
-extension Test2ViewController: HorizontalMenuProtocol {
+extension Test2ViewController: HorizontalMenuProtocol, BackButtonProtocol {
     func menuButtonTapped(sender: UIButton!) {
         print("button \(sender.tag) tapped")
+    }
+    
+    func backButtonAction(sender: UIButton!) {
+        dismiss(animated: true, completion: nil)
     }
 }

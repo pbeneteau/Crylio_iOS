@@ -8,19 +8,29 @@
 import UIKit
 
 
-protocol HorizontalMenuProtocol : NSObjectProtocol {
+protocol HorizontalMenuProtocol: NSObjectProtocol {
     func menuButtonTapped(sender: UIButton!)
 }
 
 class HorizontalMenu: RoundedCornersView {
     
-    weak var delegate: HorizontalMenuProtocol? = nil
-    
-    var items = [String]()
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     lazy var selectedButtonView = RoundedCornersView()
     
     var buttons = [UIButton]()
+    
+    var scrollable = true
+    var selectedButtonTag = 0
+    
+    weak var delegate: HorizontalMenuProtocol? = nil
+    
+    var items = [String]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,10 +38,11 @@ class HorizontalMenu: RoundedCornersView {
         commonInit()
     }
     
-    init(items: [String]) {
+    init(items: [String], scrollable: Bool) {
         super.init(frame: CGRect.zero)
         
         self.items = items
+        self.scrollable = scrollable
         
         commonInit()
     }
@@ -45,12 +56,16 @@ class HorizontalMenu: RoundedCornersView {
     private func commonInit() {
         
         layer.cornerRadius = 10
+        backgroundColor = .clear
         
-        selectedButtonView.backgroundColor = .systemGray6
+        scrollView.backgroundColor = .clear
+                
+        selectedButtonView.backgroundColor = Colors.Dark.Background.secondary
         selectedButtonView.flx_smoothCorners = true
         selectedButtonView.layer.cornerRadius = 10
-                
-        addSubview(selectedButtonView)
+        
+        addSubview(scrollView)
+        scrollView.addSubview(selectedButtonView)
         
         for (index, item) in items.enumerated() {
             let button = UIButton()
@@ -59,55 +74,14 @@ class HorizontalMenu: RoundedCornersView {
             button.tag = index
             button.tintColor = .label
             button.setTitleColor(.label, for: .selected)
-            button.setTitleColor(.systemGray2, for: .normal)
-            
+            button.setTitleColor(.systemGray3, for: .normal)
             button.addTarget(self, action: #selector(self.buttonTapped(sender:)), for: .touchUpInside)
             
-            addSubview(button)
             buttons.append(button)
+            scrollView.addSubview(button)
         }
         
-        buttons[0].isSelected = true
-        
-        self.backgroundColor = .clear
-    }
-    
-    @objc func buttonTapped(sender: UIButton!) {
-        setSelectedButton(tag: sender.tag)
-        self.delegate?.menuButtonTapped(sender: sender)
-    }
-    
-    override func updateConstraints() {
-        
-        //set subview constraints here
-        
-        setButtonsConstraints()
-        
-        selectedButtonView.snp.makeConstraints { make in
-            make.edges.equalTo(buttons[0])
-        }
-        
-        super.updateConstraints()
-    }
-    
-    func setButtonsConstraints() {
-        
-        for (index, button) in buttons.enumerated() {
-            
-            if index == 0 {
-                button.snp.makeConstraints { make in
-                    make.top.bottom.equalToSuperview()
-                    make.left.equalToSuperview()
-                    make.width.equalTo(button.intrinsicContentSize.width + 30)
-                }
-            } else {
-                button.snp.makeConstraints { make in
-                    make.top.bottom.equalToSuperview()
-                    make.left.equalTo(buttons[index-1].snp.right)
-                    make.width.equalTo(button.intrinsicContentSize.width + 30)
-                }
-            }
-        }
+        buttons[selectedButtonTag].isSelected = true
     }
     
     func setSelectedButton(tag: Int) {
@@ -119,32 +93,96 @@ class HorizontalMenu: RoundedCornersView {
                 button.isSelected = true
             }
         }
-       
+        
         UIView.animate(withDuration: 0.3, delay:0, options: .beginFromCurrentState) {
             self.selectedButtonView.snp.remakeConstraints { make in
                 make.edges.equalTo(self.buttons[tag])
+                make.width.height.equalTo(self.buttons[tag])
             }
             self.layoutIfNeeded()
         }
     }
     
+    @objc func buttonTapped(sender: UIButton!) {
+        setSelectedButton(tag: sender.tag)
+        self.delegate?.menuButtonTapped(sender: sender)
+    }
+    
+    override func updateConstraints() {
+        
+        //set subview constraints here
+                
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        super.updateConstraints()
+    }
+    
+    func setButtonsConstraints() {
+        
+        let maxButtonWidth = self.frame.width / CGFloat(buttons.count)
+
+        for (index, button) in buttons.enumerated() {
+            
+            if scrollable {
+                
+                let minButtonWidth = button.intrinsicContentSize.width + 30
+
+                if index == 0 {
+                    button.snp.makeConstraints { make in
+                        make.top.equalToSuperview()
+                        make.height.equalToSuperview()
+                        make.left.equalToSuperview()
+                        make.width.equalTo(minButtonWidth)
+                    }
+                } else {
+                    button.snp.makeConstraints { make in
+                        make.top.equalToSuperview()
+                        make.height.equalToSuperview()
+                        make.left.equalTo(buttons[index-1].snp.right).offset(5)
+                        make.width.equalTo(minButtonWidth)
+                    }
+                }
+            } else {
+                
+                if index == 0 {
+                    button.snp.makeConstraints { make in
+                        make.top.equalToSuperview()
+                        make.height.equalToSuperview()
+                        make.left.equalToSuperview()
+                        make.width.equalTo(maxButtonWidth)
+                    }
+                } else {
+                    button.snp.makeConstraints { make in
+                        make.top.equalToSuperview()
+                        make.height.equalToSuperview()
+                        make.left.equalTo(buttons[index-1].snp.right)
+                        make.width.equalTo(maxButtonWidth)
+                    }
+                }
+            }
+        }
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        //manually set subview frames here
+        
+        setButtonsConstraints()
+        
+        selectedButtonView.snp.makeConstraints { make in
+            make.edges.equalTo(buttons[selectedButtonTag])
+        }
+        
+        resizeScrollViewContent()
     }
     
-    func widthForView(text:String, height:CGFloat) -> CGFloat{
-        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: CGFloat.greatestFiniteMagnitude, height: height))
-       label.numberOfLines = 0
-       label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-       label.text = text
-
-       label.sizeToFit()
-       return label.frame.height
-   }
-
+    func resizeScrollViewContent() {
+        let contentRect: CGRect = scrollView.subviews.reduce(into: .zero) { rect, view in
+            rect = rect.union(view.frame)
+        }
+        scrollView.contentSize.width = contentRect.size.width
+    }
     
 }
 

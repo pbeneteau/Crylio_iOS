@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3800219825CD728000FA4773 /* MarketStatsView.swift */; };
 		3848D1B325C4CF7A00203D7A /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3848D1B225C4CF7A00203D7A /* TestTableViewController.swift */; };
 		3848D1B825C4D71700203D7A /* StickyHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3848D1B725C4D71600203D7A /* StickyHeaderController.swift */; };
 		3848D1BD25C4DC2B00203D7A /* HorizontalMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */; };
@@ -27,6 +28,7 @@
 		384CFB2025C44D320064C932 /* CryptocurrencyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB1F25C44D320064C932 /* CryptocurrencyDetailViewController.swift */; };
 		384CFB2825C451C50064C932 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB2725C451C50064C932 /* GradientView.swift */; };
 		384CFB4125C45B470064C932 /* CryptoDetailTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB4025C45B470064C932 /* CryptoDetailTopBarView.swift */; };
+		388D016825CD99D100AD0050 /* AAInfographics in Frameworks */ = {isa = PBXBuildFile; productRef = 388D016725CD99D100AD0050 /* AAInfographics */; };
 		389DE65225C5D27200954F4F /* Test2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE65125C5D27200954F4F /* Test2ViewController.swift */; };
 		389DE65725C758B500954F4F /* NavigationTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE65625C758B500954F4F /* NavigationTopBarView.swift */; };
 		389DE65F25C76F4700954F4F /* RoundedCornersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE65E25C76F4700954F4F /* RoundedCornersView.swift */; };
@@ -54,7 +56,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		388D013C25CD887A00AD0050 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		3800219825CD728000FA4773 /* MarketStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketStatsView.swift; sourceTree = "<group>"; };
 		3848D1B225C4CF7A00203D7A /* TestTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewController.swift; sourceTree = "<group>"; };
 		3848D1B725C4D71600203D7A /* StickyHeaderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickyHeaderController.swift; sourceTree = "<group>"; };
 		3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalMenuView.swift; sourceTree = "<group>"; };
@@ -96,6 +112,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				384CFAD025C1F0EA0064C932 /* SnapKit in Frameworks */,
+				388D016825CD99D100AD0050 /* AAInfographics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +240,7 @@
 				389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */,
 				389DE67825C8317A00954F4F /* CryptoDetailsTableViewCell.swift */,
 				389DE66B25C82C1100954F4F /* ChartView.swift */,
+				3800219825CD728000FA4773 /* MarketStatsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -237,6 +255,7 @@
 				384CFA8E25C1E67D0064C932 /* Sources */,
 				384CFA8F25C1E67D0064C932 /* Frameworks */,
 				384CFA9025C1E67D0064C932 /* Resources */,
+				388D013C25CD887A00AD0050 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -245,6 +264,7 @@
 			name = Crylio_v2;
 			packageProductDependencies = (
 				384CFACF25C1F0EA0064C932 /* SnapKit */,
+				388D016725CD99D100AD0050 /* AAInfographics */,
 			);
 			productName = Crylio_v2;
 			productReference = 384CFA9225C1E67D0064C932 /* Crylio_v2.app */;
@@ -319,6 +339,7 @@
 			mainGroup = 384CFA8925C1E67D0064C932;
 			packageReferences = (
 				384CFACE25C1F0EA0064C932 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				388D016625CD99D000AD0050 /* XCRemoteSwiftPackageReference "AAChartKit-Swift" */,
 			);
 			productRefGroup = 384CFA9325C1E67D0064C932 /* Products */;
 			projectDirPath = "";
@@ -368,6 +389,7 @@
 				389DE66425C8269E00954F4F /* CryptoDetailHeaderView.swift in Sources */,
 				384CFB2825C451C50064C932 /* GradientView.swift in Sources */,
 				384CFAF125C1F6960064C932 /* HomeTableViewCell.swift in Sources */,
+				3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */,
 				389DE65F25C76F4700954F4F /* RoundedCornersView.swift in Sources */,
 				389DE68625C8379000954F4F /* CryptoDetailsScrollView.swift in Sources */,
 				389DE67925C8317A00954F4F /* CryptoDetailsTableViewCell.swift in Sources */,
@@ -555,6 +577,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X9UAR68B43;
 				INFOPLIST_FILE = Crylio_v2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -574,6 +597,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X9UAR68B43;
 				INFOPLIST_FILE = Crylio_v2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -719,6 +743,14 @@
 				minimumVersion = 5.0.1;
 			};
 		};
+		388D016625CD99D000AD0050 /* XCRemoteSwiftPackageReference "AAChartKit-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AAChartModel/AAChartKit-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -726,6 +758,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 384CFACE25C1F0EA0064C932 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		388D016725CD99D100AD0050 /* AAInfographics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 388D016625CD99D000AD0050 /* XCRemoteSwiftPackageReference "AAChartKit-Swift" */;
+			productName = AAInfographics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

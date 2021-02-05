@@ -54,19 +54,19 @@ class CryptoDetailHeaderView: UIView {
         
         symbolLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-10)
             make.height.equalTo(17)
         }
         
         typeLabel.snp.makeConstraints { make in
             make.left.equalTo(symbolLabel.snp.right).offset(15)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-10)
             make.height.equalTo(17)
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.bottom.equalTo(symbolLabel.snp.top).offset(-10)
+            make.left.equalToSuperview().offset(15)
+            make.bottom.equalTo(symbolLabel.snp.top).offset(-5)
             make.height.equalTo(41)
         }
         

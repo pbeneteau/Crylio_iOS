@@ -40,7 +40,7 @@ class TestTableViewController: UITableViewController {
         //        headerView.addSubview(labelView)
         //        self.tableView.tableHeaderView = headerView
         
-        headerView = HorizontalMenu(items: ["Details"])
+        headerView = HorizontalMenu(items: ["Details"], scrollable: true)
         headerView.backgroundColor = .red
         
         view.backgroundColor = .blue

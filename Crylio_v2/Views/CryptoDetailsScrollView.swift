@@ -12,7 +12,15 @@ class CryptoDetailsScrollView: UIScrollView {
     lazy var offsetView = UIView()
     
     lazy var chartView = ChartView(price: 41512, changePercent: 7.51, changeDollar: 410)
-
+    
+    lazy var marketStatsView = MarketStatsView(volume24: 115149016927.31,
+                                               volume24Change: 2.61,
+                                               marketCap: 625760348347.31,
+                                               marketCapChange: 2.61,
+                                               availableSupply: 45425790652.52,
+                                               availableSupplyChange: 1.5,
+                                               totalSupply: 100000000000.62)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -33,10 +41,16 @@ class CryptoDetailsScrollView: UIScrollView {
     
     private func commonInit() {
         
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .systemBackground
+        showsVerticalScrollIndicator = false
+        isScrollEnabled = false
+        
         offsetView.backgroundColor = .systemBackground
         
         addSubview(offsetView)
         addSubview(chartView)
+        addSubview(marketStatsView)
         
     }
     
@@ -49,9 +63,17 @@ class CryptoDetailsScrollView: UIScrollView {
         }
         
         chartView.snp.makeConstraints { make in
-            make.width.left.equalToSuperview()
+            make.left.equalToSuperview()
+            make.width.equalToSuperview()
             make.top.equalTo(offsetView.snp.bottom)
             make.height.equalTo(400)
+        }
+
+        marketStatsView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.width.equalToSuperview()
+            make.top.equalTo(chartView.snp.bottom).offset(30)
+            make.height.equalTo(204)
         }
         
         super.updateConstraints()
@@ -59,6 +81,8 @@ class CryptoDetailsScrollView: UIScrollView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        marketStatsView.setNeedsLayout()
         
         // Manually set subview frames here
     }

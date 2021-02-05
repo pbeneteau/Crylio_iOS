@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol BackButtonProtocol: NSObjectProtocol {
+    func backButtonAction(sender: UIButton!)
+}
+
 class NavigationTopBarView: UIView {
     
     lazy var topBar = UIView()
     lazy var blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
 
-    var title = UILabel()
+    lazy var backButton = UIButton(type: .custom)
+    lazy var title = UILabel()
+    
+    weak var backButtonDelegate: BackButtonProtocol? = nil
     
 
     override init(frame: CGRect) {
@@ -29,76 +36,86 @@ class NavigationTopBarView: UIView {
     
     private func commonInit() {
         
-        self.backgroundColor = .clear
+        backgroundColor = .clear
         
         topBar.backgroundColor = .systemBackground
+        
         blurredView.alpha = 0
+        
+        // create chevron image
+        let config = UIImage.SymbolConfiguration(pointSize: 25.0, weight: .medium, scale: .medium)
+        let image = UIImage(systemName: "chevron.left", withConfiguration: config)
+        
+        backButton.setTitle("Back", for: .normal)
+        backButton.setImage(image, for: .normal)
+        backButton.setTitleColor(backButton.tintColor, for: .normal)
+        backButton.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
+
         
         title.alpha = 0
         title.textAlignment = .center
-        title.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        title.font = .systemFont(ofSize: 17, weight: .medium)
         
-        addSubview(topBar)
         addSubview(blurredView)
+        addSubview(topBar)
+        addSubview(backButton)
         addSubview(title)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        //manually set subview frames here
+        // Manually set subview frames here
     }
     
-    
     func hideTitle() {
-        UIView.animate(withDuration: 0.3, delay:0, options: .beginFromCurrentState) {
+        UIView.animate(withDuration: 0.3, delay: 0,options: [.curveEaseOut, .beginFromCurrentState], animations: {
+
             self.title.alpha = 0
-            self.title.snp.remakeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(65)
-                make.height.equalTo(20)
-                make.width.equalTo(100)
-            }
-            
-            self.layoutSubviews()
-        }
+            self.title.transform = CGAffineTransform(translationX: 0, y: 5)
+        }, completion: nil)
     }
     
     func showTitle() {
-        UIView.animate(withDuration: 0.3, delay:0, options: .beginFromCurrentState) {
+        UIView.animate(withDuration: 0.3, delay: 0,options: [.curveEaseOut, .beginFromCurrentState], animations: {
             self.title.alpha = 1
-            self.title.snp.remakeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(60)
-                make.height.equalTo(20)
-                make.width.equalTo(100)
-            }
-            
-            self.layoutSubviews()
-        }
+            self.title.transform = CGAffineTransform(translationX: 0, y: -5)
+        }, completion: nil)
     }
         
     
     override func updateConstraints() {
         
-        //set subview constraints here
+        // Set subview constraints here
+        
+        blurredView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.width.equalToSuperview()
+        }
         
         topBar.snp.makeConstraints { make in
             make.left.top.width.equalToSuperview()
             make.height.equalTo(91)
         }
         
-        blurredView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        backButton.snp.makeConstraints { make in
+            make.left.equalTo(6)
+            make.top.equalTo(55)
+            make.height.equalTo(22)
+            make.width.equalTo(100)
         }
         
         title.snp.remakeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(65)
-            make.height.equalTo(20)
+            make.centerY.equalTo(backButton).offset(5)
+            make.height.equalTo(22)
             make.width.equalTo(100)
         }
         
         super.updateConstraints()
+    }
+    
+    @objc func backButtonAction(sender: UIButton!) {
+        self.backButtonDelegate?.backButtonAction(sender: sender)
     }
 }

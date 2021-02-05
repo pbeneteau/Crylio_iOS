@@ -6,18 +6,21 @@
 //
 
 import UIKit
+import AAInfographics
 
-class ChartView: UIView {
-    
+class ChartView: UIView, AAChartViewDelegate {
     
     lazy var backgroundBox = RoundedCornersView()
     
-    lazy var priceLabel = UILabel()
+    lazy var price = UILabel()
     var priceChangeBox: PriceChangeBoxView!
+    lazy var timeframe = UILabel()
     lazy var priceChangeDollar = UILabel()
     lazy var changeChartModeButton = UIButton()
     
-    lazy var timeframeSelector = HorizontalMenu(items: ["1d", "1w", "1m", "3m", "6m", "1y", "All"])
+    lazy var chartView = AAChartView()
+    
+    lazy var timeframeSelector = HorizontalMenu(items: ["1d", "1w", "1m", "3m", "6m", "1y", "All"], scrollable: false)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,9 +31,9 @@ class ChartView: UIView {
     init(price: Float, changePercent: Float, changeDollar: Float) {
         super.init(frame: CGRect.zero)
         
-        priceLabel.text = "$\(price)"
-        priceChangeBox = PriceChangeBoxView(change: changePercent)
-        priceChangeDollar.text = "$\(changeDollar)"
+        self.price.text = "$\(price)"
+        self.priceChangeBox = PriceChangeBoxView(change: changePercent)
+        self.priceChangeDollar.text = "$\(changeDollar)"
                 
         commonInit()
     }
@@ -46,43 +49,77 @@ class ChartView: UIView {
         backgroundColor = .clear
         
         backgroundBox.layer.cornerRadius = 10
-        backgroundBox.backgroundColor = .systemGray6
+        backgroundBox.backgroundColor = Colors.Dark.Background.secondary
         
-        priceLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        price.font = .systemFont(ofSize: 31, weight: .medium)
         
-        priceChangeDollar.font = UIFont.systemFont(ofSize: 15)
+        priceChangeDollar.font = .systemFont(ofSize: 15)
         priceChangeDollar.textColor = .systemGreen
         
+        timeframe.font = .systemFont(ofSize: 14)
+        timeframe.textColor = .systemGray
+        timeframe.text = "Today"
+        
+        chartView.backgroundColor = .clear
+
         timeframeSelector.backgroundColor = .systemGray5
         timeframeSelector.selectedButtonView.backgroundColor = .systemGray4
         
         addSubview(backgroundBox)
-        backgroundBox.addSubview(priceLabel)
+        backgroundBox.addSubview(price)
         backgroundBox.addSubview(priceChangeDollar)
         backgroundBox.addSubview(priceChangeBox)
+        backgroundBox.addSubview(timeframe)
         backgroundBox.addSubview(changeChartModeButton)
+        backgroundBox.addSubview(chartView)
         backgroundBox.addSubview(timeframeSelector)
+        
+        backgroundBox.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        chartView.scrollEnabled = false
+        chartView.isClearBackgroundColor = true
+        chartView.delegate = self as AAChartViewDelegate
+        
+        let arr = (1...200).map( {_ in Float.random(in: 34918...37594)} )
+                
+        let aaChartModel = AAChartModel()
+            .chartType(AAChartType.line)
+            .colorsTheme(["#5B8FF9"])
+            .dataLabelsEnabled(false)
+            .animationType(.easeFrom)
+            .legendEnabled(false)
+            .touchEventEnabled(true)
+            .xAxisVisible(false)
+            .yAxisVisible(false)
+            .markerRadius(0)
+            .tooltipEnabled(false)
+            .series([
+                AASeriesElement()
+                    .data(arr)])
+        
+        chartView.aa_drawChartWithChartModel(aaChartModel)
     }
     
     override func updateConstraints() {
         
         backgroundBox.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalTo(16)
-            make.width.equalToSuperview().offset(-32)
-            make.bottom.equalToSuperview().offset(-32)
+            make.left.equalToSuperview().offset(16)
+            make.right.equalToSuperview().offset(-16)
+            make.top.equalToSuperview().offset(16)
+            make.bottom.equalToSuperview().offset(-16)
         }
         
-        priceLabel.snp.makeConstraints { make in
+        price.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
+            make.right.equalToSuperview().offset(-16)
             make.top.equalToSuperview().offset(20)
-            make.height.equalTo(20)
-            make.width.equalTo(200)
+            make.height.equalTo(37)
         }
         
         priceChangeBox.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.top.equalTo(priceLabel.snp.bottom).offset(15)
+            make.top.equalTo(price.snp.bottom).offset(5)
             make.height.equalTo(30)
             make.width.equalTo(70)
         }
@@ -90,20 +127,33 @@ class ChartView: UIView {
         priceChangeDollar.snp.makeConstraints { make in
             make.left.equalTo(priceChangeBox.snp.right).offset(10)
             make.centerY.equalTo(priceChangeBox)
-            make.height.equalTo(30)
-            make.width.equalTo(150)
+            make.height.equalTo(20)
+            make.width.equalTo(priceChangeDollar.intrinsicContentSize.width)
+        }
+        
+        timeframe.snp.makeConstraints { make in
+            make.left.equalTo(priceChangeDollar.snp.right).offset(10)
+            make.centerY.equalTo(priceChangeDollar)
+            make.height.equalTo(20)
+            make.width.equalTo(timeframe.intrinsicContentSize.width)
         }
         
         changeChartModeButton.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(priceLabel)
+            make.centerY.equalTo(price)
             make.height.equalTo(35)
             make.width.equalTo(35)
         }
         
+        chartView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(priceChangeBox.snp.bottom).offset(20)
+            make.height.equalTo(200)
+        }
+        
         timeframeSelector.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
+            make.width.equalToSuperview().offset(-32)
             make.height.equalTo(35)
             make.bottom.equalToSuperview().offset(-16)
         }
@@ -115,4 +165,18 @@ class ChartView: UIView {
         super.layoutSubviews()
         //manually set subview frames here
     }
+}
+
+
+extension ChartView {
+    
+    func aaChartView(_ aaChartView: AAChartView, moveOverEventMessage: AAMoveOverEventMessageModel) {
+        guard let price = moveOverEventMessage.y else {return}
+        self.price.text = "$\(price)"
+        
+        let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+        selectionFeedbackGenerator.selectionChanged()
+        
+    }
+    
 }
