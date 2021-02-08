@@ -8,7 +8,7 @@
 import UIKit
 import AAInfographics
 
-class ChartView: UIView, AAChartViewDelegate {
+class ChartView: UIView {
     
     lazy var backgroundBox = RoundedCornersView()
     
@@ -60,8 +60,6 @@ class ChartView: UIView, AAChartViewDelegate {
         timeframe.textColor = .systemGray
         timeframe.text = "Today"
         
-        chartView.backgroundColor = .clear
-
         timeframeSelector.backgroundColor = .systemGray5
         timeframeSelector.selectedButtonView.backgroundColor = .systemGray4
         
@@ -81,7 +79,12 @@ class ChartView: UIView, AAChartViewDelegate {
         chartView.isClearBackgroundColor = true
         chartView.delegate = self as AAChartViewDelegate
         
-        let arr = (1...200).map( {_ in Float.random(in: 34918...37594)} )
+        let arr = [
+            1,3,2,5,4,2,3,5,6,5,
+            4,6,7,5,6,8,7,5,8,6,
+            8,9,6,8,7,8,9,10,11,13,
+            9,11,10,13,12,11,10,11,13,11
+        ]
                 
         let aaChartModel = AAChartModel()
             .chartType(AAChartType.line)
@@ -99,6 +102,7 @@ class ChartView: UIView, AAChartViewDelegate {
                     .data(arr)])
         
         chartView.aa_drawChartWithChartModel(aaChartModel)
+        
     }
     
     override func updateConstraints() {
@@ -168,7 +172,7 @@ class ChartView: UIView, AAChartViewDelegate {
 }
 
 
-extension ChartView {
+extension ChartView: AAChartViewDelegate {
     
     func aaChartView(_ aaChartView: AAChartView, moveOverEventMessage: AAMoveOverEventMessageModel) {
         guard let price = moveOverEventMessage.y else {return}

@@ -74,7 +74,7 @@ class HorizontalMenu: RoundedCornersView {
             button.tag = index
             button.tintColor = .label
             button.setTitleColor(.label, for: .selected)
-            button.setTitleColor(.systemGray3, for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
             button.addTarget(self, action: #selector(self.buttonTapped(sender:)), for: .touchUpInside)
             
             buttons.append(button)
@@ -100,6 +100,13 @@ class HorizontalMenu: RoundedCornersView {
                 make.width.height.equalTo(self.buttons[tag])
             }
             self.layoutIfNeeded()
+        }
+    }
+    
+    func adjustSelectedButtonViewPositionBasedOn(scrollViewXOffset: CGFloat) {
+        
+        selectedButtonView.snp.remakeConstraints { make in
+            
         }
     }
     

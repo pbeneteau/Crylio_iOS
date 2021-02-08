@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarVC = UITabBarController()
         
         let homeVC = HomeViewController()
-        let marketsVC = UIViewController()
+        let marketsVC = CryptoDetailViewController()
         
         homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         marketsVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)

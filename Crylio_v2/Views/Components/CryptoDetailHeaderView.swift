@@ -12,6 +12,8 @@ class CryptoDetailHeaderView: UIView {
     lazy var nameLabel = UILabel()
     lazy var symbolLabel = UILabel()
     lazy var typeLabel = UILabel()
+    lazy var icon = UIImageView()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,12 +21,13 @@ class CryptoDetailHeaderView: UIView {
         commonInit()
     }
     
-    init(name: String, symbol: String, type: String) {
+    init(name: String, symbol: String, type: String, icon: UIImage) {
         super.init(frame: CGRect.zero)
         
         self.nameLabel.text = name
         self.symbolLabel.text = symbol
         self.typeLabel.text = type
+        self.icon.image = icon
                 
         commonInit()
     }
@@ -48,6 +51,7 @@ class CryptoDetailHeaderView: UIView {
         addSubview(nameLabel)
         addSubview(symbolLabel)
         addSubview(typeLabel)
+        addSubview(icon)
     }
     
     override func updateConstraints() {
@@ -68,6 +72,12 @@ class CryptoDetailHeaderView: UIView {
             make.left.equalToSuperview().offset(15)
             make.bottom.equalTo(symbolLabel.snp.top).offset(-5)
             make.height.equalTo(41)
+        }
+        
+        icon.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(nameLabel)
+            make.height.width.equalTo(48)
         }
         
         super.updateConstraints()

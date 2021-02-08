@@ -72,7 +72,7 @@ class MarketStatsView: UIView {
         availableSupplyTitle.text = "Available Supply"
         totalSupplyTitle.text = "Total Supply"
         
-        title.font = .systemFont(ofSize: 17, weight: .bold)
+        title.font = .systemFont(ofSize: 20, weight: .bold)
         
         volume24Title.font = .systemFont(ofSize: 13)
         volume24.font = .systemFont(ofSize: 17, weight: .medium)
@@ -101,7 +101,6 @@ class MarketStatsView: UIView {
         totalSupply.textColor = .label
         
         addSubview(title)
-        
         addSubview(backgroundBox)
         
         backgroundBox.addSubview(volume24Title)
@@ -126,7 +125,7 @@ class MarketStatsView: UIView {
             make.width.equalTo(200)
             make.left.equalTo(16)
             make.top.equalToSuperview()
-            make.height.equalTo(20)
+            make.height.equalTo(22)
         }
         
         backgroundBox.snp.makeConstraints { make in

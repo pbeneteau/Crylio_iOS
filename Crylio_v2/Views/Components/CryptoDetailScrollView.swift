@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SnapKit
 
-class CryptoDetailsScrollView: UIScrollView {
+
+class CryptoDetailScrollView: UIScrollView {
     
-    lazy var offsetView = UIView()
-    
+    lazy var contentView = UIView()
+        
     lazy var chartView = ChartView(price: 41512, changePercent: 7.51, changeDollar: 410)
     
     lazy var marketStatsView = MarketStatsView(volume24: 115149016927.31,
@@ -20,6 +22,9 @@ class CryptoDetailsScrollView: UIScrollView {
                                                availableSupply: 45425790652.52,
                                                availableSupplyChange: 1.5,
                                                totalSupply: 100000000000.62)
+    
+    lazy var aboutView = AboutView(name: "Bitcoin", description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 whitepaper by a person, or group of people, using the alias Satoshi Nakamoto. It was launched soon after, in January 2009.")
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,31 +46,36 @@ class CryptoDetailsScrollView: UIScrollView {
     
     private func commonInit() {
         
+        
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
-        showsVerticalScrollIndicator = false
-        isScrollEnabled = false
+        //showsVerticalScrollIndicator = false
+                
+        contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
+        scrollIndicatorInsets = UIEdgeInsets(top: 165, left: 0, bottom: 0, right: 0)
+        contentInsetAdjustmentBehavior = .never
         
-        offsetView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .systemBackground
         
-        addSubview(offsetView)
-        addSubview(chartView)
-        addSubview(marketStatsView)
+        addSubview(contentView)
+        contentView.addSubview(chartView)
+        contentView.addSubview(marketStatsView)
+        contentView.addSubview(aboutView)
         
     }
     
     override func updateConstraints() {
         
-        offsetView.snp.makeConstraints { make in
-            make.width.left.equalToSuperview()
-            make.top.equalToSuperview()
-            make.height.equalTo(175+15)
+        contentView.snp.makeConstraints { make in
+            make.top.bottom.equalTo(self)
+            make.left.right.equalTo(0)
+            make.width.equalTo(self)
+            make.height.equalTo(400 + 204 + 300 + 30 + 30 + 30)
         }
         
         chartView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.width.equalToSuperview()
-            make.top.equalTo(offsetView.snp.bottom)
+            make.top.equalToSuperview()
             make.height.equalTo(400)
         }
 
@@ -76,6 +86,13 @@ class CryptoDetailsScrollView: UIScrollView {
             make.height.equalTo(204)
         }
         
+        aboutView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.width.equalToSuperview()
+            make.top.equalTo(marketStatsView.snp.bottom).offset(30)
+        }
+        
+        
         super.updateConstraints()
     }
     
@@ -83,8 +100,7 @@ class CryptoDetailsScrollView: UIScrollView {
         super.layoutSubviews()
         
         marketStatsView.setNeedsLayout()
-        
-        // Manually set subview frames here
+        contentSize = CGSize(width: frame.width, height: contentView.frame.height)
     }
-
+    
 }

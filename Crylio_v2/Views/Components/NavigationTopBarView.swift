@@ -19,6 +19,8 @@ class NavigationTopBarView: UIView {
     lazy var backButton = UIButton(type: .custom)
     lazy var title = UILabel()
     
+    var isTitleHidden = true
+    
     weak var backButtonDelegate: BackButtonProtocol? = nil
     
 
@@ -69,7 +71,9 @@ class NavigationTopBarView: UIView {
     }
     
     func hideTitle() {
-        UIView.animate(withDuration: 0.3, delay: 0,options: [.curveEaseOut, .beginFromCurrentState], animations: {
+        if isTitleHidden { return }
+        isTitleHidden = true
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
 
             self.title.alpha = 0
             self.title.transform = CGAffineTransform(translationX: 0, y: 5)
@@ -77,7 +81,9 @@ class NavigationTopBarView: UIView {
     }
     
     func showTitle() {
-        UIView.animate(withDuration: 0.3, delay: 0,options: [.curveEaseOut, .beginFromCurrentState], animations: {
+        if !isTitleHidden { return }
+        isTitleHidden = false
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
             self.title.alpha = 1
             self.title.transform = CGAffineTransform(translationX: 0, y: -5)
         }, completion: nil)

@@ -62,13 +62,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         cell.crypto = cryptos[indexPath.row]
+        cell.selectionStyle = .none
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        performSegue(withIdentifier: "presentCryptocurrency", sender: indexPath.row)
-        let controller = Test2ViewController()
+        let controller = CryptocurrencyViewController()
 
         navigationController?.pushViewController(controller, animated: true)
     }
