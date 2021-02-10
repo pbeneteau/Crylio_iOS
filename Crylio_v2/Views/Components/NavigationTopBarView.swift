@@ -20,6 +20,7 @@ class NavigationTopBarView: UIView {
     lazy var title = UILabel()
     
     var isTitleHidden = true
+    var isBlurriedViewHidden = true
     
     weak var backButtonDelegate: BackButtonProtocol? = nil
     
@@ -66,8 +67,6 @@ class NavigationTopBarView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        // Manually set subview frames here
     }
     
     func hideTitle() {
@@ -89,11 +88,8 @@ class NavigationTopBarView: UIView {
         }, completion: nil)
     }
         
-    
     override func updateConstraints() {
-        
-        // Set subview constraints here
-        
+                
         blurredView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.height.width.equalToSuperview()

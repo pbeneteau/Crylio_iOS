@@ -46,21 +46,23 @@ class CryptoDetailScrollView: UIScrollView {
     
     private func commonInit() {
         
-        
         translatesAutoresizingMaskIntoConstraints = false
-        //showsVerticalScrollIndicator = false
                 
         contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
         scrollIndicatorInsets = UIEdgeInsets(top: 165, left: 0, bottom: 0, right: 0)
         contentInsetAdjustmentBehavior = .never
         
         contentView.backgroundColor = .systemBackground
-        
+                
         addSubview(contentView)
         contentView.addSubview(chartView)
         contentView.addSubview(marketStatsView)
         contentView.addSubview(aboutView)
-        
+    }
+    
+    @objc func dragingChartView() {
+        print("dragging chart")
+        isScrollEnabled = false
     }
     
     override func updateConstraints() {
@@ -92,7 +94,7 @@ class CryptoDetailScrollView: UIScrollView {
             make.top.equalTo(marketStatsView.snp.bottom).offset(30)
         }
         
-        
+
         super.updateConstraints()
     }
     

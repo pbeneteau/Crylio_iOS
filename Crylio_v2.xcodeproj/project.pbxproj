@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3800219825CD728000FA4773 /* MarketStatsView.swift */; };
+		3844884325D3177F002BF26C /* HomeHeaderPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */; };
+		3844884A25D333C3002BF26C /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884925D333C3002BF26C /* RxSwift */; };
+		3844884C25D333C3002BF26C /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884B25D333C3002BF26C /* RxCocoa */; };
 		3848D1BD25C4DC2B00203D7A /* HorizontalMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */; };
 		384CFA9625C1E67D0064C932 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFA9525C1E67D0064C932 /* AppDelegate.swift */; };
 		384CFA9825C1E67D0064C932 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFA9725C1E67D0064C932 /* SceneDelegate.swift */; };
@@ -39,7 +42,6 @@
 		389DE65F25C76F4700954F4F /* RoundedCornersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE65E25C76F4700954F4F /* RoundedCornersView.swift */; };
 		389DE66425C8269E00954F4F /* CryptoDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */; };
 		389DE66C25C82C1100954F4F /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE66B25C82C1100954F4F /* ChartView.swift */; };
-		389DE67925C8317A00954F4F /* CryptoDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE67825C8317A00954F4F /* CryptoDetailsTableViewCell.swift */; };
 		389DE68625C8379000954F4F /* CryptoDetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		3800219825CD728000FA4773 /* MarketStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketStatsView.swift; sourceTree = "<group>"; };
+		3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderPortfolioView.swift; sourceTree = "<group>"; };
 		3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalMenuView.swift; sourceTree = "<group>"; };
 		384CFA9225C1E67D0064C932 /* Crylio_v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crylio_v2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		384CFA9525C1E67D0064C932 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -108,7 +111,6 @@
 		389DE65E25C76F4700954F4F /* RoundedCornersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornersView.swift; sourceTree = "<group>"; };
 		389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailHeaderView.swift; sourceTree = "<group>"; };
 		389DE66B25C82C1100954F4F /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
-		389DE67825C8317A00954F4F /* CryptoDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,8 +119,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3844884C25D333C3002BF26C /* RxCocoa in Frameworks */,
 				384CFAD025C1F0EA0064C932 /* SnapKit in Frameworks */,
 				3894FCC425D16C5B00BFD26F /* Charts in Frameworks */,
+				3844884A25D333C3002BF26C /* RxSwift in Frameworks */,
 				388D016825CD99D100AD0050 /* AAInfographics in Frameworks */,
 				3894FCD925D17BE000BFD26F /* PagingKit in Frameworks */,
 			);
@@ -232,6 +236,7 @@
 		384CFAFD25C21E9B0064C932 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */,
 				384CFADB25C1F3240064C932 /* HomeHeaderView.swift */,
 				384CFB2725C451C50064C932 /* GradientView.swift */,
 				384CFB0125C21EC70064C932 /* PriceChangeBoxView.swift */,
@@ -241,7 +246,6 @@
 				389DE65625C758B500954F4F /* NavigationTopBarView.swift */,
 				3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */,
 				389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */,
-				389DE67825C8317A00954F4F /* CryptoDetailsTableViewCell.swift */,
 				389DE66B25C82C1100954F4F /* ChartView.swift */,
 				3800219825CD728000FA4773 /* MarketStatsView.swift */,
 				3894FCF225D1A0B600BFD26F /* AboutView.swift */,
@@ -277,6 +281,8 @@
 				388D016725CD99D100AD0050 /* AAInfographics */,
 				3894FCC325D16C5B00BFD26F /* Charts */,
 				3894FCD825D17BE000BFD26F /* PagingKit */,
+				3844884925D333C3002BF26C /* RxSwift */,
+				3844884B25D333C3002BF26C /* RxCocoa */,
 			);
 			productName = Crylio_v2;
 			productReference = 384CFA9225C1E67D0064C932 /* Crylio_v2.app */;
@@ -354,6 +360,7 @@
 				388D016625CD99D000AD0050 /* XCRemoteSwiftPackageReference "AAChartKit-Swift" */,
 				3894FCC225D16C5B00BFD26F /* XCRemoteSwiftPackageReference "Charts" */,
 				3894FCD725D17BE000BFD26F /* XCRemoteSwiftPackageReference "PagingKit" */,
+				3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 384CFA9325C1E67D0064C932 /* Products */;
 			projectDirPath = "";
@@ -402,13 +409,13 @@
 				3894FCD225D17A9400BFD26F /* CryptoHoldingsScrollView.swift in Sources */,
 				384CFB4125C45B470064C932 /* CryptoDetailTopBarView.swift in Sources */,
 				3894FCF325D1A0B600BFD26F /* AboutView.swift in Sources */,
+				3844884325D3177F002BF26C /* HomeHeaderPortfolioView.swift in Sources */,
 				389DE66425C8269E00954F4F /* CryptoDetailHeaderView.swift in Sources */,
 				384CFB2825C451C50064C932 /* GradientView.swift in Sources */,
 				384CFAF125C1F6960064C932 /* HomeTableViewCell.swift in Sources */,
 				3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */,
 				389DE65F25C76F4700954F4F /* RoundedCornersView.swift in Sources */,
 				389DE68625C8379000954F4F /* CryptoDetailScrollView.swift in Sources */,
-				389DE67925C8317A00954F4F /* CryptoDetailsTableViewCell.swift in Sources */,
 				389DE65225C5D27200954F4F /* CryptocurrencyViewController.swift in Sources */,
 				3894FCE725D1801A00BFD26F /* CryptoDetailViewController.swift in Sources */,
 				384CFADC25C1F3240064C932 /* HomeHeaderView.swift in Sources */,
@@ -751,6 +758,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		384CFACE25C1F0EA0064C932 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -786,6 +801,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3844884925D333C3002BF26C /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		3844884B25D333C3002BF26C /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
 		384CFACF25C1F0EA0064C932 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 384CFACE25C1F0EA0064C932 /* XCRemoteSwiftPackageReference "SnapKit" */;

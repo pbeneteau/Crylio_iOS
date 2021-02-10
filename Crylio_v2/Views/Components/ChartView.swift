@@ -167,7 +167,6 @@ class ChartView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        //manually set subview frames here
     }
 }
 

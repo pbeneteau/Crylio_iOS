@@ -13,7 +13,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let cellId = "CryptoTableViewCell"
     
-    lazy var header = HomeHeaderView()
+    lazy var header = HomeHeaderPortfolioView()
     lazy var homeTableView = HomeTableView()
     
     lazy var portfolio = UILabel()
@@ -45,7 +45,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        header.animate(duration: 0.5, newTopColor: .systemBackground, newBottomColor: .systemRed)
+        //header.animate(duration: 0.5, newTopColor: .systemBackground, newBottomColor: .systemRed)
+        
+        header.startLoadingAnimation()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,4 +127,3 @@ extension HomeViewController {
         
     }
 }
-

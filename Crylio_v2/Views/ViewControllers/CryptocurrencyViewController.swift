@@ -37,6 +37,8 @@ class CryptocurrencyViewController: UIViewController {
     lazy var ordersVC = CryptoOrdersViewController()
     lazy var historyVC = CryptoHistoryViewController()
     
+    var viewDidLayoutFirstTime = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +62,6 @@ class CryptocurrencyViewController: UIViewController {
         navigationTopBar.title.text = "Bitcoin"
         
         menu.delegate = self
-        
                 
         view.addSubview(menuScrollView)
         menuScrollView.addSubview(detailVC.view)
@@ -72,12 +73,10 @@ class CryptocurrencyViewController: UIViewController {
         view.addSubview(navigationTopBar)
         view.addSubview(menu)
         
-        
         view.setNeedsUpdateConstraints()
         
         menuScrollView.contentSize.width = view.frame.size.width * 4
         menuScrollView.contentSize.height = 1
-        
         
         menuScrollView.tag = 0
         
@@ -103,8 +102,8 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
                 make.height.equalTo(35)
                 make.top.equalTo(max(navigationTopBar.topBar.frame.maxY, header.frame.maxY))
             }
-            
-            navigationTopBar.blurredView.alpha = 1 - (header.frame.maxY/navigationTopBar.topBar.frame.maxY)/2
+                        
+            navigationTopBar.blurredView.alpha = min(1, 2 - header.frame.maxY/menu.frame.minY*2)
             
             if max(navigationTopBar.topBar.frame.maxY, header.frame.maxY) == navigationTopBar.topBar.frame.maxY {
                 navigationTopBar.topBar.alpha = 0
@@ -121,8 +120,6 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             } else {
                 navigationTopBar.hideTitle()
             }
-            
-            
         } else {
             
             let xOffset = scrollView.contentOffset.x
@@ -174,7 +171,7 @@ extension CryptocurrencyViewController {
         header.snp.makeConstraints { make in
             make.left.width.equalToSuperview()
             make.top.equalTo(navigationTopBar.topBar.snp.bottom)
-            make.height.equalTo(80)
+            make.height.equalTo(120)
         }
         
         menu.snp.makeConstraints { make in
@@ -220,7 +217,15 @@ extension CryptocurrencyViewController {
         }
         
         super.updateViewConstraints()
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !viewDidLayoutFirstTime {
+            viewDidLayoutFirstTime = true
+            detailVC.scrollView.contentInset = UIEdgeInsets(top: menu.frame.maxY, left: 0, bottom: 0, right: 0)
+            detailVC.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: menu.frame.maxY-20, left: 0, bottom: 0, right: 0)
+        }
     }
     
 }
