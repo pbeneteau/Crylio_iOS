@@ -12,7 +12,7 @@ class CryptoHoldingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemRed
+        view.backgroundColor = .clear
     }
     
 

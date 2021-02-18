@@ -10,7 +10,7 @@ import UIKit
 
 class RoundedCornersView: UIView {
 
-    private var flx_lastSetRadius : CGFloat = 0
+    private var flx_lastSetRadius : CGFloat = 7
     private var flx_smoothMask : CAShapeLayer?
 
     var flx_smoothCorners: Bool = false {

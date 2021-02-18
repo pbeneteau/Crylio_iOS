@@ -52,9 +52,10 @@ class CryptoDetailScrollView: UIScrollView {
         scrollIndicatorInsets = UIEdgeInsets(top: 165, left: 0, bottom: 0, right: 0)
         contentInsetAdjustmentBehavior = .never
         
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .clear
                 
         addSubview(contentView)
+        
         contentView.addSubview(chartView)
         contentView.addSubview(marketStatsView)
         contentView.addSubview(aboutView)
@@ -71,7 +72,7 @@ class CryptoDetailScrollView: UIScrollView {
             make.top.bottom.equalTo(self)
             make.left.right.equalTo(0)
             make.width.equalTo(self)
-            make.height.equalTo(400 + 204 + 300 + 30 + 30 + 30)
+            make.height.equalTo(400 + 382)
         }
         
         chartView.snp.makeConstraints { make in
@@ -85,24 +86,36 @@ class CryptoDetailScrollView: UIScrollView {
             make.left.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalTo(chartView.snp.bottom).offset(30)
-            make.height.equalTo(204)
+            make.height.equalTo(291)
         }
         
         aboutView.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.width.equalToSuperview()
             make.top.equalTo(marketStatsView.snp.bottom).offset(30)
+            make.width.equalToSuperview()
         }
         
-
         super.updateConstraints()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+                
+        aboutView.snp.remakeConstraints { make in
+            make.left.equalToSuperview()
+            make.top.equalTo(marketStatsView.snp.bottom).offset(30)
+            make.width.equalToSuperview()
+            make.height.equalTo(aboutView.descriptionText.frame.maxY).offset(16)
+        }
         
-        marketStatsView.setNeedsLayout()
-        contentSize = CGSize(width: frame.width, height: contentView.frame.height)
+        contentView.snp.remakeConstraints { make in
+            make.top.bottom.equalTo(self)
+            make.left.right.equalTo(0)
+            make.width.equalTo(self)
+            make.height.equalTo(aboutView.frame.maxY)
+        }
+                
+        contentSize = CGSize(width: frame.width, height: contentView.frame.height * 1.4)
     }
     
 }

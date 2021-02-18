@@ -102,7 +102,7 @@ class HomeTableViewCell: UITableViewCell {
             make.right.equalToSuperview()
             make.centerY.equalTo(name)
             make.width.equalTo(72)
-            make.height.equalTo(25)
+            make.height.equalTo(30)
         }
         
         balance.snp.makeConstraints { make in

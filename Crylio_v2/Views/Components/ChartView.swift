@@ -9,8 +9,9 @@ import UIKit
 import AAInfographics
 
 class ChartView: UIView {
-    
+        
     lazy var backgroundBox = RoundedCornersView()
+
     
     lazy var price = UILabel()
     var priceChangeBox: PriceChangeBoxView!
@@ -20,7 +21,9 @@ class ChartView: UIView {
     
     lazy var chartView = AAChartView()
     
-    lazy var timeframeSelector = HorizontalMenu(items: ["1d", "1w", "1m", "3m", "6m", "1y", "All"], scrollable: false)
+//    lazy var timeframeSelector = HorizontalMenu(items: ["1d", "1w", "1m", "3m", "6m", "1y", "All"], scrollable: false)
+    lazy var timeframeSelector = UISegmentedControl(items: ["1d", "1w", "1m", "3m", "6m", "1y", "All"])
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,9 +50,9 @@ class ChartView: UIView {
     private func commonInit() {
         
         backgroundColor = .clear
+        backgroundBox.backgroundColor = .systemGray6
         
-        backgroundBox.layer.cornerRadius = 10
-        backgroundBox.backgroundColor = Colors.Dark.Background.secondary
+        backgroundBox.layer.cornerRadius = 7
         
         price.font = .systemFont(ofSize: 31, weight: .medium)
         
@@ -60,10 +63,10 @@ class ChartView: UIView {
         timeframe.textColor = .systemGray
         timeframe.text = "Today"
         
-        timeframeSelector.backgroundColor = .systemGray5
-        timeframeSelector.selectedButtonView.backgroundColor = .systemGray4
+        timeframeSelector.selectedSegmentIndex = 0
         
         addSubview(backgroundBox)
+                
         backgroundBox.addSubview(price)
         backgroundBox.addSubview(priceChangeDollar)
         backgroundBox.addSubview(priceChangeBox)
@@ -72,7 +75,6 @@ class ChartView: UIView {
         backgroundBox.addSubview(chartView)
         backgroundBox.addSubview(timeframeSelector)
         
-        backgroundBox.translatesAutoresizingMaskIntoConstraints = false
         translatesAutoresizingMaskIntoConstraints = false
         
         chartView.scrollEnabled = false
@@ -108,10 +110,10 @@ class ChartView: UIView {
     override func updateConstraints() {
         
         backgroundBox.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
-            make.top.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview().offset(-16)
+            make.left.equalTo(16)
+            make.top.equalToSuperview().offset(10)
+            make.width.equalToSuperview().offset(-32)
+            make.bottom.equalToSuperview().offset(-10)
         }
         
         price.snp.makeConstraints { make in

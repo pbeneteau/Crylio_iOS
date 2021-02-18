@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController {
     
     let cellId = "CryptoTableViewCell"
     
@@ -24,9 +24,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var cryptos = [Cryptocurrency]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = Colors.Dark.Background.primary
         
         homeTableView.delegate = self
         homeTableView.dataSource = self
@@ -49,6 +51,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         header.startLoadingAnimation()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
+    }
+}
+
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cryptos.count

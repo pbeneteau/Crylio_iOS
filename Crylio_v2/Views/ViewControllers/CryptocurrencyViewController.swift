@@ -10,7 +10,7 @@ import SnapKit
 import PagingKit
 
 
-class CryptocurrencyViewController: UIViewController {
+class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var navigationTopBar = NavigationTopBarView()
     var header = CryptoDetailHeaderView(name: "Bitcoin", symbol: "BTC", type: "Coin", icon: UIImage(named: "btc")!)
@@ -57,7 +57,6 @@ class CryptocurrencyViewController: UIViewController {
         addChild(historyVC)
         historyVC.didMove(toParent: self)
         
-        navigationController!.navigationBar.isHidden = true
         
         navigationTopBar.title.text = "Bitcoin"
         
@@ -84,6 +83,12 @@ class CryptocurrencyViewController: UIViewController {
         detailVC.scrollView.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
+    }
+    
 }
 
 extension CryptocurrencyViewController: UIScrollViewDelegate {
@@ -94,6 +99,7 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             
             let yOffset = scrollView.contentOffset.y + scrollView.contentInset.top
             
+                        
             header.transform = CGAffineTransform(translationX: 0, y: min(0, -yOffset))
             
             menu.snp.remakeConstraints { make in
@@ -137,12 +143,25 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        if scrollView.tag == 4 {
-            if navigationTopBar.topBar.frame.maxY <= header.frame.maxY - header.frame.height/2 {
-                scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-            } else if navigationTopBar.topBar.frame.maxY > header.frame.maxY - header.frame.height/2 {
-                scrollView.setContentOffset(CGPoint(x: 0, y: 70), animated: true)
+        if scrollView.tag != 0 {
+
+            if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
+                scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
+            } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
+                        && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
+                scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
+            }
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView.tag != 0 {
+    
+            if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
+                scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
+            } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
+                        && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
+                scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
             }
         }
     }
@@ -171,7 +190,7 @@ extension CryptocurrencyViewController {
         header.snp.makeConstraints { make in
             make.left.width.equalToSuperview()
             make.top.equalTo(navigationTopBar.topBar.snp.bottom)
-            make.height.equalTo(120)
+            make.height.equalTo(130)
         }
         
         menu.snp.makeConstraints { make in

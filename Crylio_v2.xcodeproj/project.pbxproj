@@ -43,6 +43,8 @@
 		389DE66425C8269E00954F4F /* CryptoDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */; };
 		389DE66C25C82C1100954F4F /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE66B25C82C1100954F4F /* ChartView.swift */; };
 		389DE68625C8379000954F4F /* CryptoDetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */; };
+		38B6D5AB25D5A9D700AC8238 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 38B6D5AA25D5A9D700AC8238 /* Lottie */; };
+		38B6D5B125D5AB1400AC8238 /* waves-animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 38B6D5B025D5AB1400AC8238 /* waves-animation.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +114,7 @@
 		389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailHeaderView.swift; sourceTree = "<group>"; };
 		389DE66B25C82C1100954F4F /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailScrollView.swift; sourceTree = "<group>"; };
+		38B6D5B025D5AB1400AC8238 /* waves-animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "waves-animation.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3844884C25D333C3002BF26C /* RxCocoa in Frameworks */,
+				38B6D5AB25D5A9D700AC8238 /* Lottie in Frameworks */,
 				384CFAD025C1F0EA0064C932 /* SnapKit in Frameworks */,
 				3894FCC425D16C5B00BFD26F /* Charts in Frameworks */,
 				3844884A25D333C3002BF26C /* RxSwift in Frameworks */,
@@ -218,6 +222,7 @@
 		384CFAD625C1F2DF0064C932 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				38B6D5B425D5AB1D00AC8238 /* Lottie animations */,
 				384CFA9E25C1E67F0064C932 /* Assets.xcassets */,
 				384CFB0625C2224D0064C932 /* Colors.swift */,
 			);
@@ -229,6 +234,10 @@
 			children = (
 				384CFA9925C1E67D0064C932 /* HomeViewController.swift */,
 				389DE65125C5D27200954F4F /* CryptocurrencyViewController.swift */,
+				3894FCE625D1801A00BFD26F /* CryptoDetailViewController.swift */,
+				3894FCDE25D17FAB00BFD26F /* CryptoHoldingsViewController.swift */,
+				3894FCEC25D18CCB00BFD26F /* CryptoOrdersViewController.swift */,
+				3894FCE225D17FC500BFD26F /* CryptoHistoryViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -251,12 +260,16 @@
 				3894FCF225D1A0B600BFD26F /* AboutView.swift */,
 				389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */,
 				3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */,
-				3894FCE625D1801A00BFD26F /* CryptoDetailViewController.swift */,
-				3894FCDE25D17FAB00BFD26F /* CryptoHoldingsViewController.swift */,
-				3894FCEC25D18CCB00BFD26F /* CryptoOrdersViewController.swift */,
-				3894FCE225D17FC500BFD26F /* CryptoHistoryViewController.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		38B6D5B425D5AB1D00AC8238 /* Lottie animations */ = {
+			isa = PBXGroup;
+			children = (
+				38B6D5B025D5AB1400AC8238 /* waves-animation.json */,
+			);
+			path = "Lottie animations";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +296,7 @@
 				3894FCD825D17BE000BFD26F /* PagingKit */,
 				3844884925D333C3002BF26C /* RxSwift */,
 				3844884B25D333C3002BF26C /* RxCocoa */,
+				38B6D5AA25D5A9D700AC8238 /* Lottie */,
 			);
 			productName = Crylio_v2;
 			productReference = 384CFA9225C1E67D0064C932 /* Crylio_v2.app */;
@@ -361,6 +375,7 @@
 				3894FCC225D16C5B00BFD26F /* XCRemoteSwiftPackageReference "Charts" */,
 				3894FCD725D17BE000BFD26F /* XCRemoteSwiftPackageReference "PagingKit" */,
 				3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */,
+				38B6D5A925D5A9D600AC8238 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 384CFA9325C1E67D0064C932 /* Products */;
 			projectDirPath = "";
@@ -378,6 +393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38B6D5B125D5AB1400AC8238 /* waves-animation.json in Resources */,
 				384CFAA225C1E67F0064C932 /* LaunchScreen.storyboard in Resources */,
 				384CFA9F25C1E67F0064C932 /* Assets.xcassets in Resources */,
 			);
@@ -798,6 +814,14 @@
 				minimumVersion = 1.16.0;
 			};
 		};
+		38B6D5A925D5A9D600AC8238 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -830,6 +854,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3894FCD725D17BE000BFD26F /* XCRemoteSwiftPackageReference "PagingKit" */;
 			productName = PagingKit;
+		};
+		38B6D5AA25D5A9D700AC8238 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 38B6D5A925D5A9D600AC8238 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

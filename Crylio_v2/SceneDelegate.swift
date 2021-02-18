@@ -23,14 +23,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let homeVC = HomeViewController()
         let marketsVC = CryptoDetailViewController()
+                
+        homeVC.navigationController?.isNavigationBarHidden = true
+        marketsVC.navigationController?.isNavigationBarHidden = true
         
         homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         marketsVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
+        
+        tabBarVC.navigationController?.isNavigationBarHidden = true
         
         tabBarVC.viewControllers = [homeVC, marketsVC]
         
         window.rootViewController = UINavigationController(rootViewController: tabBarVC)
         window.makeKeyAndVisible()
+        
         self.window = window
     }
 

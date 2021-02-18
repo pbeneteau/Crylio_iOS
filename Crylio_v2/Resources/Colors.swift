@@ -14,7 +14,7 @@ struct Colors {
     struct Dark {
         
         struct Background {
-            static let primary = UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 1.00)
+            static let primary = UIColor(red: 0.01, green: 0.03, blue: 0.05, alpha: 1.00)
             static let secondary = UIColor(red: 0.09, green: 0.09, blue: 0.09, alpha: 1.00)
             static let tertiary = UIColor(red: 0.14, green: 0.14, blue: 0.15, alpha: 1.00)
             static let quaternary = UIColor(red: 0.31, green: 0.31, blue: 0.31, alpha: 1.00)

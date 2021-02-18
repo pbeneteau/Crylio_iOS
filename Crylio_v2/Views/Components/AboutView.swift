@@ -10,7 +10,8 @@ import UIKit
 class AboutView: UIView {
     
     lazy var title = UILabel()
-    lazy var backgroundBox = RoundedCornersView()
+    
+    lazy var backgroundBox = UIView()
     
     lazy var descriptionText = UILabel()
 
@@ -38,9 +39,9 @@ class AboutView: UIView {
     private func commonInit() {
         
         backgroundColor = .clear
-        
-        backgroundBox.layer.cornerRadius = 10
         backgroundBox.backgroundColor = .systemGray6
+        
+        backgroundBox.layer.cornerRadius = 7
         
         title.font = .systemFont(ofSize: 20, weight: .bold)
         title.textColor = .label
@@ -52,11 +53,11 @@ class AboutView: UIView {
         descriptionText.sizeToFit()
         
         addSubview(title)
+        
         addSubview(backgroundBox)
         
         backgroundBox.addSubview(descriptionText)
         
-        backgroundBox.translatesAutoresizingMaskIntoConstraints = false
         translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -71,13 +72,14 @@ class AboutView: UIView {
         
         backgroundBox.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.bottom.equalToSuperview()
-            make.width.height.equalToSuperview().offset(-32)
+            make.top.equalTo(title.snp.bottom).offset(15)
+            make.width.equalToSuperview().offset(-32)
+            make.bottom.equalTo(descriptionText.snp.bottom).offset(16)
         }
         
         descriptionText.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.top.equalToSuperview().offset(0)
+            make.left.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(16)
             make.right.equalToSuperview().offset(-16)
         }
         
@@ -88,6 +90,7 @@ class AboutView: UIView {
         super.layoutSubviews()
         
         descriptionText.sizeToFit()
+        
     }
 
 }

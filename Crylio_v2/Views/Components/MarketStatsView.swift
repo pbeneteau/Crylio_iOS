@@ -11,7 +11,12 @@ class MarketStatsView: UIView {
     
     lazy var title = UILabel()
     
-    lazy var backgroundBox = RoundedCornersView()
+    lazy var backgroundBox = UIView()
+    
+    lazy var volumeIcon = UIImageView(image: UIImage(named: "volumeIcon"))
+    lazy var marketCapIcon = UIImageView(image: UIImage(named: "marketCapIcon"))
+    lazy var availableSupplyIcon = UIImageView(image: UIImage(named: "availableSupplyIcon"))
+    lazy var totalSupplyIcon = UIImageView(image: UIImage(named: "totalSupplyIcon"))
     
     lazy var volume24Title = UILabel()
     lazy var volume24 = UILabel()
@@ -61,9 +66,9 @@ class MarketStatsView: UIView {
     private func commonInit() {
         
         backgroundColor = .clear
-        
-        backgroundBox.layer.cornerRadius = 10
         backgroundBox.backgroundColor = .systemGray6
+        
+        backgroundBox.layer.cornerRadius = 7
         
         title.text = "Market Stats"
         
@@ -100,8 +105,18 @@ class MarketStatsView: UIView {
         totalSupplyTitle.textColor = .systemGray
         totalSupply.textColor = .label
         
+        volume24Change.textAlignment = .right
+        marketCapChange.textAlignment = .right
+        availableSupplyChange.textAlignment = .right
+        
         addSubview(title)
+        
         addSubview(backgroundBox)
+        
+        backgroundBox.addSubview(volumeIcon)
+        backgroundBox.addSubview(marketCapIcon)
+        backgroundBox.addSubview(availableSupplyIcon)
+        backgroundBox.addSubview(totalSupplyIcon)
         
         backgroundBox.addSubview(volume24Title)
         backgroundBox.addSubview(volume24)
@@ -115,7 +130,6 @@ class MarketStatsView: UIView {
         backgroundBox.addSubview(totalSupplyTitle)
         backgroundBox.addSubview(totalSupply)
         
-        backgroundBox.translatesAutoresizingMaskIntoConstraints = false
         translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -130,79 +144,101 @@ class MarketStatsView: UIView {
         
         backgroundBox.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.bottom.equalToSuperview()
-            make.width.height.equalToSuperview().offset(-32)
+            make.top.equalTo(title.snp.bottom).offset(10)
+            make.width.equalToSuperview().offset(-32)
+            make.bottom.equalToSuperview().offset(-10)
         }
         
+        volumeIcon.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(16)
+            make.top.equalTo(title.snp.bottom).offset(30)
+            make.width.height.equalTo(32)
+        }
         volume24Title.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalTo(16)
+            make.left.equalTo(volumeIcon.snp.right).offset(15)
+            make.top.equalTo(volumeIcon).offset(-5)
             make.width.equalTo(150)
             make.height.equalTo(16)
         }
         volume24.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalTo(volume24Title.snp.bottom).offset(5)
+            make.left.equalTo(volumeIcon.snp.right).offset(15)
+            make.bottom.equalTo(volumeIcon).offset(5)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
         volume24Change.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalTo(volume24.snp.bottom).offset(5)
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(volume24)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
         
+        marketCapIcon.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(16)
+            make.top.equalTo(volumeIcon.snp.bottom).offset(30)
+            make.width.height.equalTo(32)
+        }
+        marketCapTitle.snp.makeConstraints { make in
+            make.left.equalTo(marketCapIcon.snp.right).offset(15)
+            make.top.equalTo(marketCapIcon).offset(-5)
+            make.width.equalTo(150)
+            make.height.equalTo(16)
+        }
+        marketCap.snp.makeConstraints { make in
+            make.left.equalTo(marketCapIcon.snp.right).offset(15)
+            make.bottom.equalTo(marketCapIcon).offset(5)
+            make.width.equalTo(150)
+            make.height.equalTo(20)
+        }
+        marketCapChange.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(marketCap)
+            make.width.equalTo(150)
+            make.height.equalTo(20)
+        }
+        
+        availableSupplyIcon.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(16)
+            make.top.equalTo(marketCapIcon.snp.bottom).offset(30)
+            make.width.height.equalTo(32)
+        }
         availableSupplyTitle.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalTo(volume24Change.snp.bottom).offset(10)
+            make.left.equalTo(availableSupplyIcon.snp.right).offset(15)
+            make.top.equalTo(availableSupplyIcon).offset(-5)
             make.width.equalTo(150)
             make.height.equalTo(16)
         }
         availableSupply.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalTo(availableSupplyTitle.snp.bottom).offset(5)
+            make.left.equalTo(availableSupplyIcon.snp.right).offset(15)
+            make.bottom.equalTo(availableSupplyIcon).offset(5)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
         availableSupplyChange.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalTo(availableSupply.snp.bottom).offset(5)
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(availableSupply)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
         
-        marketCapTitle.snp.makeConstraints { make in
-            make.left.equalTo(snp.centerX).offset(16)
-            make.top.equalTo(16)
-            make.right.equalToSuperview().offset(-16)
-            make.height.equalTo(16)
+        totalSupplyIcon.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(16)
+            make.top.equalTo(availableSupplyIcon.snp.bottom).offset(30)
+            make.width.height.equalTo(32)
         }
-        marketCap.snp.makeConstraints { make in
-            make.left.equalTo(snp.centerX).offset(16)
-            make.top.equalTo(marketCapTitle.snp.bottom).offset(5)
-            make.right.equalToSuperview().offset(-16)
-            make.height.equalTo(20)
-        }
-        marketCapChange.snp.makeConstraints { make in
-            make.left.equalTo(snp.centerX).offset(16)
-            make.top.equalTo(marketCap.snp.bottom).offset(5)
-            make.right.equalToSuperview().offset(-16)
-            make.height.equalTo(20)
-        }
-        
         totalSupplyTitle.snp.makeConstraints { make in
-            make.left.equalTo(snp.centerX).offset(16)
-            make.top.equalTo(marketCapChange.snp.bottom).offset(10)
-            make.right.equalToSuperview().offset(-16)
+            make.left.equalTo(totalSupplyIcon.snp.right).offset(15)
+            make.top.equalTo(totalSupplyIcon).offset(-5)
+            make.width.equalTo(150)
             make.height.equalTo(16)
         }
         totalSupply.snp.makeConstraints { make in
-            make.left.equalTo(snp.centerX).offset(16)
-            make.top.equalTo(totalSupplyTitle.snp.bottom).offset(5)
-            make.right.equalToSuperview().offset(-16)
+            make.left.equalTo(totalSupplyIcon.snp.right).offset(15)
+            make.bottom.equalTo(totalSupplyIcon).offset(5)
+            make.width.equalTo(150)
             make.height.equalTo(20)
         }
+        
         
         super.updateConstraints()
     }
