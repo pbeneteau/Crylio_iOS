@@ -21,7 +21,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         view.delegate = self
         view.isPagingEnabled = true
         view.showsHorizontalScrollIndicator = false
-        view.tag = 10
+        view.tag = 0
         view.backgroundColor = .clear
         view.bounces = false
         view.contentSize = CGSize(width: 1, height: 1)
@@ -76,9 +76,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         
         menuScrollView.contentSize.width = view.frame.size.width * 4
         menuScrollView.contentSize.height = 1
-        
-        menuScrollView.tag = 0
-        
+                
         detailVC.scrollView.tag = 1
         detailVC.scrollView.delegate = self
     }
@@ -105,7 +103,7 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             menu.snp.remakeConstraints { make in
                 make.left.equalToSuperview().offset(16)
                 make.width.equalToSuperview().offset(-16)
-                make.height.equalTo(35)
+                make.height.equalTo(40)
                 make.top.equalTo(max(navigationTopBar.topBar.frame.maxY, header.frame.maxY))
             }
                         
@@ -130,20 +128,23 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             
             let xOffset = scrollView.contentOffset.x
             
-            if xOffset > view.frame.width * 2.5 { // Transactions
-                menu.setSelectedButton(tag: 3)
-            } else if xOffset > view.frame.width * 1.5 { // Orders
-                menu.setSelectedButton(tag: 2)
-            } else if xOffset > view.frame.width / 2 { // Holdings
+            switch xOffset {
+            case 0...view.frame.width/2-1:
+                menu.setSelectedButton(tag: 0)
+            case view.frame.width/2...view.frame.width*1.5-1:
                 menu.setSelectedButton(tag: 1)
-            } else { // Details
+            case view.frame.width*1.5...view.frame.width*2.5-1:
+                menu.setSelectedButton(tag: 2)
+            case view.frame.width*2.5...view.frame.width*3:
+                menu.setSelectedButton(tag: 3)
+            default:
                 menu.setSelectedButton(tag: 0)
             }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.tag != 0 {
+        if scrollView.tag == 1 {
 
             if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
@@ -151,11 +152,13 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
                         && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
                 scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
             }
+        } else if scrollView.tag == 0 {
+            
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView.tag != 0 {
+        if scrollView.tag == 1 {
     
             if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
@@ -169,13 +172,24 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
 
 
 extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtocol {
+    
     func menuButtonTapped(sender: UIButton!) {
-        print("button \(sender.tag) tapped")
+        
+        print("Menu button \(sender.tag) tapped")
+        
+        //menuScrollView.setContentOffset(CGPoint(x: Int(view.bounds.width) * sender.tag, y: 0), animated: true)
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState, .curveEaseOut]) {
+            self.menuScrollView.contentOffset = CGPoint(x: Int(self.view.bounds.width) * sender.tag, y: 0)
+            self.view.layoutIfNeeded()
+        }
     }
     
     func backButtonAction(sender: UIButton!) {
+        
         dismiss(animated: true, completion: nil)
     }
+    
 }
 
 extension CryptocurrencyViewController {
@@ -196,7 +210,7 @@ extension CryptocurrencyViewController {
         menu.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
             make.width.equalToSuperview().offset(-16)
-            make.height.equalTo(35)
+            make.height.equalTo(40)
             make.top.equalTo(header.snp.bottom)
         }
         

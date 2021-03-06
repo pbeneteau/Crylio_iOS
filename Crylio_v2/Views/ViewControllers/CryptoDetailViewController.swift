@@ -11,12 +11,29 @@ class CryptoDetailViewController: UIViewController {
     
     lazy var scrollView = CryptoDetailScrollView()
     
+    var refreshControl = UIRefreshControl()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .clear
         
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+
+        
         view.addSubview(scrollView)
+        scrollView.addSubview(refreshControl)
+    }
+    
+    @objc func refresh() {
+        
+        print("Refreshing data...")
+
+        let seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.refreshControl.endRefreshing()
+        }
     }
     
     override func updateViewConstraints() {
@@ -30,3 +47,4 @@ class CryptoDetailViewController: UIViewController {
     }
 
 }
+

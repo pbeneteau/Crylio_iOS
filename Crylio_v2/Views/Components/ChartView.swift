@@ -15,14 +15,10 @@ class ChartView: UIView {
     
     lazy var price = UILabel()
     var priceChangeBox: PriceChangeBoxView!
-    lazy var timeframe = UILabel()
     lazy var priceChangeDollar = UILabel()
     lazy var changeChartModeButton = UIButton()
     
     lazy var chartView = AAChartView()
-    
-//    lazy var timeframeSelector = HorizontalMenu(items: ["1d", "1w", "1m", "3m", "6m", "1y", "All"], scrollable: false)
-    lazy var timeframeSelector = UISegmentedControl(items: ["1d", "1w", "1m", "3m", "6m", "1y", "All"])
     
 
     override init(frame: CGRect) {
@@ -59,21 +55,13 @@ class ChartView: UIView {
         priceChangeDollar.font = .systemFont(ofSize: 15)
         priceChangeDollar.textColor = .systemGreen
         
-        timeframe.font = .systemFont(ofSize: 14)
-        timeframe.textColor = .systemGray
-        timeframe.text = "Today"
-        
-        timeframeSelector.selectedSegmentIndex = 0
-        
         addSubview(backgroundBox)
                 
         backgroundBox.addSubview(price)
         backgroundBox.addSubview(priceChangeDollar)
         backgroundBox.addSubview(priceChangeBox)
-        backgroundBox.addSubview(timeframe)
         backgroundBox.addSubview(changeChartModeButton)
         backgroundBox.addSubview(chartView)
-        backgroundBox.addSubview(timeframeSelector)
         
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -111,7 +99,7 @@ class ChartView: UIView {
         
         backgroundBox.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(20)
             make.width.equalToSuperview().offset(-32)
             make.bottom.equalToSuperview().offset(-10)
         }
@@ -126,7 +114,7 @@ class ChartView: UIView {
         priceChangeBox.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
             make.top.equalTo(price.snp.bottom).offset(5)
-            make.height.equalTo(30)
+            make.height.equalTo(35)
             make.width.equalTo(70)
         }
         
@@ -135,13 +123,6 @@ class ChartView: UIView {
             make.centerY.equalTo(priceChangeBox)
             make.height.equalTo(20)
             make.width.equalTo(priceChangeDollar.intrinsicContentSize.width)
-        }
-        
-        timeframe.snp.makeConstraints { make in
-            make.left.equalTo(priceChangeDollar.snp.right).offset(10)
-            make.centerY.equalTo(priceChangeDollar)
-            make.height.equalTo(20)
-            make.width.equalTo(timeframe.intrinsicContentSize.width)
         }
         
         changeChartModeButton.snp.makeConstraints { make in
@@ -157,19 +138,13 @@ class ChartView: UIView {
             make.height.equalTo(200)
         }
         
-        timeframeSelector.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.width.equalToSuperview().offset(-32)
-            make.height.equalTo(35)
-            make.bottom.equalToSuperview().offset(-16)
-        }
-        
         super.updateConstraints()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
     }
+    
 }
 
 

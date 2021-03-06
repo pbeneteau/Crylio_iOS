@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BC5951FA7276710D99168B4 /* Pods_Crylio_v2_Crylio_v2UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9020837FAD23D408521990 /* Pods_Crylio_v2_Crylio_v2UITests.framework */; };
+		2655D37617A7748F47FF3042 /* Pods_Crylio_v2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA50302F84F4703CCAD84D1 /* Pods_Crylio_v2.framework */; };
 		3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3800219825CD728000FA4773 /* MarketStatsView.swift */; };
 		3844884325D3177F002BF26C /* HomeHeaderPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */; };
-		3844884A25D333C3002BF26C /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884925D333C3002BF26C /* RxSwift */; };
-		3844884C25D333C3002BF26C /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884B25D333C3002BF26C /* RxCocoa */; };
+		3844884A25D333C3002BF26C /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884925D333C3002BF26C /* SwiftPackageProductDependency */; };
+		3844884C25D333C3002BF26C /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884B25D333C3002BF26C /* SwiftPackageProductDependency */; };
 		3848D1BD25C4DC2B00203D7A /* HorizontalMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */; };
 		384CFA9625C1E67D0064C932 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFA9525C1E67D0064C932 /* AppDelegate.swift */; };
 		384CFA9825C1E67D0064C932 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFA9725C1E67D0064C932 /* SceneDelegate.swift */; };
@@ -19,7 +21,7 @@
 		384CFAA225C1E67F0064C932 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384CFAA025C1E67F0064C932 /* LaunchScreen.storyboard */; };
 		384CFAAD25C1E67F0064C932 /* Crylio_v2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFAAC25C1E67F0064C932 /* Crylio_v2Tests.swift */; };
 		384CFAB825C1E67F0064C932 /* Crylio_v2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFAB725C1E67F0064C932 /* Crylio_v2UITests.swift */; };
-		384CFAD025C1F0EA0064C932 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 384CFACF25C1F0EA0064C932 /* SnapKit */; };
+		384CFAD025C1F0EA0064C932 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 384CFACF25C1F0EA0064C932 /* SwiftPackageProductDependency */; };
 		384CFADC25C1F3240064C932 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFADB25C1F3240064C932 /* HomeHeaderView.swift */; };
 		384CFAEC25C1F61D0064C932 /* HomeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFAEB25C1F61D0064C932 /* HomeTableView.swift */; };
 		384CFAF125C1F6960064C932 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFAF025C1F6960064C932 /* HomeTableViewCell.swift */; };
@@ -28,10 +30,10 @@
 		384CFB0725C2224D0064C932 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB0625C2224D0064C932 /* Colors.swift */; };
 		384CFB2825C451C50064C932 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB2725C451C50064C932 /* GradientView.swift */; };
 		384CFB4125C45B470064C932 /* CryptoDetailTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB4025C45B470064C932 /* CryptoDetailTopBarView.swift */; };
-		388D016825CD99D100AD0050 /* AAInfographics in Frameworks */ = {isa = PBXBuildFile; productRef = 388D016725CD99D100AD0050 /* AAInfographics */; };
-		3894FCC425D16C5B00BFD26F /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 3894FCC325D16C5B00BFD26F /* Charts */; };
+		388D016825CD99D100AD0050 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 388D016725CD99D100AD0050 /* SwiftPackageProductDependency */; };
+		3894FCC425D16C5B00BFD26F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3894FCC325D16C5B00BFD26F /* SwiftPackageProductDependency */; };
 		3894FCD225D17A9400BFD26F /* CryptoHoldingsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */; };
-		3894FCD925D17BE000BFD26F /* PagingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3894FCD825D17BE000BFD26F /* PagingKit */; };
+		3894FCD925D17BE000BFD26F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3894FCD825D17BE000BFD26F /* SwiftPackageProductDependency */; };
 		3894FCDF25D17FAB00BFD26F /* CryptoHoldingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3894FCDE25D17FAB00BFD26F /* CryptoHoldingsViewController.swift */; };
 		3894FCE325D17FC500BFD26F /* CryptoHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3894FCE225D17FC500BFD26F /* CryptoHistoryViewController.swift */; };
 		3894FCE725D1801A00BFD26F /* CryptoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3894FCE625D1801A00BFD26F /* CryptoDetailViewController.swift */; };
@@ -43,8 +45,9 @@
 		389DE66425C8269E00954F4F /* CryptoDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */; };
 		389DE66C25C82C1100954F4F /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE66B25C82C1100954F4F /* ChartView.swift */; };
 		389DE68625C8379000954F4F /* CryptoDetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */; };
-		38B6D5AB25D5A9D700AC8238 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 38B6D5AA25D5A9D700AC8238 /* Lottie */; };
+		38B6D5AB25D5A9D700AC8238 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 38B6D5AA25D5A9D700AC8238 /* SwiftPackageProductDependency */; };
 		38B6D5B125D5AB1400AC8238 /* waves-animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 38B6D5B025D5AB1400AC8238 /* waves-animation.json */; };
+		3D997597B6FBE0861C2C5859 /* Pods_Crylio_v2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0E8ADB8ADE8446AD5FE0CD /* Pods_Crylio_v2Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +81,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		17E4E2893BFB3A4214E90F27 /* Pods-Crylio_v2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2.debug.xcconfig"; path = "Target Support Files/Pods-Crylio_v2/Pods-Crylio_v2.debug.xcconfig"; sourceTree = "<group>"; };
 		3800219825CD728000FA4773 /* MarketStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketStatsView.swift; sourceTree = "<group>"; };
 		3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderPortfolioView.swift; sourceTree = "<group>"; };
 		3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalMenuView.swift; sourceTree = "<group>"; };
@@ -115,6 +119,14 @@
 		389DE66B25C82C1100954F4F /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailScrollView.swift; sourceTree = "<group>"; };
 		38B6D5B025D5AB1400AC8238 /* waves-animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "waves-animation.json"; sourceTree = "<group>"; };
+		42D75D01F63C3B38F6719B86 /* Pods-Crylio_v2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2Tests.release.xcconfig"; path = "Target Support Files/Pods-Crylio_v2Tests/Pods-Crylio_v2Tests.release.xcconfig"; sourceTree = "<group>"; };
+		437D2995D4248700AFD9B0B8 /* Pods-Crylio_v2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2Tests.debug.xcconfig"; path = "Target Support Files/Pods-Crylio_v2Tests/Pods-Crylio_v2Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		4FA50302F84F4703CCAD84D1 /* Pods_Crylio_v2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Crylio_v2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E9020837FAD23D408521990 /* Pods_Crylio_v2_Crylio_v2UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Crylio_v2_Crylio_v2UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		819F7BA54C75E23486741B29 /* Pods-Crylio_v2-Crylio_v2UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2-Crylio_v2UITests.release.xcconfig"; path = "Target Support Files/Pods-Crylio_v2-Crylio_v2UITests/Pods-Crylio_v2-Crylio_v2UITests.release.xcconfig"; sourceTree = "<group>"; };
+		8F0E8ADB8ADE8446AD5FE0CD /* Pods_Crylio_v2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Crylio_v2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDF0DABDE6DA8281886CD1DE /* Pods-Crylio_v2-Crylio_v2UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2-Crylio_v2UITests.debug.xcconfig"; path = "Target Support Files/Pods-Crylio_v2-Crylio_v2UITests/Pods-Crylio_v2-Crylio_v2UITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E76A3114C113C64C440771B5 /* Pods-Crylio_v2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2.release.xcconfig"; path = "Target Support Files/Pods-Crylio_v2/Pods-Crylio_v2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,13 +134,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3844884C25D333C3002BF26C /* RxCocoa in Frameworks */,
-				38B6D5AB25D5A9D700AC8238 /* Lottie in Frameworks */,
-				384CFAD025C1F0EA0064C932 /* SnapKit in Frameworks */,
-				3894FCC425D16C5B00BFD26F /* Charts in Frameworks */,
-				3844884A25D333C3002BF26C /* RxSwift in Frameworks */,
-				388D016825CD99D100AD0050 /* AAInfographics in Frameworks */,
-				3894FCD925D17BE000BFD26F /* PagingKit in Frameworks */,
+				3844884C25D333C3002BF26C /* BuildFile in Frameworks */,
+				38B6D5AB25D5A9D700AC8238 /* BuildFile in Frameworks */,
+				384CFAD025C1F0EA0064C932 /* BuildFile in Frameworks */,
+				3894FCC425D16C5B00BFD26F /* BuildFile in Frameworks */,
+				3844884A25D333C3002BF26C /* BuildFile in Frameworks */,
+				388D016825CD99D100AD0050 /* BuildFile in Frameworks */,
+				3894FCD925D17BE000BFD26F /* BuildFile in Frameworks */,
+				2655D37617A7748F47FF3042 /* Pods_Crylio_v2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D997597B6FBE0861C2C5859 /* Pods_Crylio_v2Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,12 +157,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BC5951FA7276710D99168B4 /* Pods_Crylio_v2_Crylio_v2UITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2868A64AE5C0D599F618706C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				17E4E2893BFB3A4214E90F27 /* Pods-Crylio_v2.debug.xcconfig */,
+				E76A3114C113C64C440771B5 /* Pods-Crylio_v2.release.xcconfig */,
+				BDF0DABDE6DA8281886CD1DE /* Pods-Crylio_v2-Crylio_v2UITests.debug.xcconfig */,
+				819F7BA54C75E23486741B29 /* Pods-Crylio_v2-Crylio_v2UITests.release.xcconfig */,
+				437D2995D4248700AFD9B0B8 /* Pods-Crylio_v2Tests.debug.xcconfig */,
+				42D75D01F63C3B38F6719B86 /* Pods-Crylio_v2Tests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		384CFA8925C1E67D0064C932 = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +185,8 @@
 				384CFAAB25C1E67F0064C932 /* Crylio_v2Tests */,
 				384CFAB625C1E67F0064C932 /* Crylio_v2UITests */,
 				384CFA9325C1E67D0064C932 /* Products */,
+				2868A64AE5C0D599F618706C /* Pods */,
+				BFF215B6FE16C78A7A8E2773 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -272,6 +303,16 @@
 			path = "Lottie animations";
 			sourceTree = "<group>";
 		};
+		BFF215B6FE16C78A7A8E2773 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FA50302F84F4703CCAD84D1 /* Pods_Crylio_v2.framework */,
+				7E9020837FAD23D408521990 /* Pods_Crylio_v2_Crylio_v2UITests.framework */,
+				8F0E8ADB8ADE8446AD5FE0CD /* Pods_Crylio_v2Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -279,10 +320,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 384CFABC25C1E67F0064C932 /* Build configuration list for PBXNativeTarget "Crylio_v2" */;
 			buildPhases = (
+				457BC50947A806E14A309EA1 /* [CP] Check Pods Manifest.lock */,
 				384CFA8E25C1E67D0064C932 /* Sources */,
 				384CFA8F25C1E67D0064C932 /* Frameworks */,
 				384CFA9025C1E67D0064C932 /* Resources */,
 				388D013C25CD887A00AD0050 /* Embed Frameworks */,
+				09E87DBA2D3E011DC6F2DB2D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -290,13 +333,13 @@
 			);
 			name = Crylio_v2;
 			packageProductDependencies = (
-				384CFACF25C1F0EA0064C932 /* SnapKit */,
-				388D016725CD99D100AD0050 /* AAInfographics */,
-				3894FCC325D16C5B00BFD26F /* Charts */,
-				3894FCD825D17BE000BFD26F /* PagingKit */,
-				3844884925D333C3002BF26C /* RxSwift */,
-				3844884B25D333C3002BF26C /* RxCocoa */,
-				38B6D5AA25D5A9D700AC8238 /* Lottie */,
+				384CFACF25C1F0EA0064C932 /* SwiftPackageProductDependency */,
+				388D016725CD99D100AD0050 /* SwiftPackageProductDependency */,
+				3894FCC325D16C5B00BFD26F /* SwiftPackageProductDependency */,
+				3894FCD825D17BE000BFD26F /* SwiftPackageProductDependency */,
+				3844884925D333C3002BF26C /* SwiftPackageProductDependency */,
+				3844884B25D333C3002BF26C /* SwiftPackageProductDependency */,
+				38B6D5AA25D5A9D700AC8238 /* SwiftPackageProductDependency */,
 			);
 			productName = Crylio_v2;
 			productReference = 384CFA9225C1E67D0064C932 /* Crylio_v2.app */;
@@ -306,6 +349,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 384CFABF25C1E67F0064C932 /* Build configuration list for PBXNativeTarget "Crylio_v2Tests" */;
 			buildPhases = (
+				2F092EDB32937AAAC1A7219D /* [CP] Check Pods Manifest.lock */,
 				384CFAA425C1E67F0064C932 /* Sources */,
 				384CFAA525C1E67F0064C932 /* Frameworks */,
 				384CFAA625C1E67F0064C932 /* Resources */,
@@ -324,9 +368,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 384CFAC225C1E67F0064C932 /* Build configuration list for PBXNativeTarget "Crylio_v2UITests" */;
 			buildPhases = (
+				17F3AAF59D368428BD05A7C4 /* [CP] Check Pods Manifest.lock */,
 				384CFAAF25C1E67F0064C932 /* Sources */,
 				384CFAB025C1E67F0064C932 /* Frameworks */,
 				384CFAB125C1E67F0064C932 /* Resources */,
+				57E127C231B25EE1D8C4C53C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -370,12 +416,12 @@
 			);
 			mainGroup = 384CFA8925C1E67D0064C932;
 			packageReferences = (
-				384CFACE25C1F0EA0064C932 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				388D016625CD99D000AD0050 /* XCRemoteSwiftPackageReference "AAChartKit-Swift" */,
-				3894FCC225D16C5B00BFD26F /* XCRemoteSwiftPackageReference "Charts" */,
-				3894FCD725D17BE000BFD26F /* XCRemoteSwiftPackageReference "PagingKit" */,
-				3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */,
-				38B6D5A925D5A9D600AC8238 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				384CFACE25C1F0EA0064C932 /* RemoteSwiftPackageReference */,
+				388D016625CD99D000AD0050 /* RemoteSwiftPackageReference */,
+				3894FCC225D16C5B00BFD26F /* RemoteSwiftPackageReference */,
+				3894FCD725D17BE000BFD26F /* RemoteSwiftPackageReference */,
+				3844884825D333C3002BF26C /* RemoteSwiftPackageReference */,
+				38B6D5A925D5A9D600AC8238 /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 384CFA9325C1E67D0064C932 /* Products */;
 			projectDirPath = "";
@@ -414,6 +460,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		09E87DBA2D3E011DC6F2DB2D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Crylio_v2/Pods-Crylio_v2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Crylio_v2/Pods-Crylio_v2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Crylio_v2/Pods-Crylio_v2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		17F3AAF59D368428BD05A7C4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Crylio_v2-Crylio_v2UITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2F092EDB32937AAAC1A7219D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Crylio_v2Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		457BC50947A806E14A309EA1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Crylio_v2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		57E127C231B25EE1D8C4C53C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Crylio_v2-Crylio_v2UITests/Pods-Crylio_v2-Crylio_v2UITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Crylio_v2-Crylio_v2UITests/Pods-Crylio_v2-Crylio_v2UITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Crylio_v2-Crylio_v2UITests/Pods-Crylio_v2-Crylio_v2UITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		384CFA8E25C1E67D0064C932 /* Sources */ = {
@@ -610,6 +759,7 @@
 		};
 		384CFABD25C1E67F0064C932 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17E4E2893BFB3A4214E90F27 /* Pods-Crylio_v2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -630,6 +780,7 @@
 		};
 		384CFABE25C1E67F0064C932 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E76A3114C113C64C440771B5 /* Pods-Crylio_v2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -650,6 +801,7 @@
 		};
 		384CFAC025C1E67F0064C932 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 437D2995D4248700AFD9B0B8 /* Pods-Crylio_v2Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -672,6 +824,7 @@
 		};
 		384CFAC125C1E67F0064C932 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42D75D01F63C3B38F6719B86 /* Pods-Crylio_v2Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -694,6 +847,7 @@
 		};
 		384CFAC325C1E67F0064C932 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF0DABDE6DA8281886CD1DE /* Pods-Crylio_v2-Crylio_v2UITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -714,6 +868,7 @@
 		};
 		384CFAC425C1E67F0064C932 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 819F7BA54C75E23486741B29 /* Pods-Crylio_v2-Crylio_v2UITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -774,7 +929,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+		3844884825D333C3002BF26C /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
 			requirement = {
@@ -782,7 +937,7 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		384CFACE25C1F0EA0064C932 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		384CFACE25C1F0EA0064C932 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -790,7 +945,7 @@
 				minimumVersion = 5.0.1;
 			};
 		};
-		388D016625CD99D000AD0050 /* XCRemoteSwiftPackageReference "AAChartKit-Swift" */ = {
+		388D016625CD99D000AD0050 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AAChartModel/AAChartKit-Swift.git";
 			requirement = {
@@ -798,7 +953,7 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		3894FCC225D16C5B00BFD26F /* XCRemoteSwiftPackageReference "Charts" */ = {
+		3894FCC225D16C5B00BFD26F /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
 			requirement = {
@@ -806,7 +961,7 @@
 				kind = branch;
 			};
 		};
-		3894FCD725D17BE000BFD26F /* XCRemoteSwiftPackageReference "PagingKit" */ = {
+		3894FCD725D17BE000BFD26F /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kazuhiro4949/PagingKit.git";
 			requirement = {
@@ -814,7 +969,7 @@
 				minimumVersion = 1.16.0;
 			};
 		};
-		38B6D5A925D5A9D600AC8238 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		38B6D5A925D5A9D600AC8238 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -825,39 +980,39 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3844884925D333C3002BF26C /* RxSwift */ = {
+		3844884925D333C3002BF26C /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */;
+			package = 3844884825D333C3002BF26C /* RemoteSwiftPackageReference */;
 			productName = RxSwift;
 		};
-		3844884B25D333C3002BF26C /* RxCocoa */ = {
+		3844884B25D333C3002BF26C /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3844884825D333C3002BF26C /* XCRemoteSwiftPackageReference "RxSwift" */;
+			package = 3844884825D333C3002BF26C /* RemoteSwiftPackageReference */;
 			productName = RxCocoa;
 		};
-		384CFACF25C1F0EA0064C932 /* SnapKit */ = {
+		384CFACF25C1F0EA0064C932 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 384CFACE25C1F0EA0064C932 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 384CFACE25C1F0EA0064C932 /* RemoteSwiftPackageReference */;
 			productName = SnapKit;
 		};
-		388D016725CD99D100AD0050 /* AAInfographics */ = {
+		388D016725CD99D100AD0050 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 388D016625CD99D000AD0050 /* XCRemoteSwiftPackageReference "AAChartKit-Swift" */;
+			package = 388D016625CD99D000AD0050 /* RemoteSwiftPackageReference */;
 			productName = AAInfographics;
 		};
-		3894FCC325D16C5B00BFD26F /* Charts */ = {
+		3894FCC325D16C5B00BFD26F /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3894FCC225D16C5B00BFD26F /* XCRemoteSwiftPackageReference "Charts" */;
+			package = 3894FCC225D16C5B00BFD26F /* RemoteSwiftPackageReference */;
 			productName = Charts;
 		};
-		3894FCD825D17BE000BFD26F /* PagingKit */ = {
+		3894FCD825D17BE000BFD26F /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3894FCD725D17BE000BFD26F /* XCRemoteSwiftPackageReference "PagingKit" */;
+			package = 3894FCD725D17BE000BFD26F /* RemoteSwiftPackageReference */;
 			productName = PagingKit;
 		};
-		38B6D5AA25D5A9D700AC8238 /* Lottie */ = {
+		38B6D5AA25D5A9D700AC8238 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 38B6D5A925D5A9D600AC8238 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = 38B6D5A925D5A9D600AC8238 /* RemoteSwiftPackageReference */;
 			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */

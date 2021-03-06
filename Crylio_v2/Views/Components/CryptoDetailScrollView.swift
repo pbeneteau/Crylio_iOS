@@ -79,7 +79,7 @@ class CryptoDetailScrollView: UIScrollView {
             make.left.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(400)
+            make.height.equalTo(350)
         }
 
         marketStatsView.snp.makeConstraints { make in

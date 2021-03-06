@@ -12,12 +12,13 @@ protocol HorizontalMenuProtocol: NSObjectProtocol {
     func menuButtonTapped(sender: UIButton!)
 }
 
-class HorizontalMenu: RoundedCornersView {
+class HorizontalMenu: UIView {
     
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = .systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsHorizontalScrollIndicator = false
         return view
     }()
     
@@ -74,7 +75,7 @@ class HorizontalMenu: RoundedCornersView {
             button.tag = index
             button.tintColor = .label
             button.setTitleColor(.label, for: .selected)
-            button.setTitleColor(.systemGray, for: .normal)
+            button.setTitleColor(.label, for: .normal)
             button.addTarget(self, action: #selector(self.buttonTapped(sender:)), for: .touchUpInside)
             
             buttons.append(button)
@@ -86,15 +87,8 @@ class HorizontalMenu: RoundedCornersView {
     
     func setSelectedButton(tag: Int) {
         
-        for (index, button) in buttons.enumerated() {
-            if index != tag {
-                button.isSelected = false
-            } else {
-                button.isSelected = true
-            }
-        }
-        
-        UIView.animate(withDuration: 0.3, delay:0, options: .beginFromCurrentState) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState, .curveEaseOut]) {
+            
             self.selectedButtonView.snp.remakeConstraints { make in
                 make.edges.equalTo(self.buttons[tag])
                 make.width.height.equalTo(self.buttons[tag])
@@ -111,16 +105,14 @@ class HorizontalMenu: RoundedCornersView {
     }
     
     @objc func buttonTapped(sender: UIButton!) {
-        setSelectedButton(tag: sender.tag)
         self.delegate?.menuButtonTapped(sender: sender)
     }
     
     override func updateConstraints() {
-        
-        //set subview constraints here
-                
+                        
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.height.width.equalToSuperview()
         }
         
         super.updateConstraints()
