@@ -37,7 +37,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
     lazy var ordersVC = CryptoOrdersViewController()
     lazy var historyVC = CryptoHistoryViewController()
     
-    var viewDidLayoutFirstTime = false
+    var viewDidLayoutFirstTime = true
     
     
     override func viewDidLoad() {
@@ -143,31 +143,31 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.tag == 1 {
-
-            if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
-                scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
-            } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
-                        && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
-                scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
-            }
-        } else if scrollView.tag == 0 {
-            
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView.tag == 1 {
-    
-            if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
-                scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
-            } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
-                        && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
-                scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
-            }
-        }
-    }
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if scrollView.tag == 1 {
+//
+//            if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
+//                scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
+//            } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
+//                        && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
+//                scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
+//            }
+//        } else if scrollView.tag == 0 {
+//
+//        }
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        if scrollView.tag == 1 {
+//
+//            if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
+//                scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
+//            } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
+//                        && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
+//                scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
+//            }
+//        }
+//    }
 }
 
 
@@ -254,10 +254,13 @@ extension CryptocurrencyViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if !viewDidLayoutFirstTime {
-            viewDidLayoutFirstTime = true
-            detailVC.scrollView.contentInset = UIEdgeInsets(top: menu.frame.maxY, left: 0, bottom: 0, right: 0)
-            detailVC.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: menu.frame.maxY-20, left: 0, bottom: 0, right: 0)
+        
+        if viewDidLayoutFirstTime {
+            
+            viewDidLayoutFirstTime = false
+            
+            detailVC.scrollView.updateInsets(menuMaxY: menu.frame.maxY)
+            holdingsVC.scrollView.updateInsets(menuMaxY: menu.frame.maxY)
         }
     }
     

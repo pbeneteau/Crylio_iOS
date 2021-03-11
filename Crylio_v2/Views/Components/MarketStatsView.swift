@@ -48,7 +48,7 @@ class MarketStatsView: UIView {
         
         self.volume24.text = "\(volume24)"
         self.volume24Change.text = "\(volume24Change) %"
-        self.marketCap.text = "\(marketCap)"
+        self.marketCap.text = "$\(marketCap)"
         self.marketCapChange.text = "\(marketCapChange) %"
         self.availableSupply.text = "\(availableSupply)"
         self.availableSupplyChange.text = "\(availableSupplyChange) %"

@@ -104,7 +104,7 @@ class ChartView: UIView {
             make.bottom.equalToSuperview().offset(-10)
         }
         
-        price.snp.makeConstraints { make in
+        price.snp.makeConstraints { make in		
             make.left.equalToSuperview().offset(16)
             make.right.equalToSuperview().offset(-16)
             make.top.equalToSuperview().offset(20)

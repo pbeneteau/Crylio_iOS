@@ -11,6 +11,9 @@ import SnapKit
 
 class CryptoHoldingsScrollView: UIScrollView {
 
+    lazy var contentView = UIView()
+        
+    lazy var holdingsStatsView = HoldingsStatsView(worth: 123415.42, averageCost: 6421.74, totalAmount: 3.1, profitLoss: 120415.06, percentChange: 1401.85)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,24 +36,44 @@ class CryptoHoldingsScrollView: UIScrollView {
     private func commonInit() {
         
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
-        showsVerticalScrollIndicator = false
+        contentInsetAdjustmentBehavior = .never
         
+        contentView.backgroundColor = .clear
         
-        contentSize = CGSize(width: 428, height: 2000)
-        contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        contentInsetAdjustmentBehavior = .never   
+        addSubview(contentView)
+        
+        contentView.addSubview(holdingsStatsView)
+    }
+    
+    func updateInsets(menuMaxY: CGFloat) {
+        contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: 0, right: 0)
+        scrollIndicatorInsets = UIEdgeInsets(top: menuMaxY-20, left: 0, bottom: 0, right: 0)
     }
     
     override func updateConstraints() {
+        
+        contentView.snp.makeConstraints { make in
+            make.top.bottom.equalTo(self)
+            make.left.right.equalTo(0)
+            make.width.equalTo(self)
+            make.height.equalTo(400 + 382)
+        }
+        
+        holdingsStatsView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.width.equalToSuperview()
+            make.top.equalToSuperview()
+            make.height.equalTo(207)
+        }
         
         super.updateConstraints()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        contentSize = CGSize(width: frame.width, height: contentView.frame.height * 1.4)
                 
-        // Manually set subview frames here
     }
 
 }

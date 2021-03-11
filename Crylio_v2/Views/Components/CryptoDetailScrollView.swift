@@ -47,9 +47,6 @@ class CryptoDetailScrollView: UIScrollView {
     private func commonInit() {
         
         translatesAutoresizingMaskIntoConstraints = false
-                
-        contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
-        scrollIndicatorInsets = UIEdgeInsets(top: 165, left: 0, bottom: 0, right: 0)
         contentInsetAdjustmentBehavior = .never
         
         contentView.backgroundColor = .clear
@@ -65,6 +62,12 @@ class CryptoDetailScrollView: UIScrollView {
         print("dragging chart")
         isScrollEnabled = false
     }
+    
+    func updateInsets(menuMaxY: CGFloat) {
+        contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: 0, right: 0)
+        scrollIndicatorInsets = UIEdgeInsets(top: menuMaxY-20, left: 0, bottom: 0, right: 0)
+    }
+    
     
     override func updateConstraints() {
         
