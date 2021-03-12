@@ -236,7 +236,7 @@
 		384CFAD425C1F2D40064C932 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				384CFAEB25C1F61D0064C932 /* HomeTableView.swift */,
+				388DC27825FBD2B0007B1B86 /* Home */,
 				384CFAFD25C21E9B0064C932 /* Components */,
 				384CFAD725C1F2F90064C932 /* ViewControllers */,
 			);
@@ -277,8 +277,6 @@
 		384CFAFD25C21E9B0064C932 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */,
-				384CFADB25C1F3240064C932 /* HomeHeaderView.swift */,
 				384CFB2725C451C50064C932 /* GradientView.swift */,
 				384CFB0125C21EC70064C932 /* PriceChangeBoxView.swift */,
 				384CFAF025C1F6960064C932 /* HomeTableViewCell.swift */,
@@ -287,14 +285,40 @@
 				389DE65625C758B500954F4F /* NavigationTopBarView.swift */,
 				3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */,
 				389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */,
+				388DC27925FBD2CE007B1B86 /* Holdings */,
+				388DC27C25FBD2EB007B1B86 /* Details */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		388DC27825FBD2B0007B1B86 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */,
+				384CFADB25C1F3240064C932 /* HomeHeaderView.swift */,
+				384CFAEB25C1F61D0064C932 /* HomeTableView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		388DC27925FBD2CE007B1B86 /* Holdings */ = {
+			isa = PBXGroup;
+			children = (
+				3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */,
+				38E3FB5C25FA52D500A55FB3 /* HoldingsStatsView.swift */,
+			);
+			path = Holdings;
+			sourceTree = "<group>";
+		};
+		388DC27C25FBD2EB007B1B86 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */,
 				389DE66B25C82C1100954F4F /* ChartView.swift */,
 				3800219825CD728000FA4773 /* MarketStatsView.swift */,
 				3894FCF225D1A0B600BFD26F /* AboutView.swift */,
-				38E3FB5C25FA52D500A55FB3 /* HoldingsStatsView.swift */,
-				389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */,
-				3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */,
 			);
-			path = Components;
+			path = Details;
 			sourceTree = "<group>";
 		};
 		38B6D5B425D5AB1D00AC8238 /* Lottie animations */ = {

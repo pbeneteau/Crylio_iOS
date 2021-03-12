@@ -134,7 +134,7 @@ class HoldingsStatsView: UIView {
         
         backgroundBox.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(20)
             make.width.equalToSuperview().offset(-32)
             make.bottom.equalToSuperview().offset(-10)
         }
@@ -181,15 +181,8 @@ class HoldingsStatsView: UIView {
             make.height.equalTo(20)
         }
         
-        separationLine.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(averageCostIcon)
-            make.width.equalTo(1)
-            make.bottom.equalToSuperview().offset(-16)
-        }
-        
         totalAmountIcon.snp.makeConstraints { make in
-            make.left.equalTo(separationLine.snp.right).offset(16)
+            make.centerX.equalToSuperview().offset(16)
             make.top.equalTo(separationLine)
             make.width.height.equalTo(18)
         }
@@ -207,7 +200,7 @@ class HoldingsStatsView: UIView {
         }
         
         percentChangeIcon.snp.makeConstraints { make in
-            make.left.equalTo(separationLine.snp.right).offset(16)
+            make.centerX.equalToSuperview().offset(16)
             make.top.equalTo(totalAmount.snp.bottom).offset(15)
             make.width.height.equalTo(18)
         }
@@ -224,6 +217,12 @@ class HoldingsStatsView: UIView {
             make.height.equalTo(20)
         }
         
+        separationLine.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(averageCostIcon)
+            make.width.equalTo(1)
+            make.bottom.equalTo(percentChange)
+        }
         
         super.updateConstraints()
         
