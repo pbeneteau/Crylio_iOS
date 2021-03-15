@@ -63,7 +63,7 @@ class CryptoHoldingsScrollView: UIScrollView {
             make.left.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(207)
+            make.height.equalTo(227)
         }
         
         super.updateConstraints()

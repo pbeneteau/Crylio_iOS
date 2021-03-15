@@ -10,6 +10,7 @@
 		0BC5951FA7276710D99168B4 /* Pods_Crylio_v2_Crylio_v2UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9020837FAD23D408521990 /* Pods_Crylio_v2_Crylio_v2UITests.framework */; };
 		2655D37617A7748F47FF3042 /* Pods_Crylio_v2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA50302F84F4703CCAD84D1 /* Pods_Crylio_v2.framework */; };
 		3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3800219825CD728000FA4773 /* MarketStatsView.swift */; };
+		3837C12325FFA0390056BB27 /* NumberFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3837C12225FFA0390056BB27 /* NumberFormatters.swift */; };
 		3844884325D3177F002BF26C /* HomeHeaderPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */; };
 		3844884A25D333C3002BF26C /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884925D333C3002BF26C /* RxSwift */; };
 		3844884C25D333C3002BF26C /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3844884B25D333C3002BF26C /* RxCocoa */; };
@@ -84,6 +85,7 @@
 /* Begin PBXFileReference section */
 		17E4E2893BFB3A4214E90F27 /* Pods-Crylio_v2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2.debug.xcconfig"; path = "Target Support Files/Pods-Crylio_v2/Pods-Crylio_v2.debug.xcconfig"; sourceTree = "<group>"; };
 		3800219825CD728000FA4773 /* MarketStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketStatsView.swift; sourceTree = "<group>"; };
+		3837C12225FFA0390056BB27 /* NumberFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatters.swift; sourceTree = "<group>"; };
 		3844884225D3177F002BF26C /* HomeHeaderPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderPortfolioView.swift; sourceTree = "<group>"; };
 		3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalMenuView.swift; sourceTree = "<group>"; };
 		384CFA9225C1E67D0064C932 /* Crylio_v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crylio_v2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +181,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		3837C12125FFA0280056BB27 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3837C12225FFA0390056BB27 /* NumberFormatters.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		384CFA8925C1E67D0064C932 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +214,7 @@
 		384CFA9425C1E67D0064C932 /* Crylio_v2 */ = {
 			isa = PBXGroup;
 			children = (
+				3837C12125FFA0280056BB27 /* Utils */,
 				384CFAD525C1F2DA0064C932 /* Models */,
 				384CFA9525C1E67D0064C932 /* AppDelegate.swift */,
 				384CFA9725C1E67D0064C932 /* SceneDelegate.swift */,
@@ -600,6 +611,7 @@
 				3894FCD225D17A9400BFD26F /* CryptoHoldingsScrollView.swift in Sources */,
 				384CFB4125C45B470064C932 /* CryptoDetailTopBarView.swift in Sources */,
 				3894FCF325D1A0B600BFD26F /* AboutView.swift in Sources */,
+				3837C12325FFA0390056BB27 /* NumberFormatters.swift in Sources */,
 				3844884325D3177F002BF26C /* HomeHeaderPortfolioView.swift in Sources */,
 				389DE66425C8269E00954F4F /* CryptoDetailHeaderView.swift in Sources */,
 				384CFB2825C451C50064C932 /* GradientView.swift in Sources */,

@@ -15,11 +15,11 @@ class Cryptocurrency {
     var symbol: String
     var description: String
     
-    var balance: Double
-    var amount: Double
+    var balance: Float
+    var amount: Float
     
-    var price: Double
-    var change: Double
+    var price: Float
+    var change: Float
     
     var iconName: String {
         didSet {
@@ -30,7 +30,7 @@ class Cryptocurrency {
     
     
     func balanceToString() -> String {
-        return "$\(balance)"
+        return usdFormat(balance)
     }
     
     func amountToString() -> String {
@@ -38,11 +38,11 @@ class Cryptocurrency {
     }
     
     func priceToString() -> String {
-        return "$\(price)"
+        return usdFormat(price)
     }
     
     func changeToString() -> String {
-        return "\(change) %"
+        return percentFormat(change)
     }
     
     
@@ -51,10 +51,10 @@ class Cryptocurrency {
           slug: String,
           symbol: String,
           description: String,
-          balance: Double,
-          amount: Double,
-          price: Double,
-          change: Double,
+          balance: Float,
+          amount: Float,
+          price: Float,
+          change: Float,
           iconName: String) {
         self.id = id
         self.name = name
@@ -68,4 +68,5 @@ class Cryptocurrency {
         self.iconName = iconName
         
     }
+    
 }

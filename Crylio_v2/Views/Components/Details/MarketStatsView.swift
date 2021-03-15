@@ -46,13 +46,13 @@ class MarketStatsView: UIView {
         
         super.init(frame: CGRect.zero)
         
-        self.volume24.text = "\(volume24)"
-        self.volume24Change.text = "\(volume24Change) %"
-        self.marketCap.text = "$\(marketCap)"
-        self.marketCapChange.text = "\(marketCapChange) %"
-        self.availableSupply.text = "\(availableSupply)"
-        self.availableSupplyChange.text = "\(availableSupplyChange) %"
-        self.totalSupply.text = "\(totalSupply)"
+        self.volume24.text = amountFormat(volume24)
+        self.volume24Change.text = percentFormat(volume24Change)
+        self.marketCap.text = usdFormat(marketCap)
+        self.marketCapChange.text = percentFormat(marketCapChange)
+        self.availableSupply.text = amountFormat(availableSupply)
+        self.availableSupplyChange.text = percentFormat(availableSupplyChange)
+        self.totalSupply.text = amountFormat(totalSupply)
                 
         commonInit()
     }
@@ -163,7 +163,7 @@ class MarketStatsView: UIView {
         volume24.snp.makeConstraints { make in
             make.left.equalTo(volumeIcon.snp.right).offset(15)
             make.bottom.equalTo(volumeIcon).offset(5)
-            make.width.equalTo(150)
+            make.width.equalTo(volume24.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         volume24Change.snp.makeConstraints { make in
@@ -187,7 +187,7 @@ class MarketStatsView: UIView {
         marketCap.snp.makeConstraints { make in
             make.left.equalTo(marketCapIcon.snp.right).offset(15)
             make.bottom.equalTo(marketCapIcon).offset(5)
-            make.width.equalTo(150)
+            make.width.equalTo(marketCap.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         marketCapChange.snp.makeConstraints { make in
@@ -211,7 +211,7 @@ class MarketStatsView: UIView {
         availableSupply.snp.makeConstraints { make in
             make.left.equalTo(availableSupplyIcon.snp.right).offset(15)
             make.bottom.equalTo(availableSupplyIcon).offset(5)
-            make.width.equalTo(150)
+            make.width.equalTo(availableSupply.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         availableSupplyChange.snp.makeConstraints { make in
@@ -235,7 +235,7 @@ class MarketStatsView: UIView {
         totalSupply.snp.makeConstraints { make in
             make.left.equalTo(totalSupplyIcon.snp.right).offset(15)
             make.bottom.equalTo(totalSupplyIcon).offset(5)
-            make.width.equalTo(150)
+            make.width.equalTo(totalSupply.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         

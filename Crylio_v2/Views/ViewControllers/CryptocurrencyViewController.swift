@@ -117,9 +117,11 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             case 0...view.frame.width/2-1:
                 displayedVCTag = 0
                 menu.setSelectedButton(tag: 0)
+                updateHeaderAlpha(viewTag: 0)
             case view.frame.width/2...view.frame.width*1.5-1:
                 displayedVCTag = 1
                 menu.setSelectedButton(tag: 1)
+                updateHeaderAlpha(viewTag: 1)
             case view.frame.width*1.5...view.frame.width*2.5-1:
                 displayedVCTag = 2
                 menu.setSelectedButton(tag: 2)
@@ -133,7 +135,7 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
     }
     
     func updateHeader(yOffset: CGFloat) {
-        
+                
         header.transform = CGAffineTransform(translationX: 0, y: min(0, -yOffset))
         
         menu.snp.remakeConstraints { make in
@@ -162,10 +164,38 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
         }
     }
     
+    func updateHeaderAlpha(viewTag: Int) {
+        
+        if viewTag == 0 {
+            
+            if detailVC.scrollView.contentOffset.y <= 129.33333333333334 - holdingsVC.scrollView.contentInset.top {
+                
+                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
+                    self.navigationTopBar.blurredView.alpha = 0
+                }, completion: nil)
+            } else {
+                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
+                    self.navigationTopBar.blurredView.alpha = 1
+                }, completion: nil)
+            }
+        } else if viewTag == 1 {
+            
+            if holdingsVC.scrollView.contentOffset.y <= 129.33333333333334 - holdingsVC.scrollView.contentInset.top {
+                
+                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
+                    self.navigationTopBar.blurredView.alpha = 0
+                }, completion: nil)
+            } else {
+                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
+                    self.navigationTopBar.blurredView.alpha = 1
+                }, completion: nil)
+            }
+        }
+    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         if scrollView.tag != 10 {
-            print("end dragging")
             updateOffset(scrollView: scrollView)
         }
     }
@@ -173,44 +203,53 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         if scrollView.tag != 10 {
-            print("end decelerating")
-            //updateOffset(scrollView: scrollView)
+            updateOffset(scrollView: scrollView)
         }
     }
     
     
     func updateOffset(scrollView: UIScrollView) {
         
+        let scrollViewOffsetBigHeader = 0 - scrollView.contentInset.top
+        let scrollViewOffsetSmallHeader = 129.33333333333334 - scrollView.contentInset.top
+        
         if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
-            
-            print(scrollView.tag, displayedVCTag)
-            
-            scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: true)
+                        
+            scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetBigHeader), animated: true)
 
             if scrollView.tag == 0 {
                 
-                self.holdingsVC.scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: false)
+                self.holdingsVC.scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetBigHeader), animated: false)
                 
             } else if scrollView.tag == 1 {
                 
-                self.detailVC.scrollView.setContentOffset(CGPoint(x: 0, y: 0 - scrollView.contentInset.top), animated: false)
+                self.detailVC.scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetBigHeader), animated: false)
             }
         
         } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
                     && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
-            
-            print(scrollView.tag, displayedVCTag)
-            
-            scrollView.setContentOffset(CGPoint(x: 0, y: 129.33333333 - scrollView.contentInset.top), animated: true)
+                        
+            scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetSmallHeader), animated: true)
 
             
             if scrollView.tag == 0 {
                 
-                self.holdingsVC.scrollView.setContentOffset(CGPoint(x:0, y: 129.33333333 - scrollView.contentInset.top), animated: false)
+                self.holdingsVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
                 
             } else if scrollView.tag == 1 {
                 
-                self.detailVC.scrollView.setContentOffset(CGPoint(x:0, y: 129.33333333 - scrollView.contentInset.top), animated: false)
+                self.detailVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
+            }
+        } else {
+            
+            if scrollView.tag == 0 {
+                if self.holdingsVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
+                    self.holdingsVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
+                }
+            } else if scrollView.tag == 1 {
+                if self.detailVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
+                    self.detailVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
+                }
             }
         }
     }

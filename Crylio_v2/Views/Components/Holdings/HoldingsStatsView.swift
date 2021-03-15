@@ -45,11 +45,11 @@ class HoldingsStatsView: UIView {
         
         super.init(frame: CGRect.zero)
         
-        self.worth.text = "$\(worth)"
-        self.averageCost.text = "$\(averageCost)"
-        self.totalAmount.text = "\(totalAmount)"
-        self.profitLoss.text = "$\(profitLoss)"
-        self.percentChange.text = "\(percentChange) %"
+        self.worth.text = usdFormat(worth)
+        self.averageCost.text = usdFormat(averageCost)
+        self.totalAmount.text = amountFormat(totalAmount)
+        self.profitLoss.text = usdFormat(profitLoss)
+        self.percentChange.text = percentFormat(percentChange)
         
         if percentChange > 0 {
             self.percentChange.textColor = .systemGreen
@@ -147,7 +147,7 @@ class HoldingsStatsView: UIView {
         
         averageCostIcon.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.top.equalTo(worth.snp.bottom).offset(20)
+            make.top.equalTo(worth.snp.bottom).offset(30)
             make.width.height.equalTo(18)
         }
         averageCostTitle.snp.makeConstraints { make in
@@ -157,7 +157,7 @@ class HoldingsStatsView: UIView {
             make.height.equalTo(16)
         }
         averageCost.snp.makeConstraints { make in
-            make.left.equalTo(averageCostIcon)
+            make.left.equalTo(averageCostTitle)
             make.top.equalTo(averageCostIcon.snp.bottom).offset(8)
             make.width.equalTo(averageCost.intrinsicContentSize.width)
             make.height.equalTo(20)
@@ -175,7 +175,7 @@ class HoldingsStatsView: UIView {
             make.height.equalTo(16)
         }
         profitLoss.snp.makeConstraints { make in
-            make.left.equalTo(profitLossIcon)
+            make.left.equalTo(profitLossTitle)
             make.top.equalTo(profitLossIcon.snp.bottom).offset(8)
             make.width.equalTo(profitLoss.intrinsicContentSize.width)
             make.height.equalTo(20)
@@ -193,7 +193,7 @@ class HoldingsStatsView: UIView {
             make.height.equalTo(16)
         }
         totalAmount.snp.makeConstraints { make in
-            make.left.equalTo(totalAmountIcon)
+            make.left.equalTo(totalAmountTitle)
             make.top.equalTo(totalAmountIcon.snp.bottom).offset(8)
             make.width.equalTo(totalAmount.intrinsicContentSize.width)
             make.height.equalTo(20)
@@ -211,7 +211,7 @@ class HoldingsStatsView: UIView {
             make.height.equalTo(16)
         }
         percentChange.snp.makeConstraints { make in
-            make.left.equalTo(percentChangeIcon)
+            make.left.equalTo(percentChangeTitle)
             make.top.equalTo(percentChangeIcon.snp.bottom).offset(8)
             make.width.equalTo(percentChange.intrinsicContentSize.width)
             make.height.equalTo(20)
