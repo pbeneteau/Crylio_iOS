@@ -69,6 +69,7 @@ class ChartView: UIView {
         chartView.isClearBackgroundColor = true
         chartView.delegate = self as AAChartViewDelegate
         
+        
         let arr = [
             1,3,2,5,4,2,3,5,6,5,
             4,6,7,5,6,8,7,5,8,6,
@@ -92,6 +93,8 @@ class ChartView: UIView {
                     .data(arr)])
         
         chartView.aa_drawChartWithChartModel(aaChartModel)
+        
+        print("\n\n\n\n\n\n\n\n\n")
         
     }
     

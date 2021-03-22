@@ -37,6 +37,39 @@ class HomeTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        commonInit()
+
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    
+    private func commonInit() {
+        
+        symbol.font = symbol.font.withSize(17)
+        
+        name.textColor = .systemGray2
+        name.textAlignment = .left
+        name.font = name.font.withSize(15)
+        
+        balance.textAlignment = .right
+        balance.font = balance.font.withSize(17)
+        
+        amount.textColor = .systemGray2
+        amount.textAlignment = .right
+        amount.font = amount.font.withSize(15)
+        
+        price.textAlignment = .right
+        price.font = price.font.withSize(17)
+        
+        
+        separator.backgroundColor = UIColor(red: 0.22, green: 0.22, blue: 0.24, alpha: 0.3)
         
         addSubview(icon)
         addSubview(symbol)
@@ -47,29 +80,10 @@ class HomeTableViewCell: UITableViewCell {
         addSubview(change)
         addSubview(separator)
         
-        symbol.textColor = .label
-        symbol.textAlignment = .left
-        symbol.font = symbol.font.withSize(17)
-        
-        name.textColor = .systemGray2
-        name.textAlignment = .left
-        name.font = name.font.withSize(15)
-        
-        balance.textColor = .label
-        balance.textAlignment = .right
-        balance.font = balance.font.withSize(17)
-        
-        amount.textColor = .systemGray2
-        amount.textAlignment = .right
-        amount.font = amount.font.withSize(15)
-        
-        price.textColor = .label
-        price.textAlignment = .right
-        price.font = price.font.withSize(17)
-        
-        
-        separator.backgroundColor = UIColor(red: 0.22, green: 0.22, blue: 0.24, alpha: 0.3)
-        
+        setNeedsUpdateConstraints()
+    }
+    
+    override func updateConstraints() {
         
         icon.snp.makeConstraints { make in
             make.left.equalToSuperview()
@@ -120,20 +134,13 @@ class HomeTableViewCell: UITableViewCell {
         }
         
         separator.snp.makeConstraints { make in
+            make.left.equalToSuperview()
             make.width.equalToSuperview()
             make.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
-
-        self.contentView.layoutSubviews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+        
+        super.updateConstraints()
     }
     
 }

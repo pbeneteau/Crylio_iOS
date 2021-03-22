@@ -15,6 +15,8 @@ class CryptoHoldingsScrollView: UIScrollView {
         
     lazy var holdingsStatsView = HoldingsStatsView(worth: 123415.42, averageCost: 6421.74, totalAmount: 3.1, profitLoss: 120415.06, percentChange: 1401.85)
     
+    lazy var distributionView = DistributionView(onOrder: 0.4, onTrade: 0.1, stacked: 0.3, available: 0.2)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -43,6 +45,7 @@ class CryptoHoldingsScrollView: UIScrollView {
         addSubview(contentView)
         
         contentView.addSubview(holdingsStatsView)
+        contentView.addSubview(distributionView)
     }
     
     func updateInsets(menuMaxY: CGFloat) {
@@ -63,7 +66,14 @@ class CryptoHoldingsScrollView: UIScrollView {
             make.left.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(227)
+            make.height.equalTo(230)
+        }
+        
+        distributionView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.width.equalToSuperview()
+            make.top.equalTo(holdingsStatsView.snp.bottom).offset(30)
+            make.height.equalTo(196)
         }
         
         super.updateConstraints()
@@ -72,7 +82,7 @@ class CryptoHoldingsScrollView: UIScrollView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentSize = CGSize(width: frame.width, height: contentView.frame.height * 1.4)
+        contentSize = CGSize(width: frame.width, height: contentView.frame.height * 1.2)
                 
     }
 

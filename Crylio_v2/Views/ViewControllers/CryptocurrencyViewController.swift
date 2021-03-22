@@ -10,7 +10,7 @@ import SnapKit
 import PagingKit
 
 
-class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegate {
+class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate {
     
     var navigationTopBar = NavigationTopBarView()
     var header = CryptoDetailHeaderView(name: "Bitcoin", symbol: "BTC", type: "Coin", icon: UIImage(named: "btc")!)
@@ -35,7 +35,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
     lazy var detailVC = CryptoDetailViewController()
     lazy var holdingsVC = CryptoHoldingsViewController()
     lazy var ordersVC = CryptoOrdersViewController()
-    lazy var historyVC = CryptoHistoryViewController()
+    lazy var transactionsVC = CryptoTransactionsViewController()
     
     var viewDidLayoutFirstTime = true
     
@@ -55,8 +55,8 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         addChild(ordersVC)
         ordersVC.didMove(toParent: self)
         
-        addChild(historyVC)
-        historyVC.didMove(toParent: self)
+        addChild(transactionsVC)
+        transactionsVC.didMove(toParent: self)
         
         
         navigationTopBar.title.text = "Bitcoin"
@@ -67,7 +67,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         menuScrollView.addSubview(detailVC.view)
         menuScrollView.addSubview(holdingsVC.view)
         menuScrollView.addSubview(ordersVC.view)
-        menuScrollView.addSubview(historyVC.view)
+        menuScrollView.addSubview(transactionsVC.view)
         
         view.addSubview(header)
         view.addSubview(navigationTopBar)
@@ -84,10 +84,13 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         holdingsVC.scrollView.tag = 1
         holdingsVC.scrollView.delegate = self
         
+        transactionsVC.tableView.tag = 2
+        transactionsVC.tableView.delegate = self
+        
         detailVC.view.tag = 0
         holdingsVC.view.tag = 1
         ordersVC.view.tag = 2
-        historyVC.view.tag = 3
+        transactionsVC.view.tag = 3
         
     }
     
@@ -116,20 +119,20 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             switch xOffset {
             case 0...view.frame.width/2-1:
                 displayedVCTag = 0
-                menu.setSelectedButton(tag: 0)
+                menu.setSelectedButton(index: 0)
                 updateHeaderAlpha(viewTag: 0)
             case view.frame.width/2...view.frame.width*1.5-1:
                 displayedVCTag = 1
-                menu.setSelectedButton(tag: 1)
+                menu.setSelectedButton(index: 1)
                 updateHeaderAlpha(viewTag: 1)
             case view.frame.width*1.5...view.frame.width*2.5-1:
                 displayedVCTag = 2
-                menu.setSelectedButton(tag: 2)
+                menu.setSelectedButton(index: 2)
             case view.frame.width*2.5...view.frame.width*3:
                 displayedVCTag = 3
-                menu.setSelectedButton(tag: 3)
+                menu.setSelectedButton(index: 3)
             default:
-                menu.setSelectedButton(tag: 0)
+                menu.setSelectedButton(index: 0)
             }
         }
     }
@@ -329,7 +332,7 @@ extension CryptocurrencyViewController {
             make.width.equalTo(view)
         }
         
-        historyVC.view.snp.makeConstraints { (make) -> Void in
+        transactionsVC.view.snp.makeConstraints { (make) -> Void in
             make.left.equalTo(ordersVC.view.snp.right)
             make.bottom.equalTo(view)
             make.top.equalToSuperview()
@@ -348,6 +351,8 @@ extension CryptocurrencyViewController {
             
             detailVC.scrollView.updateInsets(menuMaxY: menu.frame.maxY)
             holdingsVC.scrollView.updateInsets(menuMaxY: menu.frame.maxY)
+            transactionsVC.updateInsets(menuMaxY: menu.frame.maxY)
+            
         }
     }
     

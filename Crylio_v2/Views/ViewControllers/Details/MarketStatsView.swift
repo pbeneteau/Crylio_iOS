@@ -144,7 +144,7 @@ class MarketStatsView: UIView {
         
         backgroundBox.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalTo(title.snp.bottom).offset(10)
+            make.top.equalTo(title.snp.bottom).offset(15)
             make.width.equalToSuperview().offset(-32)
             make.bottom.equalToSuperview().offset(-10)
         }

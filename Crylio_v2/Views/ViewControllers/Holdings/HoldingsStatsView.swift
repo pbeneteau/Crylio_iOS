@@ -147,18 +147,18 @@ class HoldingsStatsView: UIView {
         
         averageCostIcon.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.top.equalTo(worth.snp.bottom).offset(30)
-            make.width.height.equalTo(18)
+            make.top.equalTo(worth.snp.bottom).offset(20)
+            make.width.height.equalTo(22)
         }
         averageCostTitle.snp.makeConstraints { make in
-            make.left.equalTo(averageCostIcon.snp.right).offset(5)
+            make.left.equalTo(averageCostIcon.snp.right).offset(10)
             make.centerY.equalTo(averageCostIcon)
             make.width.equalTo(averageCostTitle.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         averageCost.snp.makeConstraints { make in
             make.left.equalTo(averageCostTitle)
-            make.top.equalTo(averageCostIcon.snp.bottom).offset(8)
+            make.top.equalTo(averageCostIcon.snp.bottom).offset(5)
             make.width.equalTo(averageCost.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
@@ -166,53 +166,53 @@ class HoldingsStatsView: UIView {
         profitLossIcon.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
             make.top.equalTo(averageCost.snp.bottom).offset(15)
-            make.width.height.equalTo(18)
+            make.width.height.equalTo(22)
         }
         profitLossTitle.snp.makeConstraints { make in
-            make.left.equalTo(profitLossIcon.snp.right).offset(5)
+            make.left.equalTo(profitLossIcon.snp.right).offset(10)
             make.centerY.equalTo(profitLossIcon)
             make.width.equalTo(profitLossTitle.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         profitLoss.snp.makeConstraints { make in
             make.left.equalTo(profitLossTitle)
-            make.top.equalTo(profitLossIcon.snp.bottom).offset(8)
+            make.top.equalTo(profitLossIcon.snp.bottom).offset(5)
             make.width.equalTo(profitLoss.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         
         totalAmountIcon.snp.makeConstraints { make in
-            make.centerX.equalToSuperview().offset(16)
+            make.centerX.equalToSuperview().offset(30)
             make.top.equalTo(separationLine)
-            make.width.height.equalTo(18)
+            make.width.height.equalTo(22)
         }
         totalAmountTitle.snp.makeConstraints { make in
-            make.left.equalTo(totalAmountIcon.snp.right).offset(5)
+            make.left.equalTo(totalAmountIcon.snp.right).offset(10)
             make.centerY.equalTo(totalAmountIcon)
             make.width.equalTo(totalAmountTitle.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         totalAmount.snp.makeConstraints { make in
             make.left.equalTo(totalAmountTitle)
-            make.top.equalTo(totalAmountIcon.snp.bottom).offset(8)
+            make.top.equalTo(totalAmountIcon.snp.bottom).offset(5)
             make.width.equalTo(totalAmount.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         
         percentChangeIcon.snp.makeConstraints { make in
-            make.centerX.equalToSuperview().offset(16)
+            make.centerX.equalToSuperview().offset(30)
             make.top.equalTo(totalAmount.snp.bottom).offset(15)
-            make.width.height.equalTo(18)
+            make.width.height.equalTo(22)
         }
         percentChangeTitle.snp.makeConstraints { make in
-            make.left.equalTo(percentChangeIcon.snp.right).offset(5)
+            make.left.equalTo(percentChangeIcon.snp.right).offset(10)
             make.centerY.equalTo(percentChangeIcon)
             make.width.equalTo(percentChangeTitle.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         percentChange.snp.makeConstraints { make in
             make.left.equalTo(percentChangeTitle)
-            make.top.equalTo(percentChangeIcon.snp.bottom).offset(8)
+            make.top.equalTo(percentChangeIcon.snp.bottom).offset(5)
             make.width.equalTo(percentChange.intrinsicContentSize.width)
             make.height.equalTo(20)
         }

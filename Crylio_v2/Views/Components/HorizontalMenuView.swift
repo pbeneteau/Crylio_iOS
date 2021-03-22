@@ -85,13 +85,13 @@ class HorizontalMenu: UIView {
         buttons[selectedButtonTag].isSelected = true
     }
     
-    func setSelectedButton(tag: Int) {
+    func setSelectedButton(index: Int) {
         
         UIView.animate(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState, .curveEaseOut]) {
             
             self.selectedButtonView.snp.remakeConstraints { make in
-                make.edges.equalTo(self.buttons[tag])
-                make.width.height.equalTo(self.buttons[tag])
+                make.edges.equalTo(self.buttons[index])
+                make.width.height.equalTo(self.buttons[index])
             }
             self.layoutIfNeeded()
         }

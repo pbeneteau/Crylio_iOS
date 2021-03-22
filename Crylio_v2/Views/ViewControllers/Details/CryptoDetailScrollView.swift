@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 
 class CryptoDetailScrollView: UIScrollView {
@@ -89,7 +88,7 @@ class CryptoDetailScrollView: UIScrollView {
             make.left.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalTo(chartView.snp.bottom).offset(30)
-            make.height.equalTo(291)
+            make.height.equalTo(297)
         }
         
         aboutView.snp.makeConstraints { make in

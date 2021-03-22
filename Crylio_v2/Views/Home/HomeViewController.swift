@@ -27,9 +27,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = Colors.Dark.Background.primary
-        
+                
         homeTableView.delegate = self
         homeTableView.dataSource = self
         
