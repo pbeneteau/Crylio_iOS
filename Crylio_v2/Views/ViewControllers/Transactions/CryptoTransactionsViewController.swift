@@ -29,9 +29,11 @@ enum TransactionType: String {
 class CryptoTransactionsViewController: UIViewController {
     
     
-    lazy var tableView = UITableView()
+    lazy var tableView = UITableView(frame: CGRect.zero, style: .plain)
     let cellId = "TransactionCell"
     var refreshControl = UIRefreshControl()
+    
+    var blurredHeaderViewAlpha: CGFloat = 0.0
     
     var transactions = [Transaction]()
     
@@ -67,6 +69,8 @@ class CryptoTransactionsViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.layoutMargins.top = 0
+        tableView.contentInsetAdjustmentBehavior = .never
         
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
@@ -76,6 +80,7 @@ class CryptoTransactionsViewController: UIViewController {
         
         tableView.contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: 0, right: 0)
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: menuMaxY-20, left: 0, bottom: 0, right: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: -menuMaxY)
     }
     
     @objc func refresh() {
@@ -83,6 +88,7 @@ class CryptoTransactionsViewController: UIViewController {
         print("Refreshing data...")
         
         let seconds = 4.0
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             self.refreshControl.endRefreshing()
         }
@@ -105,17 +111,21 @@ extension CryptoTransactionsViewController: UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return transactions.count
-        
+        return transactions.count + 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? CryptoTransactionCell  else {
             fatalError("The dequeued cell is not an instance of HomeTableViewCell.")
         }
         
-        cell.transaction = transactions[indexPath.row]
-                
+        if indexPath.row < transactions.count {
+            cell.transaction = transactions[indexPath.row]
+        }
+        
+        cell.selectionStyle = .none
+        
         return cell
     }
     

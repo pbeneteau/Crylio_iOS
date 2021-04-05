@@ -7,12 +7,15 @@
 
 import UIKit
 
+
 class CryptoDetailViewController: UIViewController {
     
     lazy var scrollView = CryptoDetailScrollView()
     
     var refreshControl = UIRefreshControl()
-
+    
+    var blurredHeaderViewAlpha: CGFloat = 0.0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +24,6 @@ class CryptoDetailViewController: UIViewController {
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
 
-        
         view.addSubview(scrollView)
         scrollView.addSubview(refreshControl)
     }

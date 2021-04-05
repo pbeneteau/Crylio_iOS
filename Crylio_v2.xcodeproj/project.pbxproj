@@ -33,6 +33,7 @@
 		384CFB0725C2224D0064C932 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB0625C2224D0064C932 /* Colors.swift */; };
 		384CFB2825C451C50064C932 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB2725C451C50064C932 /* GradientView.swift */; };
 		384CFB4125C45B470064C932 /* CryptoDetailTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB4025C45B470064C932 /* CryptoDetailTopBarView.swift */; };
+		38619A742613B0660044D273 /* CryptoOrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38619A732613B0660044D273 /* CryptoOrderCell.swift */; };
 		388D016825CD99D100AD0050 /* AAInfographics in Frameworks */ = {isa = PBXBuildFile; productRef = 388D016725CD99D100AD0050 /* AAInfographics */; };
 		3894FCC425D16C5B00BFD26F /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 3894FCC325D16C5B00BFD26F /* Charts */; };
 		3894FCD225D17A9400BFD26F /* CryptoHoldingsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */; };
@@ -114,6 +115,7 @@
 		384CFB0625C2224D0064C932 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		384CFB2725C451C50064C932 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		384CFB4025C45B470064C932 /* CryptoDetailTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailTopBarView.swift; sourceTree = "<group>"; };
+		38619A732613B0660044D273 /* CryptoOrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoOrderCell.swift; sourceTree = "<group>"; };
 		3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHoldingsScrollView.swift; sourceTree = "<group>"; };
 		3894FCDE25D17FAB00BFD26F /* CryptoHoldingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHoldingsViewController.swift; sourceTree = "<group>"; };
 		3894FCE225D17FC500BFD26F /* CryptoTransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTransactionsViewController.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				3894FCEC25D18CCB00BFD26F /* CryptoOrdersViewController.swift */,
+				38619A732613B0660044D273 /* CryptoOrderCell.swift */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -644,6 +647,7 @@
 				38E3FB5D25FA52D500A55FB3 /* HoldingsStatsView.swift in Sources */,
 				3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */,
 				389DE65F25C76F4700954F4F /* RoundedCornersView.swift in Sources */,
+				38619A742613B0660044D273 /* CryptoOrderCell.swift in Sources */,
 				389DE68625C8379000954F4F /* CryptoDetailScrollView.swift in Sources */,
 				389DE65225C5D27200954F4F /* CryptocurrencyViewController.swift in Sources */,
 				3894FCE725D1801A00BFD26F /* CryptoDetailViewController.swift in Sources */,

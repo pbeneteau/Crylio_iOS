@@ -17,6 +17,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
     var menu = HorizontalMenu(items: ["Details", "Holding", "Orders", "Transactions"], scrollable: true)
     
     lazy var menuScrollView: UIScrollView = {
+        
         let view = UIScrollView()
         view.delegate = self
         view.isPagingEnabled = true
@@ -25,6 +26,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         view.backgroundColor = .clear
         view.bounces = false
         view.contentSize = CGSize(width: 1, height: 1)
+        
         if #available(iOS 11.0, *) {
             view.contentInsetAdjustmentBehavior = .never
         }
@@ -40,6 +42,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
     var viewDidLayoutFirstTime = true
     
     var displayedVCTag = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +87,8 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         holdingsVC.scrollView.tag = 1
         holdingsVC.scrollView.delegate = self
         
-        transactionsVC.tableView.tag = 2
+        
+        transactionsVC.tableView.tag = 3
         transactionsVC.tableView.delegate = self
         
         detailVC.view.tag = 0
@@ -109,9 +113,9 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
         let yOffset = scrollView.contentOffset.y + scrollView.contentInset.top
         
         if scrollView.tag == displayedVCTag {
-            
+                                    
             updateHeader(yOffset: yOffset)
-            
+                        
         } else if scrollView.tag == 10 {
             
             let xOffset = scrollView.contentOffset.x
@@ -119,26 +123,28 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             switch xOffset {
             case 0...view.frame.width/2-1:
                 displayedVCTag = 0
-                menu.setSelectedButton(index: 0)
-                updateHeaderAlpha(viewTag: 0)
+                menu.setSelectedButton(index: displayedVCTag)
+                updateHeaderAlpha()
             case view.frame.width/2...view.frame.width*1.5-1:
                 displayedVCTag = 1
-                menu.setSelectedButton(index: 1)
-                updateHeaderAlpha(viewTag: 1)
+                menu.setSelectedButton(index: displayedVCTag)
+                updateHeaderAlpha()
             case view.frame.width*1.5...view.frame.width*2.5-1:
                 displayedVCTag = 2
-                menu.setSelectedButton(index: 2)
+                menu.setSelectedButton(index: displayedVCTag)
+                updateHeaderAlpha()
             case view.frame.width*2.5...view.frame.width*3:
                 displayedVCTag = 3
-                menu.setSelectedButton(index: 3)
+                menu.setSelectedButton(index: displayedVCTag)
+                updateHeaderAlpha()
             default:
-                menu.setSelectedButton(index: 0)
+                return
             }
         }
     }
     
     func updateHeader(yOffset: CGFloat) {
-                
+                        
         header.transform = CGAffineTransform(translationX: 0, y: min(0, -yOffset))
         
         menu.snp.remakeConstraints { make in
@@ -150,12 +156,17 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
                     
         navigationTopBar.blurredView.alpha = min(1, 2 - header.frame.maxY/menu.frame.minY*2)
         
+        saveBlurredViewAlpha(alpha: navigationTopBar.blurredView.alpha)
+        
         if max(navigationTopBar.topBar.frame.maxY, header.frame.maxY) == navigationTopBar.topBar.frame.maxY {
+            
             navigationTopBar.topBar.alpha = 0
             header.alpha = 0
             
         } else {
             navigationTopBar.blurredView.alpha = 0
+            saveBlurredViewAlpha(alpha: 0)
+            
             navigationTopBar.topBar.alpha = 1
             header.alpha = 1
         }
@@ -167,38 +178,42 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
         }
     }
     
-    func updateHeaderAlpha(viewTag: Int) {
+    func saveBlurredViewAlpha(alpha: CGFloat) {
         
-        if viewTag == 0 {
-            
-            if detailVC.scrollView.contentOffset.y <= 129.33333333333334 - holdingsVC.scrollView.contentInset.top {
-                
-                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
-                    self.navigationTopBar.blurredView.alpha = 0
-                }, completion: nil)
-            } else {
-                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
-                    self.navigationTopBar.blurredView.alpha = 1
-                }, completion: nil)
-            }
-        } else if viewTag == 1 {
-            
-            if holdingsVC.scrollView.contentOffset.y <= 129.33333333333334 - holdingsVC.scrollView.contentInset.top {
-                
-                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
-                    self.navigationTopBar.blurredView.alpha = 0
-                }, completion: nil)
-            } else {
-                UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
-                    self.navigationTopBar.blurredView.alpha = 1
-                }, completion: nil)
-            }
+        switch displayedVCTag {
+        case 0:
+            detailVC.blurredHeaderViewAlpha = alpha
+        case 1:
+            holdingsVC.blurredHeaderViewAlpha = alpha
+        case 2:
+            ordersVC.blurredHeaderViewAlpha = alpha
+        case 3:
+            transactionsVC.blurredHeaderViewAlpha = alpha
+        default:
+            return
+        }
+    }
+    
+    func updateHeaderAlpha() {
+        
+        switch displayedVCTag {
+        case 0:
+            navigationTopBar.blurredView.alpha = detailVC.blurredHeaderViewAlpha
+        case 1:
+            navigationTopBar.blurredView.alpha = holdingsVC.blurredHeaderViewAlpha
+        case 2:
+            navigationTopBar.blurredView.alpha = ordersVC.blurredHeaderViewAlpha
+        case 3:
+            navigationTopBar.blurredView.alpha = transactionsVC.blurredHeaderViewAlpha
+        default:
+            return
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         if scrollView.tag != 10 {
+            
             updateOffset(scrollView: scrollView)
         }
     }
@@ -206,6 +221,7 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         if scrollView.tag != 10 {
+            
             updateOffset(scrollView: scrollView)
         }
     }
@@ -213,45 +229,84 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
     
     func updateOffset(scrollView: UIScrollView) {
         
-        let scrollViewOffsetBigHeader = 0 - scrollView.contentInset.top
+        let scrollViewOffsetBigHeader = -scrollView.contentInset.top
         let scrollViewOffsetSmallHeader = 129.33333333333334 - scrollView.contentInset.top
-        
+                
         if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
                         
             scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetBigHeader), animated: true)
 
             if scrollView.tag == 0 {
                 
-                self.holdingsVC.scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetBigHeader), animated: false)
+                holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
+                transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
                 
             } else if scrollView.tag == 1 {
                 
-                self.detailVC.scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetBigHeader), animated: false)
+                detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
+                transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
+            
+            } else if scrollView.tag == 2 {
+                
+                holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
+                detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
+                
+            } else if scrollView.tag == 3 {
+                
+                holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
+                detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetBigHeader)
             }
         
         } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
                     && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
                         
             scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetSmallHeader), animated: true)
-
             
             if scrollView.tag == 0 {
                 
-                self.holdingsVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
+                holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
                 
             } else if scrollView.tag == 1 {
                 
-                self.detailVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
+                detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+            
+            } else if scrollView.tag == 2 {
+                
+                detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+            
+            } else if scrollView.tag == 3 {
+                
+                detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
             }
         } else {
             
             if scrollView.tag == 0 {
-                if self.holdingsVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
-                    self.holdingsVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
+                if holdingsVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
+                    
+                    holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                    transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
                 }
             } else if scrollView.tag == 1 {
-                if self.detailVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
-                    self.detailVC.scrollView.setContentOffset(CGPoint(x:0, y: scrollViewOffsetSmallHeader), animated: false)
+                if detailVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
+                    
+                    detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                    transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                }
+            } else if scrollView.tag == 2 {
+                if ordersVC.tableView.contentOffset.y < scrollViewOffsetSmallHeader {
+                    
+                    detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                    transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                }
+            } else if scrollView.tag == 3 {
+                if transactionsVC.tableView.contentOffset.y < scrollViewOffsetSmallHeader {
+                    
+                    detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
+                    holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
                 }
             }
         }
@@ -352,7 +407,6 @@ extension CryptocurrencyViewController {
             detailVC.scrollView.updateInsets(menuMaxY: menu.frame.maxY)
             holdingsVC.scrollView.updateInsets(menuMaxY: menu.frame.maxY)
             transactionsVC.updateInsets(menuMaxY: menu.frame.maxY)
-            
         }
     }
     

@@ -13,6 +13,7 @@ class CryptoHoldingsViewController: UIViewController {
     
     var refreshControl = UIRefreshControl()
 
+    var blurredHeaderViewAlpha: CGFloat = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
