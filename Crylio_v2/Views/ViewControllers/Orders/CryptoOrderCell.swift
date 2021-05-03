@@ -9,17 +9,15 @@ import UIKit
 
 class CryptoOrderCell: UITableViewCell {
     
-    
-    lazy var icon = UIImageView()
-    
     lazy var orderType = UILabel()
     lazy var amount = UILabel()
     lazy var exchange = UILabel()
     lazy var worth = UILabel()
     lazy var date = UILabel()
+    lazy var filledStatusBox = RoundedCornersView()
+    lazy var filledStatus = UILabel()
     
-    lazy var separator = UIView()
-    
+        
     var order: Order! {
         didSet {
             
@@ -37,62 +35,66 @@ class CryptoOrderCell: UITableViewCell {
         
         orderType.font = .systemFont(ofSize: 17, weight: .medium)
         
+        exchange.font = .systemFont(ofSize: 15)
         exchange.textColor = .systemGray
-        exchange.font = .systemFont(ofSize: 17)
         
         amount.textAlignment = .right
-        amount.font = .systemFont(ofSize: 17)
+        amount.font = .systemFont(ofSize: 15)
         
-        date.font = .systemFont(ofSize: 13)
         date.textColor = .systemGray
+        date.font = .systemFont(ofSize: 13)
         
         worth.textAlignment = .right
-        worth.font = .systemFont(ofSize: 13, weight: .medium)
-        worth.textColor = .systemGray
+        worth.font = .systemFont(ofSize: 13)
         
-        separator.backgroundColor = UIColor(red: 0.22, green: 0.22, blue: 0.24, alpha: 0.3)
+        filledStatusBox.layer.cornerRadius = 3
+        filledStatusBox.backgroundColor = .systemGreen
+        filledStatusBox.alpha = 0.15
         
-        addSubview(icon)
+        filledStatus.textAlignment = .center
+        filledStatus.font = .systemFont(ofSize: 13)
+        filledStatus.textColor = .systemGreen
+        
         addSubview(orderType)
         addSubview(amount)
         addSubview(exchange)
         addSubview(worth)
         addSubview(date)
-        addSubview(separator)
+        addSubview(filledStatusBox)
+        addSubview(filledStatus)
     }
     
     func updateValues() {
         
-        switch order.orderType {
-        
-        case .marketBuy:
-            icon.image = UIImage(named: "sellIcon")
-        case .marketSell:
-            icon.image = UIImage(named: "buyIcon")
-        default:
-            icon.image = UIImage(named: "transferIcon")
-        }
-        
         orderType.text = order.orderType.rawValue
-        amount.text = amountFormat(order.amount)
-        exchange.text = "via " + order.exchange
         worth.text = usdFormat(order.worth)
         date.text = order.dateString
+        filledStatus.text = order.status.rawValue
         
+        amount.text =  amountFormat(order.amount) + "/" + amountFormat(order.amount)
+        amount.setSpannedColor(fullText:  amount.text!, changeText: "/" + amountFormat(order.amount), color: .systemGray)
+        
+        exchange.text =  "via " + order.exchange
+        exchange.setSpannedColor(fullText:  exchange.text!, changeText: order.exchange, color: .label)
+
         switch order.orderType {
         case .marketSell:
             orderType.textColor = .systemRed
-            amount.textColor = .systemRed
-            amount.text = "- " + amount.text!
         case .marketBuy:
             orderType.textColor = .systemGreen
-            amount.textColor = .systemGreen
         case .limitBuy:
-            orderType.textColor = .systemOrange
-            amount.textColor = .systemOrange
+            orderType.textColor = .systemGreen
         case .limitSell:
-            orderType.textColor = .systemOrange
-            amount.textColor = .systemOrange
+            orderType.textColor = .systemRed
+        }
+        
+        switch order.status {
+        case .filled:
+            filledStatusBox.backgroundColor = .systemGreen
+            filledStatus.textColor = .systemGreen
+        default:
+            filledStatusBox.backgroundColor = .systemGray
+            filledStatus.textColor = .systemGray
         }
         
         setNeedsUpdateConstraints()
@@ -111,40 +113,46 @@ extension CryptoOrderCell {
     
     override func updateConstraints() {
         
-        icon.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(29)
-        }
-        
         orderType.snp.makeConstraints { make in
-            make.left.equalTo(icon.snp.right).offset(10)
+            make.left.equalTo(16)
             make.top.equalToSuperview().offset(10)
             make.width.equalTo(orderType.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         
         exchange.snp.makeConstraints { make in
-            make.left.equalTo(orderType.snp.right).offset(5)
-            make.centerY.equalTo(orderType)
+            make.left.equalTo(16)
+            make.top.equalTo(orderType.snp.bottom).offset(9)
             make.width.equalTo(exchange.intrinsicContentSize.width)
+            make.height.equalTo(18)
+        }
+        
+        date.snp.makeConstraints { make in
+            make.left.equalTo(16)
+            make.top.equalTo(exchange.snp.bottom).offset(4)
+            make.width.equalTo(date.intrinsicContentSize.width)
+            make.height.equalTo(16)
+        }
+        
+        filledStatusBox.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(orderType)
+            make.width.equalTo(filledStatus.intrinsicContentSize.width + 8)
             make.height.equalTo(20)
+        }
+        
+        filledStatus.snp.makeConstraints { make in
+            make.center.equalTo(filledStatusBox)
+            make.height.width.equalTo(filledStatusBox)
         }
         
         amount.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
             make.centerY.equalTo(exchange)
             make.width.equalTo(amount.intrinsicContentSize.width)
-            make.height.equalTo(20)
+            make.height.equalTo(18)
         }
-        
-        date.snp.makeConstraints { make in
-            make.left.equalTo(orderType)
-            make.top.equalTo(orderType.snp.bottom).offset(5)
-            make.width.equalTo(date.intrinsicContentSize.width)
-            make.height.equalTo(16)
-        }
-        
+            
         worth.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
             make.centerY.equalTo(date)
@@ -152,14 +160,17 @@ extension CryptoOrderCell {
             make.height.equalTo(16)
         }
         
-        separator.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.width.equalToSuperview().offset(-16)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-        }
-        
         super.updateConstraints()
     }
     
+}
+
+extension UILabel {
+    func setSpannedColor (fullText : String , changeText : String, color: UIColor) {
+        let strNumber: NSString = fullText as NSString
+        let range = (strNumber).range(of: changeText)
+        let attribute = NSMutableAttributedString.init(string: fullText)
+        attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: color , range: range)
+        self.attributedText = attribute
+    }
 }

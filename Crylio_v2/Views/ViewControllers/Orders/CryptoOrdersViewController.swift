@@ -9,22 +9,32 @@ import UIKit
 
 
 struct Order {
-    
+    var asset: String
     var orderType: OrderType
     var exchange: String
+    var amountExecuted: Float
     var amount: Float
     var dateString: String
     var worth: Float
+    var status: OrderStatus
 }
+
 
 enum OrderType: String {
     
     case marketSell = "Market Sell"
     case marketBuy = "Market Buy"
     case limitBuy = "Limit Buy"
-    case limitSell = "limit Sell"
+    case limitSell = "Limit Sell"
 }
 
+
+enum OrderStatus: String {
+    
+    case filled = "Filled"
+    case unfilled = "Unfilled"
+    case canceled = "Canceled"
+}
 
 class CryptoOrdersViewController: UIViewController {
     
@@ -42,17 +52,14 @@ class CryptoOrdersViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
-        
-        orders.append(Order(orderType: .marketBuy, exchange: "Binance", amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41))
-        orders.append(Order(orderType: .marketSell, exchange: "Binance", amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41))
-        orders.append(Order(orderType: .limitBuy, exchange: "Binance", amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41))
-        orders.append(Order(orderType: .limitSell, exchange: "Binance", amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41))
+        orders.append(Order(asset: "BTC", orderType: .marketBuy, exchange: "Binance", amountExecuted: 2.4, amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41, status: .filled))
+        orders.append(Order(asset: "BTC", orderType: .marketSell, exchange: "Binance", amountExecuted: 2.4, amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41, status: .canceled))
+        orders.append(Order(asset: "BTC", orderType: .limitBuy, exchange: "Binance", amountExecuted: 2.4, amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41, status: .filled))
+        orders.append(Order(asset: "BTC", orderType: .limitSell, exchange: "Binance", amountExecuted: 2.4, amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41, status: .unfilled))
 
-        
         commonInit()
         
         tableView.reloadData()
-        
     }
     
     private func commonInit() {
@@ -61,11 +68,14 @@ class CryptoOrdersViewController: UIViewController {
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
-        tableView.rowHeight = 64
+        tableView.rowHeight = 90
+        
         tableView.register(CryptoOrderCell.self, forCellReuseIdentifier: cellId)
-        tableView.separatorStyle = .none
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        
         tableView.delegate = self
         tableView.dataSource = self
+        
         tableView.layoutMargins.top = 0
         tableView.contentInsetAdjustmentBehavior = .never
         
@@ -108,7 +118,7 @@ extension CryptoOrdersViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return orders.count + 20
+        return orders.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

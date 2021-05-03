@@ -10,70 +10,101 @@ import UIKit
 
 struct Transaction {
     
+    var asset: String
     var transactionType: TransactionType
     var exchange: String
     var amount: Float
-    var dateString: String
+    var time: Date
     var worth: Float
 }
 
 enum TransactionType: String {
     
-    case sell = "Sell"
-    case buy = "Buy"
+    case marketSell = "Market Sell"
+    case marketBuy = "Market Buy"
+    case limitSell = "Limit Sell"
+    case limitBuy = "Limit Buy"
     case transferIn = "Transfer in"
     case transferOut = "Transfer out"
+}
+
+struct TransactionsMonthSection {
+    
+    var month: Date
+    var transactions: [Transaction]
+    
+    static func group(transactions : [Transaction]) -> [TransactionsMonthSection] {
+        
+        let groups = Dictionary(grouping: transactions) { (transaction) -> Date in
+            return transaction.time.getFirstDayOfMonth()
+        }
+        return groups.map(TransactionsMonthSection.init(month:transactions:))
+    }
 }
 
 
 class CryptoTransactionsViewController: UIViewController {
     
     
-    lazy var tableView = UITableView(frame: CGRect.zero, style: .plain)
-    let cellId = "TransactionCell"
+    lazy var tableView = UITableView()
     var refreshControl = UIRefreshControl()
     
     var blurredHeaderViewAlpha: CGFloat = 0.0
     
+    var sections = [TransactionsMonthSection]()
     var transactions = [Transaction]()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.navigationBar.isHidden = true
         
-        
-        transactions.append(Transaction(transactionType: .buy, exchange: "Binance", amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41))
-        
-        transactions.append(Transaction(transactionType: .sell, exchange: "Binance", amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41))
-        
-        transactions.append(Transaction(transactionType: .transferIn, exchange: "Binance", amount: 2.4, dateString: "Dec 30, 2020 06:30 pm", worth: 91401.41))
-        
-        
-        commonInit()
-        
-        tableView.reloadData()
-        
-    }
-    
-    
-    private func commonInit() {
+        tableView.delegate = self
+        tableView.dataSource = self
         
         view.backgroundColor = .clear
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
-        tableView.rowHeight = 64
-        tableView.register(CryptoTransactionCell.self, forCellReuseIdentifier: cellId)
-        tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.layoutMargins.top = 0
+        tableView.backgroundColor = .systemBackground
+        
+        tableView.rowHeight = 74
+        tableView.sectionHeaderHeight = 50
+        
+        tableView.register(CryptoTransactionCell.self, forCellReuseIdentifier: CryptoTransactionCell.reuseId)
+        tableView.register(TransactionsHeaderView.self, forHeaderFooterViewReuseIdentifier: TransactionsHeaderView.reuseId)
+        
         tableView.contentInsetAdjustmentBehavior = .never
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 16)
+        tableView.tableFooterView = UIView()
         
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
+        
+        data()
+    }
+    
+    private func data() {
+        
+        let item1 = Transaction(asset: "BTC", transactionType: .marketBuy, exchange: "Binance", amount: 0.48591, time: Date(), worth: 9401.41)
+        let item2 = Transaction(asset: "BTC", transactionType: .marketSell, exchange: "Bitfinex", amount: 0.94114, time: Date(), worth: 41491.67)
+        
+        var dateComponent = DateComponents()
+        
+        dateComponent.month = 1
+        let futureDate = Calendar.current.date(byAdding: dateComponent, to: Date())
+        
+        let item3 = Transaction(asset: "BTC", transactionType: .transferIn, exchange: "Coinbase", amount: 0.24123, time: futureDate!, worth: 5141.10)
+        
+        transactions.append(item1)
+        transactions.append(item2)
+        transactions.append(item3)
+        
+        sections = TransactionsMonthSection.group(transactions: transactions)
+        sections.sort { (lhs, rhs) in lhs.month < rhs.month }
+        
+        tableView.reloadData()
+        
     }
     
     func updateInsets(menuMaxY: CGFloat) {
@@ -106,22 +137,73 @@ class CryptoTransactionsViewController: UIViewController {
     
 }
 
-extension CryptoTransactionsViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+extension CryptoTransactionsViewController: UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    
+    // SECTION
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        print("numberOfSections")
+        return self.sections.count
+    }
+    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return "Test"
+//    }
+//
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+        print("heightForHeaderInSection")
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+
+        print("heightForFooterInSection")
+        return 20
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        print("viewForHeaderInSection")
+
+        
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TransactionsHeaderView.reuseId) as! TransactionsHeaderView
+        
+        return headerView
+    }
+    
+    
+    // CELLS
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return transactions.count + 20
+        return sections[section].transactions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? CryptoTransactionCell  else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CryptoTransactionCell.reuseId, for: indexPath) as? CryptoTransactionCell  else {
             fatalError("The dequeued cell is not an instance of HomeTableViewCell.")
         }
         
         if indexPath.row < transactions.count {
-            cell.transaction = transactions[indexPath.row]
+            
+            cell.transaction = sections[indexPath.section].transactions[indexPath.row]
+        }
+        
+        if indexPath.row == 0 {
+            cell.bgView.layer.cornerRadius = 7
+            cell.bgView.layer.masksToBounds = true
+            cell.bgView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1 {
+            cell.bgView.layer.cornerRadius = 7
+            cell.bgView.layer.masksToBounds = true
+            cell.bgView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        } else {
+            cell.bgView.layer.cornerRadius = 0
         }
         
         cell.selectionStyle = .none
@@ -129,4 +211,35 @@ extension CryptoTransactionsViewController: UITableViewDelegate, UITableViewData
         return cell
     }
     
+
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//
+//        let header = UIView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 50.0)))
+//        let dateLabel = UILabel()
+//
+//        dateLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+//
+//        let date = sections[section].month
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MMMM yyyy"
+//
+//        dateLabel.text = dateFormatter.string(from: date)
+//
+//        header.backgroundColor = .systemRed
+//
+//        header.addSubview(dateLabel)
+//
+//        dateLabel.snp.makeConstraints { make in
+//            make.left.top.equalTo(16)
+//            make.width.equalTo(dateLabel.intrinsicContentSize.width)
+//            make.height.equalTo(20)
+//        }
+//
+//        print(12345)
+//        return header
+//    }
+    
+
+
 }

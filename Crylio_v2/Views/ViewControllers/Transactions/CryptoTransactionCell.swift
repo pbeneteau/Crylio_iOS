@@ -10,16 +10,17 @@ import UIKit
 
 class CryptoTransactionCell: UITableViewCell {
     
-    lazy var icon = UIImageView()
+    static let reuseId = "TransactionCell"
+
     
+    let bgView = UIView()
+        
     lazy var transactionType = UILabel()
     lazy var amount = UILabel()
     lazy var exchange = UILabel()
     lazy var worth = UILabel()
     lazy var date = UILabel()
-    
-    lazy var separator = UIView()
-    
+        
     var transaction: Transaction! {
         didSet {
             
@@ -36,79 +37,94 @@ class CryptoTransactionCell: UITableViewCell {
     
     private func commonInit() {
         
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        
+        bgView.backgroundColor = .white
+        bgView.translatesAutoresizingMaskIntoConstraints = false
+        
         transactionType.font = .systemFont(ofSize: 17, weight: .medium)
         
-        exchange.textColor = .systemGray
         exchange.font = .systemFont(ofSize: 17)
         
         amount.textAlignment = .right
-        amount.font = .systemFont(ofSize: 17)
+        amount.font = .systemFont(ofSize: 17, weight: .medium)
         
-        date.font = .systemFont(ofSize: 13)
         date.textColor = .systemGray
+        date.font = .systemFont(ofSize: 13)
         
-        worth.textAlignment = .right
-        worth.font = .systemFont(ofSize: 13, weight: .medium)
         worth.textColor = .systemGray
-        
-        separator.backgroundColor = UIColor(red: 0.22, green: 0.22, blue: 0.24, alpha: 0.3)
-        
-        addSubview(icon)
-        addSubview(transactionType)
-        addSubview(amount)
-        addSubview(exchange)
-        addSubview(worth)
-        addSubview(date)
-        addSubview(separator)
+        worth.textAlignment = .right
+        worth.font = .systemFont(ofSize: 15)
+                
+        contentView.addSubview(bgView)
+        bgView.addSubview(transactionType)
+        bgView.addSubview(amount)
+        bgView.addSubview(exchange)
+        bgView.addSubview(worth)
+        bgView.addSubview(date)
     }
     
     func updateValues() {
         
-        switch transaction.transactionType {
+        transactionType.text = transaction.transactionType.rawValue
         
-        case .sell:
-            icon.image = UIImage(named: "sellIcon")
-        case .buy:
-            icon.image = UIImage(named: "buyIcon")
-        default:
-            icon.image = UIImage(named: "transferIcon")
+        exchange.text = "via " + transaction.exchange
+        
+        if transaction.transactionType == .transferOut || transaction.transactionType == .transferIn {
+            exchange.text = "to " + transaction.exchange
         }
         
-        transactionType.text = transaction.transactionType.rawValue
-        amount.text = amountFormat(transaction.amount)
-        exchange.text = "via " + transaction.exchange
         worth.text = usdFormat(transaction.worth)
-        date.text = transaction.dateString
+        amount.text = amountFormat(transaction.amount) + " \(transaction.asset)"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/YY HH:MM:ss"
+        date.text = dateFormatter.string(from: transaction.time)
+
         
         switch transaction.transactionType {
-        case .sell:
+        case .marketSell:
             transactionType.textColor = .systemRed
-            amount.textColor = .systemRed
-            amount.text = "- " + amount.text!
-        case .buy:
+        case .marketBuy:
             transactionType.textColor = .systemGreen
-            amount.textColor = .systemGreen
+        case .limitBuy:
+            transactionType.textColor = .systemGreen
+        case .limitSell:
+            transactionType.textColor = .systemRed
         case .transferIn:
             transactionType.textColor = .systemOrange
-            amount.textColor = .systemOrange
         case .transferOut:
             transactionType.textColor = .systemOrange
-            amount.textColor = .systemOrange
         }
         
         setNeedsUpdateConstraints()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+}
+
+extension CryptoTransactionCell {
+    
+    
     override func updateConstraints() {
         
-        icon.snp.makeConstraints { make in
+        bgView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(29)
+            make.right.equalToSuperview().offset(-16)
+            make.top.bottom.equalToSuperview()
+            make.width.equalToSuperview().offset(-32)
+            make.height.equalToSuperview()
         }
         
         transactionType.snp.makeConstraints { make in
-            make.left.equalTo(icon.snp.right).offset(10)
+            make.left.equalToSuperview().offset(16)
             make.top.equalToSuperview().offset(10)
             make.width.equalTo(transactionType.intrinsicContentSize.width)
             make.height.equalTo(20)
@@ -130,34 +146,19 @@ class CryptoTransactionCell: UITableViewCell {
         
         date.snp.makeConstraints { make in
             make.left.equalTo(transactionType)
-            make.top.equalTo(transactionType.snp.bottom).offset(5)
+            make.top.equalTo(transactionType.snp.bottom).offset(10)
             make.width.equalTo(date.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         
         worth.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(date)
+            make.bottom.equalTo(date)
             make.width.equalTo(worth.intrinsicContentSize.width)
-            make.height.equalTo(16)
-        }
-        
-        separator.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.width.equalToSuperview().offset(-16)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalTo(18)
         }
         
         super.updateConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
     
 }
