@@ -161,7 +161,10 @@ extension CryptoOrderCell {
         }
         
         super.updateConstraints()
+        
     }
+    
+
     
 }
 

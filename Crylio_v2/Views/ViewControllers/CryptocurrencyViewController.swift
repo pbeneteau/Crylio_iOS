@@ -91,7 +91,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         ordersVC.tableView.delegate = self
         
         transactionsVC.tableView.tag = 3
-        transactionsVC.tableView.delegate = self
+//        transactionsVC.tableView.delegate = self
         
         detailVC.view.tag = 0
         holdingsVC.view.tag = 1

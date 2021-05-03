@@ -10,6 +10,7 @@
 		0BC5951FA7276710D99168B4 /* Pods_Crylio_v2_Crylio_v2UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9020837FAD23D408521990 /* Pods_Crylio_v2_Crylio_v2UITests.framework */; };
 		2655D37617A7748F47FF3042 /* Pods_Crylio_v2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA50302F84F4703CCAD84D1 /* Pods_Crylio_v2.framework */; };
 		3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3800219825CD728000FA4773 /* MarketStatsView.swift */; };
+		38350D1A2640ADF500B1E0C0 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38350D192640ADF500B1E0C0 /* CircleView.swift */; };
 		3837C12325FFA0390056BB27 /* NumberFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3837C12225FFA0390056BB27 /* NumberFormatters.swift */; };
 		3837C12925FFB06F0056BB27 /* DistributionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3837C12825FFB06F0056BB27 /* DistributionView.swift */; };
 		3837C12D25FFB2740056BB27 /* DistributionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3837C12C25FFB2740056BB27 /* DistributionBar.swift */; };
@@ -91,6 +92,7 @@
 /* Begin PBXFileReference section */
 		17E4E2893BFB3A4214E90F27 /* Pods-Crylio_v2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crylio_v2.debug.xcconfig"; path = "Target Support Files/Pods-Crylio_v2/Pods-Crylio_v2.debug.xcconfig"; sourceTree = "<group>"; };
 		3800219825CD728000FA4773 /* MarketStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketStatsView.swift; sourceTree = "<group>"; };
+		38350D192640ADF500B1E0C0 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		3837C12225FFA0390056BB27 /* NumberFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatters.swift; sourceTree = "<group>"; };
 		3837C12825FFB06F0056BB27 /* DistributionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributionView.swift; sourceTree = "<group>"; };
 		3837C12C25FFB2740056BB27 /* DistributionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributionBar.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				3848D1BC25C4DC2B00203D7A /* HorizontalMenuView.swift */,
 				389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */,
 				3837C12C25FFB2740056BB27 /* DistributionBar.swift */,
+				38350D192640ADF500B1E0C0 /* CircleView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -666,6 +669,7 @@
 				38598135261B75D1002F2FE3 /* DateUtils.swift in Sources */,
 				389DE65725C758B500954F4F /* NavigationTopBarView.swift in Sources */,
 				3837C12D25FFB2740056BB27 /* DistributionBar.swift in Sources */,
+				38350D1A2640ADF500B1E0C0 /* CircleView.swift in Sources */,
 				3894FCE325D17FC500BFD26F /* CryptoTransactionsViewController.swift in Sources */,
 				384CFA9A25C1E67D0064C932 /* HomeViewController.swift in Sources */,
 				384CFA9625C1E67D0064C932 /* AppDelegate.swift in Sources */,

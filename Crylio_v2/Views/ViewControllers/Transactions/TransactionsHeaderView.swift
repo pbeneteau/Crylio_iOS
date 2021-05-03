@@ -11,11 +11,11 @@ class TransactionsHeaderView: UITableViewHeaderFooterView {
     
     static let reuseId = "HeaderView"
 
-    var title = UILabel()
-    
+    lazy var date = UILabel()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        
         configure()
     }
     
@@ -25,16 +25,17 @@ class TransactionsHeaderView: UITableViewHeaderFooterView {
     
     private func configure() {
         
-        title.text = "test"
+        tintColor = .clear
         
-        addSubview(title)
+        date.font = .systemFont(ofSize: 20, weight: .bold)
+                
+        addSubview(date)
         
-        NSLayoutConstraint.activate([
-            title.topAnchor.constraint(equalTo: topAnchor),
-            title.leadingAnchor.constraint(equalTo: leadingAnchor),
-            title.trailingAnchor.constraint(equalTo: trailingAnchor),
-            title.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
+        date.snp.makeConstraints { make in
+            make.left.top.equalTo(16)
+            make.width.equalTo(200)
+            make.height.equalTo(24)
+        }
     }
     
 }

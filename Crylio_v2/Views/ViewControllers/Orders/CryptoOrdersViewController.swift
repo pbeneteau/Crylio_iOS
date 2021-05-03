@@ -79,6 +79,8 @@ class CryptoOrdersViewController: UIViewController {
         tableView.layoutMargins.top = 0
         tableView.contentInsetAdjustmentBehavior = .never
         
+        tableView.tableFooterView = UIView() // Eliminate extra separators below UITableView
+        
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
     }

@@ -14,8 +14,10 @@ struct Transaction {
     var transactionType: TransactionType
     var exchange: String
     var amount: Float
+    var amountExecuted: Float
     var time: Date
     var worth: Float
+    var status: TransactionStatus
 }
 
 enum TransactionType: String {
@@ -26,6 +28,14 @@ enum TransactionType: String {
     case limitBuy = "Limit Buy"
     case transferIn = "Transfer in"
     case transferOut = "Transfer out"
+}
+
+enum TransactionStatus: String {
+    
+    case filled = "Filled"
+    case unfilled = "Unfilled"
+    case canceled = "Canceled"
+    case sent = "Sent"
 }
 
 struct TransactionsMonthSection {
@@ -40,13 +50,22 @@ struct TransactionsMonthSection {
         }
         return groups.map(TransactionsMonthSection.init(month:transactions:))
     }
+    
+    func getDateString() -> String {
+        
+        let date = month
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        
+        return dateFormatter.string(from: date)
+    }
 }
 
 
 class CryptoTransactionsViewController: UIViewController {
     
     
-    lazy var tableView = UITableView()
+    lazy var tableView = UITableView(frame: CGRect.zero, style: .grouped)
     var refreshControl = UIRefreshControl()
     
     var blurredHeaderViewAlpha: CGFloat = 0.0
@@ -68,15 +87,15 @@ class CryptoTransactionsViewController: UIViewController {
         
         tableView.backgroundColor = .systemBackground
         
-        tableView.rowHeight = 74
+        tableView.rowHeight = 99
         tableView.sectionHeaderHeight = 50
         
         tableView.register(CryptoTransactionCell.self, forCellReuseIdentifier: CryptoTransactionCell.reuseId)
         tableView.register(TransactionsHeaderView.self, forHeaderFooterViewReuseIdentifier: TransactionsHeaderView.reuseId)
         
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 16)
-        tableView.tableFooterView = UIView()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 32)
+        tableView.separatorStyle = .none
         
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
@@ -86,15 +105,15 @@ class CryptoTransactionsViewController: UIViewController {
     
     private func data() {
         
-        let item1 = Transaction(asset: "BTC", transactionType: .marketBuy, exchange: "Binance", amount: 0.48591, time: Date(), worth: 9401.41)
-        let item2 = Transaction(asset: "BTC", transactionType: .marketSell, exchange: "Bitfinex", amount: 0.94114, time: Date(), worth: 41491.67)
+        let item1 = Transaction(asset: "BTC", transactionType: .marketBuy, exchange: "Binance", amount: 0.48591, amountExecuted: 2.4, time: Date(), worth: 9401.41, status: .filled)
+        let item2 = Transaction(asset: "BTC", transactionType: .marketSell, exchange: "Bitfinex", amount: 0.94114, amountExecuted: 2.4, time: Date(), worth: 41491.67, status: .canceled)
         
         var dateComponent = DateComponents()
         
         dateComponent.month = 1
         let futureDate = Calendar.current.date(byAdding: dateComponent, to: Date())
         
-        let item3 = Transaction(asset: "BTC", transactionType: .transferIn, exchange: "Coinbase", amount: 0.24123, time: futureDate!, worth: 5141.10)
+        let item3 = Transaction(asset: "BTC", transactionType: .transferIn, exchange: "Coinbase", amount: 0.24123, amountExecuted: 2.4, time: futureDate!, worth: 5141.10, status: .sent)
         
         transactions.append(item1)
         transactions.append(item2)
@@ -140,48 +159,35 @@ class CryptoTransactionsViewController: UIViewController {
 extension CryptoTransactionsViewController: UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
     
-    // SECTION
+    // SECTIONS
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        print("numberOfSections")
-        return self.sections.count
+        return sections.count
     }
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return "Test"
-//    }
-//
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
-        print("heightForHeaderInSection")
         return 50
     }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-
-        print("heightForFooterInSection")
-        return 20
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        print("viewForHeaderInSection")
-
-        
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TransactionsHeaderView.reuseId) as! TransactionsHeaderView
-        
-        return headerView
-    }
-    
-    
-    // CELLS
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return sections[section].transactions.count
     }
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TransactionsHeaderView.reuseId) as! TransactionsHeaderView
+        header.date.text = sections[section].getDateString()
+        
+        return header
+    }
+    
+    
+    // CELLS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -189,18 +195,13 @@ extension CryptoTransactionsViewController: UIScrollViewDelegate, UITableViewDel
             fatalError("The dequeued cell is not an instance of HomeTableViewCell.")
         }
         
-        if indexPath.row < transactions.count {
-            
-            cell.transaction = sections[indexPath.section].transactions[indexPath.row]
-        }
+        cell.transaction = sections[indexPath.section].transactions[indexPath.row]
         
-        if indexPath.row == 0 {
-            cell.bgView.layer.cornerRadius = 7
-            cell.bgView.layer.masksToBounds = true
+        if tableView.numberOfRows(inSection: indexPath.section) == 1 {
+            cell.bgView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
+        } else if indexPath.row == 0 {
             cell.bgView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1 {
-            cell.bgView.layer.cornerRadius = 7
-            cell.bgView.layer.masksToBounds = true
             cell.bgView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         } else {
             cell.bgView.layer.cornerRadius = 0
@@ -212,34 +213,18 @@ extension CryptoTransactionsViewController: UIScrollViewDelegate, UITableViewDel
     }
     
 
+  // FOOTERS
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//
-//        let header = UIView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 50.0)))
-//        let dateLabel = UILabel()
-//
-//        dateLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-//
-//        let date = sections[section].month
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "MMMM yyyy"
-//
-//        dateLabel.text = dateFormatter.string(from: date)
-//
-//        header.backgroundColor = .systemRed
-//
-//        header.addSubview(dateLabel)
-//
-//        dateLabel.snp.makeConstraints { make in
-//            make.left.top.equalTo(16)
-//            make.width.equalTo(dateLabel.intrinsicContentSize.width)
-//            make.height.equalTo(20)
-//        }
-//
-//        print(12345)
-//        return header
-//    }
-    
+    // Add some space after section
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 
+        return 20
+    }
+    
+    // Eliminate extra separators below UITableView
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        return UIView()
+    }
 
 }

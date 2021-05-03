@@ -14,12 +14,15 @@ class CryptoTransactionCell: UITableViewCell {
 
     
     let bgView = UIView()
-        
+    
+    lazy var transactionTypeCircle = CircleView()
     lazy var transactionType = UILabel()
     lazy var amount = UILabel()
     lazy var exchange = UILabel()
     lazy var worth = UILabel()
     lazy var date = UILabel()
+    lazy var filledStatusBox = RoundedCornersView()
+    lazy var filledStatus = UILabel()
         
     var transaction: Transaction! {
         didSet {
@@ -40,43 +43,60 @@ class CryptoTransactionCell: UITableViewCell {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
         
-        bgView.backgroundColor = .white
+        bgView.backgroundColor = .systemGray6
         bgView.translatesAutoresizingMaskIntoConstraints = false
+        bgView.layer.masksToBounds = true
+        bgView.layer.cornerRadius = 7
         
-        transactionType.font = .systemFont(ofSize: 17, weight: .medium)
+        transactionType.font = .systemFont(ofSize: 17)
         
-        exchange.font = .systemFont(ofSize: 17)
+        exchange.font = .systemFont(ofSize: 15)
+        exchange.textColor = .systemGray
         
         amount.textAlignment = .right
-        amount.font = .systemFont(ofSize: 17, weight: .medium)
+        amount.font = .systemFont(ofSize: 15)
         
         date.textColor = .systemGray
         date.font = .systemFont(ofSize: 13)
         
-        worth.textColor = .systemGray
         worth.textAlignment = .right
-        worth.font = .systemFont(ofSize: 15)
+        worth.font = .systemFont(ofSize: 13)
+        
+        filledStatusBox.layer.cornerRadius = 3
+        filledStatusBox.backgroundColor = .systemGreen
+        filledStatusBox.alpha = 0.15
+        
+        filledStatus.textAlignment = .center
+        filledStatus.font = .systemFont(ofSize: 13)
+        filledStatus.textColor = .systemGreen
                 
         contentView.addSubview(bgView)
+        bgView.addSubview(transactionTypeCircle)
         bgView.addSubview(transactionType)
         bgView.addSubview(amount)
         bgView.addSubview(exchange)
         bgView.addSubview(worth)
         bgView.addSubview(date)
+        bgView.addSubview(filledStatusBox)
+        bgView.addSubview(filledStatus)
     }
     
     func updateValues() {
         
         transactionType.text = transaction.transactionType.rawValue
+        filledStatus.text = transaction.status.rawValue
         
-        exchange.text = "via " + transaction.exchange
-        
+        exchange.text =  "via " + transaction.exchange
         if transaction.transactionType == .transferOut || transaction.transactionType == .transferIn {
             exchange.text = "to " + transaction.exchange
         }
+        exchange.setSpannedColor(fullText:  exchange.text!, changeText: transaction.exchange, color: .label)
+
         
         worth.text = usdFormat(transaction.worth)
-        amount.text = amountFormat(transaction.amount) + " \(transaction.asset)"
+        
+        amount.text =  amountFormat(transaction.amount) + "/" + amountFormat(transaction.amountExecuted)
+        amount.setSpannedColor(fullText:  amount.text!, changeText: "/" + amountFormat(transaction.amountExecuted), color: .systemGray)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/YY HH:MM:ss"
@@ -85,17 +105,32 @@ class CryptoTransactionCell: UITableViewCell {
         
         switch transaction.transactionType {
         case .marketSell:
-            transactionType.textColor = .systemRed
+            transactionTypeCircle.backgroundColor = .systemRed
         case .marketBuy:
-            transactionType.textColor = .systemGreen
+            transactionTypeCircle.backgroundColor = .systemGreen
         case .limitBuy:
-            transactionType.textColor = .systemGreen
+            transactionTypeCircle.backgroundColor = .systemGreen
         case .limitSell:
-            transactionType.textColor = .systemRed
+            transactionTypeCircle.backgroundColor = .systemRed
         case .transferIn:
-            transactionType.textColor = .systemOrange
+            transactionTypeCircle.backgroundColor = .systemBlue
         case .transferOut:
-            transactionType.textColor = .systemOrange
+            transactionTypeCircle.backgroundColor = .systemBlue
+        }
+        
+        switch transaction.status {
+        case .filled:
+            filledStatusBox.backgroundColor = .systemGreen
+            filledStatus.textColor = .systemGreen
+        case .sent:
+            filledStatusBox.backgroundColor = .systemGreen
+            filledStatus.textColor = .systemGreen
+        case .canceled:
+            filledStatusBox.backgroundColor = .systemRed
+            filledStatus.textColor = .systemRed
+        default:
+            filledStatusBox.backgroundColor = .systemGray
+            filledStatus.textColor = .systemGray
         }
         
         setNeedsUpdateConstraints()
@@ -123,39 +158,57 @@ extension CryptoTransactionCell {
             make.height.equalToSuperview()
         }
         
+        transactionTypeCircle.snp.makeConstraints { make in
+            make.left.equalTo(16)
+            make.top.equalToSuperview().offset(20)
+            make.height.width.equalTo(8)
+        }
+        
         transactionType.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.top.equalToSuperview().offset(10)
+            make.left.equalTo(transactionTypeCircle.snp.right).offset(8)
+            make.centerY.equalTo(transactionTypeCircle)
             make.width.equalTo(transactionType.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         
         exchange.snp.makeConstraints { make in
-            make.left.equalTo(transactionType.snp.right).offset(5)
-            make.centerY.equalTo(transactionType)
+            make.left.equalTo(16)
+            make.top.equalTo(transactionType.snp.bottom).offset(9)
             make.width.equalTo(exchange.intrinsicContentSize.width)
+            make.height.equalTo(18)
+        }
+        
+        date.snp.makeConstraints { make in
+            make.left.equalTo(16)
+            make.top.equalTo(exchange.snp.bottom).offset(4)
+            make.width.equalTo(date.intrinsicContentSize.width)
+            make.height.equalTo(16)
+        }
+        
+        filledStatusBox.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(transactionType)
+            make.width.equalTo(filledStatus.intrinsicContentSize.width + 8)
             make.height.equalTo(20)
+        }
+        
+        filledStatus.snp.makeConstraints { make in
+            make.center.equalTo(filledStatusBox)
+            make.height.width.equalTo(filledStatusBox)
         }
         
         amount.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
             make.centerY.equalTo(exchange)
             make.width.equalTo(amount.intrinsicContentSize.width)
-            make.height.equalTo(20)
+            make.height.equalTo(18)
         }
-        
-        date.snp.makeConstraints { make in
-            make.left.equalTo(transactionType)
-            make.top.equalTo(transactionType.snp.bottom).offset(10)
-            make.width.equalTo(date.intrinsicContentSize.width)
-            make.height.equalTo(16)
-        }
-        
+            
         worth.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.bottom.equalTo(date)
+            make.centerY.equalTo(date)
             make.width.equalTo(worth.intrinsicContentSize.width)
-            make.height.equalTo(18)
+            make.height.equalTo(16)
         }
         
         super.updateConstraints()
