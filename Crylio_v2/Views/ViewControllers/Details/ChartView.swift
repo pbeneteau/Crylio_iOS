@@ -7,18 +7,17 @@
 
 import UIKit
 import AAInfographics
+import WebKit
 
-class ChartView: UIView {
+
+class ChartView: UIView, WKNavigationDelegate {
         
     lazy var backgroundBox = RoundedCornersView()
 
+    var webView: WKWebView!
     
-    lazy var price = UILabel()
-    var priceChangeBox: PriceChangeBoxView!
-    lazy var priceChangeDollar = UILabel()
-    lazy var changeChartModeButton = UIButton()
     
-    lazy var chartView = AAChartView()
+    lazy var chartView = UIView()
     
 
     override init(frame: CGRect) {
@@ -29,10 +28,6 @@ class ChartView: UIView {
     
     init(price: Float, changePercent: Float, changeDollar: Float) {
         super.init(frame: CGRect.zero)
-        
-        self.price.text = "$\(price)"
-        self.priceChangeBox = PriceChangeBoxView(change: changePercent)
-        self.priceChangeDollar.text = "$\(changeDollar)"
                 
         commonInit()
     }
@@ -43,32 +38,39 @@ class ChartView: UIView {
         commonInit()
     }
     
+    func loadView() {
+        webView = WKWebView()
+        webView.navigationDelegate = self
+        chartView = webView
+    }
+    
     private func commonInit() {
+        
+        loadView()
         
         backgroundColor = .clear
         backgroundBox.backgroundColor = .systemGray6
         
         backgroundBox.layer.cornerRadius = 7
-        
-        price.font = .systemFont(ofSize: 31, weight: .medium)
-        
-        priceChangeDollar.font = .systemFont(ofSize: 15)
-        priceChangeDollar.textColor = .systemGreen
-        
-        addSubview(backgroundBox)
                 
-        backgroundBox.addSubview(price)
-        backgroundBox.addSubview(priceChangeDollar)
-        backgroundBox.addSubview(priceChangeBox)
-        backgroundBox.addSubview(changeChartModeButton)
+        addSubview(backgroundBox)
         backgroundBox.addSubview(chartView)
         
         translatesAutoresizingMaskIntoConstraints = false
         
-        chartView.scrollEnabled = false
-        chartView.isClearBackgroundColor = true
-        chartView.delegate = self as AAChartViewDelegate
+        //chartView.scrollEnabled = false
+        //chartView.isClearBackgroundColor = true
+        //chartView.delegate = self as AAChartViewDelegate
         
+        backgroundBox.clipsToBounds = true
+        webView.loadHTMLString(wchart, baseURL: nil)
+        webView.allowsBackForwardNavigationGestures = false
+        webView.scrollView.isScrollEnabled = false
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.bounces = false
+        webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         
         let arr = [
             1,3,2,5,4,2,3,5,6,5,
@@ -92,7 +94,7 @@ class ChartView: UIView {
                 AASeriesElement()
                     .data(arr)])
         
-        chartView.aa_drawChartWithChartModel(aaChartModel)
+        //chartView.aa_drawChartWithChartModel(aaChartModel)
         
         print("\n\n\n\n\n\n\n\n\n")
         
@@ -107,38 +109,9 @@ class ChartView: UIView {
             make.bottom.equalToSuperview().offset(-10)
         }
         
-        price.snp.makeConstraints { make in		
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
-            make.top.equalToSuperview().offset(20)
-            make.height.equalTo(37)
-        }
-        
-        priceChangeBox.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.top.equalTo(price.snp.bottom).offset(5)
-            make.height.equalTo(35)
-            make.width.equalTo(70)
-        }
-        
-        priceChangeDollar.snp.makeConstraints { make in
-            make.left.equalTo(priceChangeBox.snp.right).offset(10)
-            make.centerY.equalTo(priceChangeBox)
-            make.height.equalTo(20)
-            make.width.equalTo(priceChangeDollar.intrinsicContentSize.width)
-        }
-        
-        changeChartModeButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(price)
-            make.height.equalTo(35)
-            make.width.equalTo(35)
-        }
-        
         chartView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(priceChangeBox.snp.bottom).offset(20)
-            make.height.equalTo(200)
+            make.center.equalToSuperview()
+            make.height.width.equalToSuperview().multipliedBy(1.06)
         }
         
         super.updateConstraints()
@@ -155,7 +128,6 @@ extension ChartView: AAChartViewDelegate {
     
     func aaChartView(_ aaChartView: AAChartView, moveOverEventMessage: AAMoveOverEventMessageModel) {
         guard let price = moveOverEventMessage.y else {return}
-        self.price.text = "$\(price)"
         
         let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
         selectionFeedbackGenerator.selectionChanged()

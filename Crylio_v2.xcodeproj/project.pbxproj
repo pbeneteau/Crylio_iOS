@@ -34,6 +34,8 @@
 		384CFB0725C2224D0064C932 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB0625C2224D0064C932 /* Colors.swift */; };
 		384CFB2825C451C50064C932 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB2725C451C50064C932 /* GradientView.swift */; };
 		384CFB4125C45B470064C932 /* CryptoDetailTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CFB4025C45B470064C932 /* CryptoDetailTopBarView.swift */; };
+		38565B0C26431A9900B24AFA /* TradingViewChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38565B0B26431A9900B24AFA /* TradingViewChartView.swift */; };
+		38565B1026431BB300B24AFA /* WebChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38565B0F26431BB300B24AFA /* WebChartView.swift */; };
 		38598135261B75D1002F2FE3 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38598134261B75D1002F2FE3 /* DateUtils.swift */; };
 		38598139261B8ABA002F2FE3 /* TransactionsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38598138261B8ABA002F2FE3 /* TransactionsHeaderView.swift */; };
 		38619A742613B0660044D273 /* CryptoOrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38619A732613B0660044D273 /* CryptoOrderCell.swift */; };
@@ -119,6 +121,8 @@
 		384CFB0625C2224D0064C932 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		384CFB2725C451C50064C932 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		384CFB4025C45B470064C932 /* CryptoDetailTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDetailTopBarView.swift; sourceTree = "<group>"; };
+		38565B0B26431A9900B24AFA /* TradingViewChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingViewChartView.swift; sourceTree = "<group>"; };
+		38565B0F26431BB300B24AFA /* WebChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebChartView.swift; sourceTree = "<group>"; };
 		38598134261B75D1002F2FE3 /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		38598138261B8ABA002F2FE3 /* TransactionsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsHeaderView.swift; sourceTree = "<group>"; };
 		38619A732613B0660044D273 /* CryptoOrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoOrderCell.swift; sourceTree = "<group>"; };
@@ -312,6 +316,7 @@
 				389DE66325C8269E00954F4F /* CryptoDetailHeaderView.swift */,
 				3837C12C25FFB2740056BB27 /* DistributionBar.swift */,
 				38350D192640ADF500B1E0C0 /* CircleView.swift */,
+				38565B0B26431A9900B24AFA /* TradingViewChartView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -344,6 +349,7 @@
 				3894FCE625D1801A00BFD26F /* CryptoDetailViewController.swift */,
 				389DE68525C8379000954F4F /* CryptoDetailScrollView.swift */,
 				389DE66B25C82C1100954F4F /* ChartView.swift */,
+				38565B0F26431BB300B24AFA /* WebChartView.swift */,
 				3800219825CD728000FA4773 /* MarketStatsView.swift */,
 				3894FCF225D1A0B600BFD26F /* AboutView.swift */,
 			);
@@ -654,9 +660,11 @@
 				384CFB2825C451C50064C932 /* GradientView.swift in Sources */,
 				384CFAF125C1F6960064C932 /* HomeTableViewCell.swift in Sources */,
 				38E3FB5D25FA52D500A55FB3 /* HoldingsStatsView.swift in Sources */,
+				38565B1026431BB300B24AFA /* WebChartView.swift in Sources */,
 				3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */,
 				389DE65F25C76F4700954F4F /* RoundedCornersView.swift in Sources */,
 				38619A742613B0660044D273 /* CryptoOrderCell.swift in Sources */,
+				38565B0C26431A9900B24AFA /* TradingViewChartView.swift in Sources */,
 				389DE68625C8379000954F4F /* CryptoDetailScrollView.swift in Sources */,
 				389DE65225C5D27200954F4F /* CryptocurrencyViewController.swift in Sources */,
 				3894FCE725D1801A00BFD26F /* CryptoDetailViewController.swift in Sources */,

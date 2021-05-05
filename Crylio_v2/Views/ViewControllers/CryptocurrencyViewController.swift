@@ -193,7 +193,6 @@ extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollVie
         }
         
     }
-    
 
     
     func saveBlurredViewAlpha(alpha: CGFloat) {
