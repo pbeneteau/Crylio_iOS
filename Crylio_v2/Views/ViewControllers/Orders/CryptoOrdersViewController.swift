@@ -43,8 +43,11 @@ class CryptoOrdersViewController: UIViewController {
     let cellId = "OrderCell"
     var refreshControl = UIRefreshControl()
     
-    var blurredHeaderViewAlpha: CGFloat = 0.0
+    weak var scrollViewDelegate: ScrollViewDidScrollDelegate?
     
+    var blurredHeaderViewAlpha: CGFloat = 0.0
+    var scrollViewYOffset: CGFloat = 0.0
+
     var orders = [Order]()
 
     override func viewDidLoad() {
@@ -87,7 +90,7 @@ class CryptoOrdersViewController: UIViewController {
     
     func updateInsets(menuMaxY: CGFloat) {
         
-        tableView.contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: view.frame.height, right: 0)
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: menuMaxY-20, left: 0, bottom: 0, right: 0)
         tableView.contentOffset = CGPoint(x: 0, y: -menuMaxY)
     }
@@ -115,7 +118,7 @@ class CryptoOrdersViewController: UIViewController {
     
 }
 
-extension CryptoOrdersViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+extension CryptoOrdersViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -136,6 +139,20 @@ extension CryptoOrdersViewController: UITableViewDelegate, UITableViewDataSource
         cell.selectionStyle = .none
         
         return cell
+    }
+    
+}
+
+// DELEGATES
+
+extension CryptoOrdersViewController {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        scrollViewYOffset = scrollView.contentOffset.y
+        
+        guard let delegate = scrollViewDelegate else { return }
+        delegate.scrollViewDidScrollVertically(scrollView: scrollView)
     }
     
 }

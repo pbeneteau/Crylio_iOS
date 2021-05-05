@@ -8,6 +8,7 @@
 import UIKit
 
 
+
 class CryptoTransactionCell: UITableViewCell {
     
     static let reuseId = "TransactionCell"

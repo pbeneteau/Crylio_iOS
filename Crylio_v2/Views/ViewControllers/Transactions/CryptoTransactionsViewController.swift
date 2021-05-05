@@ -8,6 +8,7 @@
 import UIKit
 
 
+
 struct Transaction {
     
     var asset: String
@@ -68,8 +69,11 @@ class CryptoTransactionsViewController: UIViewController {
     lazy var tableView = UITableView(frame: CGRect.zero, style: .grouped)
     var refreshControl = UIRefreshControl()
     
+    weak var scrollViewDelegate: ScrollViewDidScrollDelegate?
+        
     var blurredHeaderViewAlpha: CGFloat = 0.0
-    
+    var scrollViewYOffset: CGFloat = 0.0
+
     var sections = [TransactionsMonthSection]()
     var transactions = [Transaction]()
     
@@ -97,6 +101,7 @@ class CryptoTransactionsViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 32)
         tableView.separatorStyle = .none
         
+                        
         view.addSubview(tableView)
         tableView.addSubview(refreshControl)
         
@@ -128,7 +133,7 @@ class CryptoTransactionsViewController: UIViewController {
     
     func updateInsets(menuMaxY: CGFloat) {
         
-        tableView.contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: view.frame.height, right: 0)
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: menuMaxY-20, left: 0, bottom: 0, right: 0)
         tableView.contentOffset = CGPoint(x: 0, y: -menuMaxY)
     }
@@ -156,7 +161,7 @@ class CryptoTransactionsViewController: UIViewController {
     
 }
 
-extension CryptoTransactionsViewController: UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {
+extension CryptoTransactionsViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     // SECTIONS
@@ -221,10 +226,25 @@ extension CryptoTransactionsViewController: UIScrollViewDelegate, UITableViewDel
         return 20
     }
     
-    // Eliminate extra separators below UITableView
+    // Eliminate extra separators below UITableView 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
         return UIView()
     }
 
+}
+
+
+// DELEGATES
+
+extension CryptoTransactionsViewController {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        scrollViewYOffset = scrollView.contentOffset.y
+        
+        guard let delegate = scrollViewDelegate else { return }
+        delegate.scrollViewDidScrollVertically(scrollView: scrollView)
+    }
+    
 }

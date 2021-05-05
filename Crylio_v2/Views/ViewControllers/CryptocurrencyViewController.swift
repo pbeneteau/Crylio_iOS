@@ -10,7 +10,12 @@ import SnapKit
 import PagingKit
 
 
+protocol ScrollViewDidScrollDelegate: AnyObject {
+    func scrollViewDidScrollVertically(scrollView: UIScrollView)
+}
+
 class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate {
+    
     
     var navigationTopBar = NavigationTopBarView()
     var header = CryptoDetailHeaderView(name: "Bitcoin", symbol: "BTC", type: "Coin", icon: UIImage(named: "btc")!)
@@ -82,16 +87,16 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         menuScrollView.contentSize.height = 1
                 
         detailVC.scrollView.tag = 0
-        detailVC.scrollView.delegate = self
+        detailVC.scrollViewDelegate = self
         
         holdingsVC.scrollView.tag = 1
-        holdingsVC.scrollView.delegate = self
+        holdingsVC.scrollViewDelegate = self
         
         ordersVC.tableView.tag = 2
-        ordersVC.tableView.delegate = self
+        ordersVC.scrollViewDelegate = self
         
         transactionsVC.tableView.tag = 3
-//        transactionsVC.tableView.delegate = self
+        transactionsVC.scrollViewDelegate = self
         
         detailVC.view.tag = 0
         holdingsVC.view.tag = 1
@@ -108,39 +113,47 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
     
 }
 
-extension CryptocurrencyViewController: UIScrollViewDelegate {
+extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollViewDelegate {
+
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScrollVertically(scrollView: UIScrollView) {
         
         let yOffset = scrollView.contentOffset.y + scrollView.contentInset.top
         
         if scrollView.tag == displayedVCTag {
                                     
             updateHeader(yOffset: yOffset)
-                        
-        } else if scrollView.tag == 10 {
+            updateOtherScrollViewsOffset(yOffset: scrollView.contentOffset.y)
+        }
+    }
+    
+    func updateOtherScrollViewsOffset(yOffset: CGFloat) {
+                
+        let newOffset = min(-131, yOffset)
+
+        if displayedVCTag != 0 {
+            if detailVC.scrollView.contentOffset.y <= -131 || menu.frame.maxY > 131 {
+                detailVC.scrollView.contentOffset.y = newOffset
+                detailVC.blurredHeaderViewAlpha = 0
+            }
+        }
+        if displayedVCTag != 1 {
+            if holdingsVC.scrollView.contentOffset.y <= -131 || menu.frame.maxY > 131 {
+                holdingsVC.scrollView.contentOffset.y = newOffset
+                holdingsVC.blurredHeaderViewAlpha = 0
+            }
             
-            let xOffset = scrollView.contentOffset.x
-            
-            switch xOffset {
-            case 0...view.frame.width/2-1:
-                displayedVCTag = 0
-                menu.setSelectedButton(index: displayedVCTag)
-                updateHeaderAlpha()
-            case view.frame.width/2...view.frame.width*1.5-1:
-                displayedVCTag = 1
-                menu.setSelectedButton(index: displayedVCTag)
-                updateHeaderAlpha()
-            case view.frame.width*1.5...view.frame.width*2.5-1:
-                displayedVCTag = 2
-                menu.setSelectedButton(index: displayedVCTag)
-                updateHeaderAlpha()
-            case view.frame.width*2.5...view.frame.width*3:
-                displayedVCTag = 3
-                menu.setSelectedButton(index: displayedVCTag)
-                updateHeaderAlpha()
-            default:
-                return
+        }
+        if displayedVCTag != 2 {
+            if ordersVC.tableView.contentOffset.y <= -131 || menu.frame.maxY > 131 {
+                ordersVC.tableView.contentOffset.y = newOffset
+                ordersVC.blurredHeaderViewAlpha = 0
+            }
+        }
+        if displayedVCTag != 3 {
+            if transactionsVC.tableView.contentOffset.y <= -131 || menu.frame.maxY > 131 {
+                transactionsVC.tableView.contentOffset.y = newOffset
+                transactionsVC.blurredHeaderViewAlpha = 0
             }
         }
     }
@@ -178,7 +191,10 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
         } else {
             navigationTopBar.hideTitle()
         }
+        
     }
+    
+
     
     func saveBlurredViewAlpha(alpha: CGFloat) {
         
@@ -196,6 +212,35 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
         }
     }
     
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let xOffset = scrollView.contentOffset.x
+        
+        switch xOffset {
+        case 0...view.frame.width/2-1:
+            displayedVCTag = 0
+            menu.setSelectedButton(index: displayedVCTag)
+        case view.frame.width/2...view.frame.width*1.5-1:
+            displayedVCTag = 1
+            menu.setSelectedButton(index: displayedVCTag)
+        case view.frame.width*1.5...view.frame.width*2.5-1:
+            displayedVCTag = 2
+            menu.setSelectedButton(index: displayedVCTag)
+        case view.frame.width*2.5...view.frame.width*3:
+            displayedVCTag = 3
+            menu.setSelectedButton(index: displayedVCTag)
+        default:
+            return
+        }
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.updateHeaderAlpha()
+        })
+        
+    }
+    
+    
     func updateHeaderAlpha() {
         
         switch displayedVCTag {
@@ -209,87 +254,6 @@ extension CryptocurrencyViewController: UIScrollViewDelegate {
             navigationTopBar.blurredView.alpha = transactionsVC.blurredHeaderViewAlpha
         default:
             return
-        }
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        if scrollView.tag != 10 {
-            
-            updateOffset(scrollView: scrollView)
-        }
-    }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
-        if scrollView.tag != 10 {
-            
-            updateOffset(scrollView: scrollView)
-        }
-    }
-    
-    
-    func updateOffset(scrollView: UIScrollView) {
-        
-        let scrollViewOffsetBigHeader = -scrollView.contentInset.top
-        let scrollViewOffsetSmallHeader = 129.33333333333334 - scrollView.contentInset.top
-                
-        if header.symbolLabel.frame.maxY + header.frame.minY >= navigationTopBar.topBar.frame.maxY {
-                        
-            scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetBigHeader), animated: true)
-
-            setNewOffset(newOffset: scrollViewOffsetBigHeader)
-        
-        } else if header.symbolLabel.frame.maxY + header.frame.minY < navigationTopBar.topBar.frame.maxY
-                    && menu.frame.minY != navigationTopBar.topBar.frame.maxY {
-                        
-            scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewOffsetSmallHeader), animated: true)
-            
-            setNewOffset(newOffset: scrollViewOffsetSmallHeader)
-            
-        } else {
-            
-            if scrollView.tag == 0 {
-                if holdingsVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
-                    
-                    holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                    transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                }
-            } else if scrollView.tag == 1 {
-                if detailVC.scrollView.contentOffset.y < scrollViewOffsetSmallHeader {
-                    
-                    detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                    transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                }
-            } else if scrollView.tag == 2 {
-                if ordersVC.tableView.contentOffset.y < scrollViewOffsetSmallHeader {
-                    
-                    detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                    transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                }
-            } else if scrollView.tag == 3 {
-                if transactionsVC.tableView.contentOffset.y < scrollViewOffsetSmallHeader {
-                    
-                    detailVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                    holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: scrollViewOffsetSmallHeader)
-                }
-            }
-        }
-    }
-    
-    func setNewOffset(newOffset: CGFloat) {
-        
-        if displayedVCTag != 0 {
-            detailVC.scrollView.contentOffset = CGPoint(x: 0, y: newOffset)
-        }
-        if displayedVCTag != 1 {
-            holdingsVC.scrollView.contentOffset = CGPoint(x: 0, y: newOffset)
-        }
-        if displayedVCTag != 2 {
-            ordersVC.tableView.contentOffset = CGPoint(x: 0, y: newOffset)
-        }
-        if displayedVCTag != 3 {
-            transactionsVC.tableView.contentOffset = CGPoint(x: 0, y: newOffset)
         }
     }
     
@@ -387,7 +351,32 @@ extension CryptocurrencyViewController {
             holdingsVC.scrollView.updateInsets(menuMaxY: menu.frame.maxY)
             ordersVC.updateInsets(menuMaxY: menu.frame.maxY)
             transactionsVC.updateInsets(menuMaxY: menu.frame.maxY)
+            
         }
     }
     
+}
+
+
+extension UIScrollView {
+
+  var minContentOffset: CGPoint {
+    return CGPoint(
+      x: -contentInset.left,
+      y: -contentInset.top)
+  }
+
+  var maxContentOffset: CGPoint {
+    return CGPoint(
+      x: contentSize.width - bounds.width + contentInset.right,
+      y: contentSize.height - bounds.height + contentInset.bottom)
+  }
+
+  func scrollToMinContentOffset(animated: Bool) {
+    setContentOffset(minContentOffset, animated: animated)
+  }
+
+  func scrollToMaxContentOffset(animated: Bool) {
+    setContentOffset(maxContentOffset, animated: animated)
+  }
 }

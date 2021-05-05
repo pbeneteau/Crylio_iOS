@@ -14,15 +14,19 @@ class CryptoHoldingsViewController: UIViewController {
     var refreshControl = UIRefreshControl()
 
     var blurredHeaderViewAlpha: CGFloat = 0.0
+    var scrollViewYOffset: CGFloat = 0.0
+    
+    weak var scrollViewDelegate: ScrollViewDidScrollDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .clear
         
+        scrollView.delegate = self
+        
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
 
-        
         view.addSubview(scrollView)
         scrollView.addSubview(refreshControl)
     }
@@ -47,4 +51,16 @@ class CryptoHoldingsViewController: UIViewController {
         super.updateViewConstraints()
     }
 
+}
+
+
+extension CryptoHoldingsViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollViewYOffset = scrollView.contentOffset.y
+        
+        guard let delegate = scrollViewDelegate else { return }
+        delegate.scrollViewDidScrollVertically(scrollView: scrollView)
+    }
+    
 }
