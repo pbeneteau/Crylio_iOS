@@ -44,9 +44,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        //header.animate(duration: 0.5, newTopColor: .systemBackground, newBottomColor: .systemRed)
-        
+                
         header.startLoadingAnimation()
     }
     
@@ -81,36 +79,40 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        performSegue(withIdentifier: "presentCryptocurrency", sender: indexPath.row)
-        let controller = CryptocurrencyViewController()
 
+        let controller = CryptocurrencyViewController(crypto: cryptos[indexPath.row])
+        
         navigationController?.pushViewController(controller, animated: true)
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let selectedRow = sender as? Int {
-//            guard let destinationVC = segue.destination as? CryptocurrencyDetailViewController else {return}
-//            destinationVC.crypto = cryptos[selectedRow]
-//        }
-//    }
     
     func loadCryptos() {
         
-        guard let crypto1 = Cryptocurrency(id: 0,
-                                           name: "Bitcoin",
-                                           slug: "bitcoin",
-                                           symbol: "BTC",
-                                           description: "Bitcoin is first.",
-                                           balance: 343492.98,
-                                           amount: 11.2,
-                                           price: 34467.15,
-                                           change: 4.56,
-                                           iconName: "btc")
-        else {
-            fatalError("Unable to instantiate crypto1")
-        }
+        let crypto1: Cryptocurrency = Cryptocurrency(id: 0,
+                       name: "Bitcoin",
+                       slug: "bitcoin",
+                       symbol: "BTC",
+                       description: "Bitcoin is first.",
+                       balance: 343492.98,
+                       amount: 11.2,
+                       price: 34467.15,
+                       change: 4.56,
+                       iconName: "btc",
+                       marketStats: CryptoMarketStats(volume24: 115149016927.31, volume24Change: 2.61, marketCap: 625760348347.31, marketCapChange: 2.61, availableSupply: 45425790652.52, availableSupplyChange: 1.5, totalSupply: 100000000000.62))!
         
-        cryptos += [crypto1, crypto1, crypto1, crypto1, crypto1]
+        let crypto2: Cryptocurrency = Cryptocurrency(id: 1,
+                       name: "Ripple",
+                       slug: "ripple",
+                       symbol: "XRP",
+                       description: "XRP is second.",
+                       balance: 34392.62,
+                       amount: 62923.55,
+                       price: 1.45,
+                       change: 12.52,
+                       iconName: "btc",
+                       marketStats: CryptoMarketStats(volume24: 115149016927.31, volume24Change: 2.61, marketCap: 625760348347.31, marketCapChange: 2.61, availableSupply: 45425790652.52, availableSupplyChange: 1.5, totalSupply: 100000000000.62))!
+        
+        cryptos += [crypto1, crypto2, crypto1, crypto2, crypto1]
         
         homeTableView.reloadData()
     }

@@ -12,28 +12,15 @@ class CryptoDetailScrollView: UIScrollView {
     
     lazy var contentView = UIView()
         
-    lazy var chartView = ChartView(price: 41512, changePercent: 7.51, changeDollar: 410)
+    lazy var chartView = ChartView()
     
-    lazy var marketStatsView = MarketStatsView(volume24: 115149016927.31,
-                                               volume24Change: 2.61,
-                                               marketCap: 625760348347.31,
-                                               marketCapChange: 2.61,
-                                               availableSupply: 45425790652.52,
-                                               availableSupplyChange: 1.5,
-                                               totalSupply: 100000000000.62)
+    lazy var marketStatsView = MarketStatsView()
     
-    lazy var aboutView = AboutView(name: "Bitcoin", description: "Bitcoin is a decentralized cryptocurrency originally described in a 2008 whitepaper by a person, or group of people, using the alias Satoshi Nakamoto. It was launched soon after, in January 2009.")
-    
-    
+    lazy var aboutView = AboutView()
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        commonInit()
-    }
-    
-    init() {
-        super.init(frame: CGRect.zero)
-                
         commonInit()
     }
     
@@ -43,11 +30,21 @@ class CryptoDetailScrollView: UIScrollView {
         commonInit()
     }
     
+    init(crypto: Cryptocurrency) {
+        super.init(frame: CGRect.zero)
+        
+        marketStatsView = MarketStatsView(marketStats: crypto.marketStats)
+        aboutView = AboutView(name: crypto.name, description: crypto.description)
+        
+        commonInit()
+    }
+    
     private func commonInit() {
         
         translatesAutoresizingMaskIntoConstraints = false
         contentInsetAdjustmentBehavior = .never
         
+        backgroundColor = .clear
         contentView.backgroundColor = .clear
                 
         addSubview(contentView)
@@ -57,10 +54,6 @@ class CryptoDetailScrollView: UIScrollView {
         contentView.addSubview(aboutView)
     }
     
-    @objc func dragingChartView() {
-        print("dragging chart")
-        isScrollEnabled = false
-    }
     
     func updateInsets(menuMaxY: CGFloat) {
         contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: 0, right: 0)

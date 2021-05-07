@@ -30,7 +30,11 @@ func percentFormat(_ float: Float) -> String {
     
     let number = NSNumber(value: float)
     
-    return formatter.string(from: number)! + " %"
+    if float < 0 {
+        return "-" + formatter.string(from: number)! + "%"
+    }
+    
+    return "+" + formatter.string(from: number)! + "%"
 }
 
 func amountFormat(_ float: Float) -> String {

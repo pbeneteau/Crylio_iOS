@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarVC = UITabBarController()
         
         let homeVC = HomeViewController()
-        let marketsVC = CryptoDetailViewController()
+        let marketsVC = HomeViewController()
                 
         homeVC.navigationController?.isNavigationBarHidden = true
         marketsVC.navigationController?.isNavigationBarHidden = true

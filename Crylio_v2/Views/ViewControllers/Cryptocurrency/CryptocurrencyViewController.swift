@@ -14,11 +14,10 @@ protocol ScrollViewDidScrollDelegate: AnyObject {
     func scrollViewDidScrollVertically(scrollView: UIScrollView)
 }
 
-class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate {
-    
+class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDelegate, UITableViewDelegate {
     
     var navigationTopBar = NavigationTopBarView()
-    var header = CryptoDetailHeaderView(name: "Bitcoin", symbol: "BTC", type: "Coin", icon: UIImage(named: "btc")!)
+    var header: CryptoHeaderView!
     var menu = HorizontalMenu(items: ["Details", "Holding", "Orders", "Transactions"], scrollable: true)
     
     lazy var menuScrollView: UIScrollView = {
@@ -39,7 +38,7 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
     }()
     
     // MARK: ViewControllers
-    lazy var detailVC = CryptoDetailViewController()
+    lazy var detailVC  = CryptoDetailViewController()
     lazy var holdingsVC = CryptoHoldingsViewController()
     lazy var ordersVC = CryptoOrdersViewController()
     lazy var transactionsVC = CryptoTransactionsViewController()
@@ -48,11 +47,17 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
     
     var displayedVCTag = 0
     
+    var crypto: Cryptocurrency!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        detailVC.crypto = self.crypto
+        holdingsVC.crypto = self.crypto
+        transactionsVC.crypto = self.crypto
+        
+        header = CryptoHeaderView(name: self.crypto.name, symbol: self.crypto.symbol, price: self.crypto.price, change: self.crypto.change, iconName: self.crypto.iconName)
         
         addChild(detailVC)
         detailVC.didMove(toParent: self)
@@ -66,10 +71,11 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         addChild(transactionsVC)
         transactionsVC.didMove(toParent: self)
         
-        
-        navigationTopBar.title.text = "Bitcoin"
+        navigationTopBar.title.text = crypto.name
+        navigationTopBar.price.text = usdFormat(crypto.price)
         
         menu.delegate = self
+        navigationTopBar.backButtonDelegate = self
                 
         view.addSubview(menuScrollView)
         menuScrollView.addSubview(detailVC.view)
@@ -109,6 +115,12 @@ class CryptocurrencyViewController: UIViewController, UIGestureRecognizerDelegat
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    convenience init(crypto: Cryptocurrency) {
+        self.init()
+        
+        self.crypto = crypto
     }
     
 }
@@ -187,9 +199,9 @@ extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollVie
         }
         
         if header.nameLabel.frame.maxY/1.5 + header.frame.minY < navigationTopBar.topBar.frame.maxY {
-            navigationTopBar.showTitle()
+            navigationTopBar.showCryptoInfo()
         } else {
-            navigationTopBar.hideTitle()
+            navigationTopBar.hideCryptoInfo()
         }
         
     }
@@ -271,9 +283,9 @@ extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtoc
         }
     }
     
-    func backButtonAction(sender: UIButton!) {
-        
-        dismiss(animated: true, completion: nil)
+    func backButtonAction() {
+
+        _ = navigationController?.popToRootViewController(animated: true)
     }
     
 }
@@ -355,6 +367,7 @@ extension CryptocurrencyViewController {
     }
     
 }
+
 
 
 extension UIScrollView {

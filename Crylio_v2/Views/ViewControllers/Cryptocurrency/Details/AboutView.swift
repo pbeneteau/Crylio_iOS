@@ -39,7 +39,7 @@ class AboutView: UIView {
     private func commonInit() {
         
         backgroundColor = .clear
-        backgroundBox.backgroundColor = .systemGray6
+        backgroundBox.backgroundColor = AppColors.background.secondary
         
         backgroundBox.layer.cornerRadius = 7
         

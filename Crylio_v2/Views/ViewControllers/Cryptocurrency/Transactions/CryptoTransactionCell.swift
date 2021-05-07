@@ -43,8 +43,8 @@ class CryptoTransactionCell: UITableViewCell {
         
         backgroundColor = .clear
         contentView.backgroundColor = .clear
+        bgView.backgroundColor = AppColors.background.secondary
         
-        bgView.backgroundColor = .systemGray6
         bgView.translatesAutoresizingMaskIntoConstraints = false
         bgView.layer.masksToBounds = true
         bgView.layer.cornerRadius = 7

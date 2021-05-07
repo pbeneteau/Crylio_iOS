@@ -75,8 +75,8 @@ class HoldingsStatsView: UIView {
     private func commonInit() {
         
         backgroundColor = .clear
+        backgroundBox.backgroundColor = AppColors.background.secondary
         
-        backgroundBox.backgroundColor = .systemGray6
         backgroundBox.layer.cornerRadius = 7
         
         separationLine.backgroundColor = .systemGray5

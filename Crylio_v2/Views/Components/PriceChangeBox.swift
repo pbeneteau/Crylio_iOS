@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 
 
-class PriceChangeBoxView: UIView {
+class PriceChangeBox: UIView {
     
-    lazy var box = RoundedCornersView()
+    lazy var box = UIImageView()
     lazy var change = UILabel()
     
     override init(frame: CGRect) {
@@ -24,7 +24,15 @@ class PriceChangeBoxView: UIView {
     init(change: Float) {
         super.init(frame: CGRect.zero)
         
-        self.change.text = "\(change) %"
+        box.image = UIImage(named: "priceUp")
+        self.change.textColor = .systemGreen
+        
+        if change < 0 {
+            box.image = UIImage(named: "priceDown")
+            self.change.textColor = .systemRed
+        }
+        
+        self.change.text = percentFormat(change)
                 
         commonInit()
     }
@@ -37,38 +45,32 @@ class PriceChangeBoxView: UIView {
     
     private func commonInit() {
         
+        backgroundColor = .clear
+        
+        change.textAlignment = .right
+        change.font = .systemFont(ofSize: 17)
         
         addSubview(box)
         addSubview(change)
-        
-        backgroundColor = .clear
-        
-        box.layer.cornerRadius = 10
-        box.backgroundColor = .systemGreen
-        box.alpha = 0.07
-        
-        change.textColor = .systemGreen
-        change.textAlignment = .center
-        change.font = .systemFont(ofSize: 15)
     }
     
     override func updateConstraints() {
         
         box.snp.makeConstraints { make in
-            make.top.bottom.left.right.equalToSuperview()
+            make.top.bottom.left.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalTo(self.snp.height)
         }
         
         change.snp.makeConstraints { make in
-            make.top.bottom.left.right.equalToSuperview()
+            make.left.equalTo(box.snp.right).offset(5)
+            make.top.bottom.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalTo(change.intrinsicContentSize.width)
         }
         
         super.updateConstraints()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        //manually set subview frames here
-    }
     
 }

@@ -8,7 +8,21 @@
 import Foundation
 import UIKit
 
+
+struct CryptoMarketStats {
+    
+    var volume24: Float
+    var volume24Change: Float
+    var marketCap: Float
+    var marketCapChange: Float
+    var availableSupply: Float
+    var availableSupplyChange: Float
+    var totalSupply: Float
+}
+
+
 class Cryptocurrency {
+    
     var id: Int
     var name: String
     var slug: String
@@ -27,6 +41,8 @@ class Cryptocurrency {
         }
     }
     var icon: UIImage?
+    
+    var marketStats: CryptoMarketStats
     
     
     func balanceToString() -> String {
@@ -55,7 +71,8 @@ class Cryptocurrency {
           amount: Float,
           price: Float,
           change: Float,
-          iconName: String) {
+          iconName: String,
+          marketStats: CryptoMarketStats) {
         self.id = id
         self.name = name
         self.slug = slug
@@ -66,7 +83,7 @@ class Cryptocurrency {
         self.price = price
         self.change = change
         self.iconName = iconName
-        
+        self.marketStats = marketStats
     }
     
 }

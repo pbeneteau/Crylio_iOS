@@ -13,10 +13,10 @@ class MarketStatsView: UIView {
     
     lazy var backgroundBox = UIView()
     
-    lazy var volumeIcon = UIImageView(image: UIImage(named: "volumeIcon"))
-    lazy var marketCapIcon = UIImageView(image: UIImage(named: "marketCapIcon"))
-    lazy var availableSupplyIcon = UIImageView(image: UIImage(named: "availableSupplyIcon"))
-    lazy var totalSupplyIcon = UIImageView(image: UIImage(named: "totalSupplyIcon"))
+    lazy var volumeIcon = UIImageView(image: UIImage(named: "volumeIcon")!.withRenderingMode(.alwaysTemplate))
+    lazy var marketCapIcon = UIImageView(image: UIImage(named: "marketCapIcon")!.withRenderingMode(.alwaysTemplate))
+    lazy var availableSupplyIcon = UIImageView(image: UIImage(named: "availableSupplyIcon")!.withRenderingMode(.alwaysTemplate))
+    lazy var totalSupplyIcon = UIImageView(image: UIImage(named: "totalSupplyIcon")!.withRenderingMode(.alwaysTemplate))
     
     lazy var volume24Title = UILabel()
     lazy var volume24 = UILabel()
@@ -36,23 +36,16 @@ class MarketStatsView: UIView {
         commonInit()
     }
     
-    init(volume24: Float,
-         volume24Change: Float,
-         marketCap: Float,
-         marketCapChange: Float,
-         availableSupply: Float,
-         availableSupplyChange: Float,
-         totalSupply: Float) {
-        
+    init(marketStats: CryptoMarketStats) {
         super.init(frame: CGRect.zero)
         
-        self.volume24.text = amountFormat(volume24)
-        self.volume24Change.text = percentFormat(volume24Change)
-        self.marketCap.text = usdFormat(marketCap)
-        self.marketCapChange.text = percentFormat(marketCapChange)
-        self.availableSupply.text = amountFormat(availableSupply)
-        self.availableSupplyChange.text = percentFormat(availableSupplyChange)
-        self.totalSupply.text = amountFormat(totalSupply)
+        self.volume24.text = amountFormat(marketStats.volume24)
+        self.volume24Change.text = percentFormat(marketStats.volume24Change)
+        self.marketCap.text = usdFormat(marketStats.marketCap)
+        self.marketCapChange.text = percentFormat(marketStats.marketCapChange)
+        self.availableSupply.text = amountFormat(marketStats.availableSupply)
+        self.availableSupplyChange.text = percentFormat(marketStats.availableSupplyChange)
+        self.totalSupply.text = amountFormat(marketStats.totalSupply)
                 
         commonInit()
     }
@@ -66,9 +59,9 @@ class MarketStatsView: UIView {
     private func commonInit() {
         
         backgroundColor = .clear
-        backgroundBox.backgroundColor = .systemGray6
+        backgroundBox.backgroundColor = AppColors.background.secondary
         
-        backgroundBox.layer.cornerRadius = 7
+        backgroundBox.layer.cornerRadius = 10
         
         title.text = "Market Stats"
         
@@ -108,6 +101,12 @@ class MarketStatsView: UIView {
         volume24Change.textAlignment = .right
         marketCapChange.textAlignment = .right
         availableSupplyChange.textAlignment = .right
+        
+        volumeIcon.tintColor = AppColors.icon
+        marketCapIcon.tintColor = AppColors.icon
+        availableSupplyIcon.tintColor = AppColors.icon
+        totalSupplyIcon.tintColor = AppColors.icon
+        
         
         addSubview(title)
         

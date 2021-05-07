@@ -18,7 +18,7 @@ class HomeTableViewCell: UITableViewCell {
     lazy var balance = UILabel()
     lazy var amount = UILabel()
     lazy var price = UILabel()
-    lazy var change = PriceChangeBoxView()
+    lazy var change = PriceChangeBox()
     
     lazy var separator = UIView()
     

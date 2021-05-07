@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BackButtonProtocol: NSObjectProtocol {
-    func backButtonAction(sender: UIButton!)
+    func backButtonAction()
 }
 
 class NavigationTopBarView: UIView {
@@ -18,8 +18,9 @@ class NavigationTopBarView: UIView {
 
     lazy var backButton = UIButton(type: .custom)
     lazy var title = UILabel()
+    lazy var price = UILabel()
     
-    var isTitleHidden = true
+    var isCryptoInfoHidden = true
     var isBlurriedViewHidden = true
     
     weak var backButtonDelegate: BackButtonProtocol? = nil
@@ -41,7 +42,7 @@ class NavigationTopBarView: UIView {
         
         backgroundColor = .clear
         
-        topBar.backgroundColor = .systemBackground
+        topBar.backgroundColor = AppColors.background.primary
         
         blurredView.alpha = 0
         
@@ -54,38 +55,48 @@ class NavigationTopBarView: UIView {
         backButton.setTitleColor(backButton.tintColor, for: .normal)
         backButton.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
 
-        
         title.alpha = 0
         title.textAlignment = .center
-        title.font = .systemFont(ofSize: 17, weight: .medium)
+        title.font = .systemFont(ofSize: 17, weight: .bold)
+        
+        price.alpha = 0
+        price.textAlignment = .right
+        price.textColor = AppColors.label.primary
+        price.font = .systemFont(ofSize: 17, weight: .medium)
         
         addSubview(blurredView)
         addSubview(topBar)
         addSubview(backButton)
         addSubview(title)
+        addSubview(price)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
     }
     
-    func hideTitle() {
-        if isTitleHidden { return }
-        isTitleHidden = true
+    func hideCryptoInfo() {
+        
+        if isCryptoInfoHidden { return }
+        isCryptoInfoHidden = true
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
-
             self.title.alpha = 0
             self.title.transform = CGAffineTransform(translationX: 0, y: 5)
+            self.price.alpha = 0
+            self.price.transform = CGAffineTransform(translationX: 0, y: 5)
         }, completion: nil)
     }
     
-    func showTitle() {
-        if !isTitleHidden { return }
-        isTitleHidden = false
+    func showCryptoInfo() {
+        if !isCryptoInfoHidden { return }
+        isCryptoInfoHidden = false
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
             self.title.alpha = 1
             self.title.transform = CGAffineTransform(translationX: 0, y: -5)
+            self.price.alpha = 1
+            self.price.transform = CGAffineTransform(translationX: 0, y: -5)
         }, completion: nil)
+        
     }
         
     override func updateConstraints() {
@@ -110,14 +121,22 @@ class NavigationTopBarView: UIView {
         title.snp.remakeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalTo(backButton).offset(5)
-            make.height.equalTo(22)
-            make.width.equalTo(100)
+            make.height.equalTo(20)
+            make.width.equalTo(title.intrinsicContentSize.width)
+        }
+        
+        price.snp.remakeConstraints { make in
+            make.right.equalToSuperview().inset(16)
+            make.centerY.equalTo(backButton).offset(5)
+            make.height.equalTo(20)
+            make.width.equalTo(price.intrinsicContentSize.width)
         }
         
         super.updateConstraints()
     }
     
     @objc func backButtonAction(sender: UIButton!) {
-        self.backButtonDelegate?.backButtonAction(sender: sender)
+
+        self.backButtonDelegate?.backButtonAction()
     }
 }

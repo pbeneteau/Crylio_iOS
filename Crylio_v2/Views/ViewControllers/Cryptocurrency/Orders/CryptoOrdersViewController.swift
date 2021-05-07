@@ -36,7 +36,7 @@ enum OrderStatus: String {
     case canceled = "Canceled"
 }
 
-class CryptoOrdersViewController: UIViewController {
+class CryptoOrdersViewController: BaseViewController {
     
     lazy var tableView = UITableView(frame: CGRect.zero, style: .plain)
 
@@ -46,7 +46,6 @@ class CryptoOrdersViewController: UIViewController {
     weak var scrollViewDelegate: ScrollViewDidScrollDelegate?
     
     var blurredHeaderViewAlpha: CGFloat = 0.0
-    var scrollViewYOffset: CGFloat = 0.0
 
     var orders = [Order]()
 
@@ -66,10 +65,10 @@ class CryptoOrdersViewController: UIViewController {
     }
     
     private func commonInit() {
-        
-        view.backgroundColor = .clear
-        
+                
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        tableView.backgroundColor = .clear
         
         tableView.rowHeight = 90
         
@@ -116,6 +115,13 @@ class CryptoOrdersViewController: UIViewController {
         super.updateViewConstraints()
     }
     
+    override func initColors() {
+        super .initColors()
+        
+        
+    }
+    
+    
 }
 
 extension CryptoOrdersViewController: UITableViewDelegate, UITableViewDataSource {
@@ -148,11 +154,20 @@ extension CryptoOrdersViewController: UITableViewDelegate, UITableViewDataSource
 extension CryptoOrdersViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        scrollViewYOffset = scrollView.contentOffset.y
-        
+                
         guard let delegate = scrollViewDelegate else { return }
         delegate.scrollViewDidScrollVertically(scrollView: scrollView)
     }
     
 }
+
+
+// COLORS
+
+//extension CryptoOrdersViewController {
+//
+//    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+//
+//        initColors(theme: traitCollection.userInterfaceStyle)
+//    }
+//}

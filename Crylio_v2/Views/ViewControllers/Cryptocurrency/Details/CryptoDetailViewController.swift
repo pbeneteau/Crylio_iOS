@@ -1,5 +1,5 @@
 //
-//  CryptoHoldingsViewController.swift
+//  CryptoDetailViewController.swift
 //  Crylio_v2
 //
 //  Created by Paul Bénéteau on 08/02/2021.
@@ -7,21 +7,23 @@
 
 import UIKit
 
-class CryptoHoldingsViewController: UIViewController {
 
-    lazy var scrollView = CryptoHoldingsScrollView()
+class CryptoDetailViewController: BaseViewController {
     
-    var refreshControl = UIRefreshControl()
-
     var blurredHeaderViewAlpha: CGFloat = 0.0
-    var scrollViewYOffset: CGFloat = 0.0
     
+    var scrollView: CryptoDetailScrollView!
     weak var scrollViewDelegate: ScrollViewDidScrollDelegate?
+
+    var refreshControl = UIRefreshControl()
+    
+    var crypto: Cryptocurrency!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .clear
+        scrollView = CryptoDetailScrollView(crypto: crypto)
         
         scrollView.delegate = self
         
@@ -30,6 +32,8 @@ class CryptoHoldingsViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(refreshControl)
     }
+    
+
     
     @objc func refresh() {
         
@@ -40,6 +44,26 @@ class CryptoHoldingsViewController: UIViewController {
             self.refreshControl.endRefreshing()
         }
     }
+
+}
+
+
+// SCROLL VIEW DELEGATE
+
+extension CryptoDetailViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+                
+        guard let delegate = scrollViewDelegate else { return }
+        delegate.scrollViewDidScrollVertically(scrollView: scrollView)
+    }
+    
+}
+
+
+// CONSTRAINTS
+
+extension CryptoDetailViewController {
     
     override func updateViewConstraints() {
         
@@ -50,17 +74,14 @@ class CryptoHoldingsViewController: UIViewController {
         
         super.updateViewConstraints()
     }
-
 }
 
 
-extension CryptoHoldingsViewController: UIScrollViewDelegate {
+// DARK MODE HANDLING
+
+extension CryptoDetailViewController {
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollViewYOffset = scrollView.contentOffset.y
-        
-        guard let delegate = scrollViewDelegate else { return }
-        delegate.scrollViewDidScrollVertically(scrollView: scrollView)
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        scrollView.chartView.updateChart()
     }
-    
 }

@@ -61,7 +61,9 @@ class HorizontalMenu: UIView {
         
         scrollView.backgroundColor = .clear
                 
-        selectedButtonView.backgroundColor = Colors.Dark.Background.secondary
+        selectedButtonView.backgroundColor = AppColors.background.secondary
+        
+        
         selectedButtonView.flx_smoothCorners = true
         selectedButtonView.layer.cornerRadius = 10
         

@@ -6,16 +6,14 @@
 //
 
 import UIKit
-import AAInfographics
 import WebKit
 
 
-class ChartView: UIView, WKNavigationDelegate {
+class ChartView: UIView {
         
     lazy var backgroundBox = RoundedCornersView()
 
     var webView: WKWebView!
-    
     
     lazy var chartView = UIView()
     
@@ -23,12 +21,6 @@ class ChartView: UIView, WKNavigationDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        commonInit()
-    }
-    
-    init(price: Float, changePercent: Float, changeDollar: Float) {
-        super.init(frame: CGRect.zero)
-                
         commonInit()
     }
     
@@ -58,12 +50,7 @@ class ChartView: UIView, WKNavigationDelegate {
         
         translatesAutoresizingMaskIntoConstraints = false
         
-        //chartView.scrollEnabled = false
-        //chartView.isClearBackgroundColor = true
-        //chartView.delegate = self as AAChartViewDelegate
-        
         backgroundBox.clipsToBounds = true
-        webView.loadHTMLString(wchart, baseURL: nil)
         webView.allowsBackForwardNavigationGestures = false
         webView.scrollView.isScrollEnabled = false
         webView.isOpaque = false
@@ -72,32 +59,12 @@ class ChartView: UIView, WKNavigationDelegate {
         webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         
-        let arr = [
-            1,3,2,5,4,2,3,5,6,5,
-            4,6,7,5,6,8,7,5,8,6,
-            8,9,6,8,7,8,9,10,11,13,
-            9,11,10,13,12,11,10,11,13,11
-        ]
-                
-        let aaChartModel = AAChartModel()
-            .chartType(AAChartType.line)
-            .colorsTheme(["#5B8FF9"])
-            .dataLabelsEnabled(false)
-            .animationType(.easeFrom)
-            .legendEnabled(false)
-            .touchEventEnabled(true)
-            .xAxisVisible(false)
-            .yAxisVisible(false)
-            .markerRadius(0)
-            .tooltipEnabled(false)
-            .series([
-                AASeriesElement()
-                    .data(arr)])
+        updateChart()
+    }
+    
+    func updateChart() {
         
-        //chartView.aa_drawChartWithChartModel(aaChartModel)
-        
-        print("\n\n\n\n\n\n\n\n\n")
-        
+        webView.loadHTMLString(TradingViewChart.getChart(exchange: "BINANCE", symbol: "VETUSDT", interval: "D", theme: traitCollection.userInterfaceStyle == .dark ? "dark": "light"), baseURL: nil)
     }
     
     override func updateConstraints() {
@@ -123,15 +90,21 @@ class ChartView: UIView, WKNavigationDelegate {
     
 }
 
-
-extension ChartView: AAChartViewDelegate {
+	
+extension ChartView: WKNavigationDelegate {
     
-    func aaChartView(_ aaChartView: AAChartView, moveOverEventMessage: AAMoveOverEventMessageModel) {
-        guard let price = moveOverEventMessage.y else {return}
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+                
+        guard case .linkActivated = navigationAction.navigationType,
+              let url = navigationAction.request.url
+        else {
+            decisionHandler(.allow)
+            return
+        }
+        decisionHandler(.cancel)
+        UIApplication.shared.open(url)
         
-        let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
-        selectionFeedbackGenerator.selectionChanged()
-        
-    }
+   }
+    
     
 }

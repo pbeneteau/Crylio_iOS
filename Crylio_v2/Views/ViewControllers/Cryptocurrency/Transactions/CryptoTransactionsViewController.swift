@@ -63,7 +63,7 @@ struct TransactionsMonthSection {
 }
 
 
-class CryptoTransactionsViewController: UIViewController {
+class CryptoTransactionsViewController: BaseViewController {
     
     
     lazy var tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -73,9 +73,12 @@ class CryptoTransactionsViewController: UIViewController {
         
     var blurredHeaderViewAlpha: CGFloat = 0.0
     var scrollViewYOffset: CGFloat = 0.0
+    
+    var crypto: Cryptocurrency!
 
     var sections = [TransactionsMonthSection]()
     var transactions = [Transaction]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,12 +87,10 @@ class CryptoTransactionsViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        view.backgroundColor = .clear
-        
+                
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
-        tableView.backgroundColor = .systemBackground
+        tableView.backgroundColor = .clear
         
         tableView.rowHeight = 99
         tableView.sectionHeaderHeight = 50
@@ -106,6 +107,12 @@ class CryptoTransactionsViewController: UIViewController {
         tableView.addSubview(refreshControl)
         
         data()
+    }
+    
+    convenience init(crypto: Cryptocurrency) {
+        self.init()
+        
+        self.crypto = crypto
     }
     
     private func data() {
@@ -149,17 +156,10 @@ class CryptoTransactionsViewController: UIViewController {
         }
     }
     
-    override func updateViewConstraints() {
-        
-        tableView.snp.makeConstraints { make in
-            make.left.top.bottom.right.equalToSuperview()
-            make.width.height.equalToSuperview()
-        }
-        
-        super.updateViewConstraints()
-    }
-    
 }
+
+
+// TABLE VIEW DELEGATE
 
 extension CryptoTransactionsViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -235,7 +235,7 @@ extension CryptoTransactionsViewController: UITableViewDelegate, UITableViewData
 }
 
 
-// DELEGATES
+// SCROLL VIEW DELEGATE
 
 extension CryptoTransactionsViewController {
     
@@ -247,4 +247,20 @@ extension CryptoTransactionsViewController {
         delegate.scrollViewDidScrollVertically(scrollView: scrollView)
     }
     
+}
+
+
+// CONSTRAINTS
+
+extension CryptoTransactionsViewController {
+    
+    override func updateViewConstraints() {
+        
+        tableView.snp.makeConstraints { make in
+            make.left.top.bottom.right.equalToSuperview()
+            make.width.height.equalToSuperview()
+        }
+        
+        super.updateViewConstraints()
+    }
 }
