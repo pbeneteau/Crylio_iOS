@@ -16,9 +16,9 @@ protocol ScrollViewDidScrollDelegate: AnyObject {
 
 class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDelegate, UITableViewDelegate {
     
-    var navigationTopBar = NavigationTopBarView()
-    var header: CryptoHeaderView!
-    var menu = HorizontalMenu(items: ["Details", "Holding", "Orders", "Transactions"], scrollable: true)
+    lazy var navigationTopBar = NavigationTopBarView()
+    lazy var header = CryptoHeaderView()
+    lazy var menu = HorizontalMenu(items: ["Details", "Holding", "Orders", "Transactions"], scrollable: true)
     
     lazy var menuScrollView: UIScrollView = {
         
@@ -57,7 +57,7 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
         holdingsVC.crypto = self.crypto
         transactionsVC.crypto = self.crypto
         
-        header = CryptoHeaderView(name: self.crypto.name, symbol: self.crypto.symbol, price: self.crypto.price, change: self.crypto.change, iconName: self.crypto.iconName)
+        header.crypto = crypto
         
         addChild(detailVC)
         detailVC.didMove(toParent: self)
@@ -72,7 +72,7 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
         transactionsVC.didMove(toParent: self)
         
         navigationTopBar.title.text = crypto.name
-        navigationTopBar.price.text = usdFormat(crypto.price)
+        navigationTopBar.price.attributedText = navigationTopBar.price.getDollarMutableString(value: crypto.price)
         
         menu.delegate = self
         navigationTopBar.backButtonDelegate = self
@@ -297,7 +297,7 @@ extension CryptocurrencyViewController {
         
         navigationTopBar.snp.makeConstraints { make in
             make.left.width.top.equalToSuperview()
-            make.height.equalTo(91 + 35 + 8)
+            make.height.equalTo(91 + 35 + 10)
         }
         
         header.snp.makeConstraints { make in

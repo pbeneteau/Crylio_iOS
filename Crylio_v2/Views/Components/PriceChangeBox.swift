@@ -11,29 +11,18 @@ import SnapKit
 
 class PriceChangeBox: UIView {
     
-    lazy var box = UIImageView()
-    lazy var change = UILabel()
+    lazy var boxView = UIImageView()
+    lazy var changeLabel = UILabel()
+    
+    var change: Float! {
+        didSet {
+            initValues()
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        commonInit()
-    }
-    
-    
-    init(change: Float) {
-        super.init(frame: CGRect.zero)
-        
-        box.image = UIImage(named: "priceUp")
-        self.change.textColor = .systemGreen
-        
-        if change < 0 {
-            box.image = UIImage(named: "priceDown")
-            self.change.textColor = .systemRed
-        }
-        
-        self.change.text = percentFormat(change)
-                
         commonInit()
     }
     
@@ -47,26 +36,36 @@ class PriceChangeBox: UIView {
         
         backgroundColor = .clear
         
-        change.textAlignment = .right
-        change.font = .systemFont(ofSize: 17)
+        changeLabel.textAlignment = .right
+                
+        addSubview(boxView)
+        addSubview(changeLabel)
+    }
+    
+    func initValues() {
         
-        addSubview(box)
-        addSubview(change)
+        boxView.image = UIImage(named: "priceUp")
+        
+        if change < 0 {
+            boxView.image = UIImage(named: "priceDown")
+        }
+        
+        self.changeLabel.attributedText = changeLabel.getPercentMutableString(value: change, colors: true)
     }
     
     override func updateConstraints() {
         
-        box.snp.makeConstraints { make in
+        boxView.snp.makeConstraints { make in
             make.top.bottom.left.equalToSuperview()
             make.height.equalToSuperview()
             make.width.equalTo(self.snp.height)
         }
         
-        change.snp.makeConstraints { make in
-            make.left.equalTo(box.snp.right).offset(5)
+        changeLabel.snp.makeConstraints { make in
+            make.left.equalTo(boxView.snp.right).offset(5)
             make.top.bottom.equalToSuperview()
             make.height.equalToSuperview()
-            make.width.equalTo(change.intrinsicContentSize.width)
+            make.width.equalTo(changeLabel.intrinsicContentSize.width)
         }
         
         super.updateConstraints()

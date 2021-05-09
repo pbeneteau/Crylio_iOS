@@ -30,27 +30,20 @@ class ChartView: UIView {
         commonInit()
     }
     
-    func loadView() {
-        webView = WKWebView()
-        webView.navigationDelegate = self
-        chartView = webView
-    }
-    
+
     private func commonInit() {
+        
+        translatesAutoresizingMaskIntoConstraints = false
         
         loadView()
         
         backgroundColor = .clear
-        backgroundBox.backgroundColor = .systemGray6
+        backgroundBox.backgroundColor = AppColors.background.secondary
         
-        backgroundBox.layer.cornerRadius = 7
-                
-        addSubview(backgroundBox)
-        backgroundBox.addSubview(chartView)
-        
-        translatesAutoresizingMaskIntoConstraints = false
+        backgroundBox.layer.cornerRadius = 10
         
         backgroundBox.clipsToBounds = true
+        
         webView.allowsBackForwardNavigationGestures = false
         webView.scrollView.isScrollEnabled = false
         webView.isOpaque = false
@@ -59,7 +52,16 @@ class ChartView: UIView {
         webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         
+        addSubview(backgroundBox)
+        backgroundBox.addSubview(chartView)
+        
         updateChart()
+    }
+    
+    func loadView() {
+        webView = WKWebView()
+        webView.navigationDelegate = self
+        chartView = webView
     }
     
     func updateChart() {
@@ -71,7 +73,7 @@ class ChartView: UIView {
         
         backgroundBox.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview()
             make.width.equalToSuperview().offset(-32)
             make.bottom.equalToSuperview().offset(-10)
         }

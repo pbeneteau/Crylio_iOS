@@ -12,9 +12,12 @@ import SnapKit
 class CryptoHoldingsScrollView: UIScrollView {
 
     lazy var contentView = UIView()
-        
-    lazy var holdingsStatsView = HoldingsStatsView(worth: 123415.42, averageCost: 6421.74, totalAmount: 3.1, profitLoss: 120415.06, percentChange: 1401.85)
-    
+    lazy var balanceView = HoldingsBalanceView()
+    lazy var costView = HoldingsStatView()
+    lazy var amountView = HoldingsStatView()
+    lazy var profitLossView = HoldingsStatView()
+    lazy var changeView = HoldingsStatView()
+
     lazy var distributionView = DistributionView(onOrder: 0.4, onTrade: 0.1, stacked: 0.3, available: 0.2)
     
     override init(frame: CGRect) {
@@ -44,39 +47,41 @@ class CryptoHoldingsScrollView: UIScrollView {
         
         addSubview(contentView)
         
-        contentView.addSubview(holdingsStatsView)
+        contentView.addSubview(balanceView)
+        contentView.addSubview(costView)
+        contentView.addSubview(amountView)
+        contentView.addSubview(profitLossView)
+        contentView.addSubview(changeView)
         contentView.addSubview(distributionView)
+        
+        initValues()
+        
+        setNeedsUpdateConstraints()
+    }
+    
+    private func initValues() {
+        
+        costView.title.text = "Cost"
+        amountView.title.text = "Amount"
+        changeView.title.text = "Change"
+        profitLossView.title.text = "Profit"
+        
+        if false {
+            profitLossView.title.text = "Loss"
+        }
+        
+        balanceView.value.attributedText = balanceView.value.getDollarMutableString(value: 13415.42)
+        balanceView.progressBar.progress = 0.63
+        balanceView.percent.text = Float(0.63*100).toPercentString()
+        costView.value.text = Float(6421.74).toDollarString()
+        amountView.value.text = Float(3.1).toAmountString(symbol: "BTC")
+        changeView.value.attributedText = changeView.value.getPercentMutableString(value: 1401.85, colors: true)
+        profitLossView.value.attributedText = profitLossView.value.getDollarMutableString(value: 120415.06, colors: true)
     }
     
     func updateInsets(menuMaxY: CGFloat) {
         contentInset = UIEdgeInsets(top: menuMaxY, left: 0, bottom: 0, right: 0)
         scrollIndicatorInsets = UIEdgeInsets(top: menuMaxY-20, left: 0, bottom: 0, right: 0)
-    }
-    
-    override func updateConstraints() {
-        
-        contentView.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self)
-            make.left.right.equalTo(0)
-            make.width.equalTo(self)
-            make.height.equalTo(400 + 382)
-        }
-        
-        holdingsStatsView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.width.equalToSuperview()
-            make.top.equalToSuperview()
-            make.height.equalTo(230)
-        }
-        
-        distributionView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.width.equalToSuperview()
-            make.top.equalTo(holdingsStatsView.snp.bottom).offset(30)
-            make.height.equalTo(196)
-        }
-        
-        super.updateConstraints()
     }
     
     override func layoutSubviews() {
@@ -86,4 +91,66 @@ class CryptoHoldingsScrollView: UIScrollView {
                 
     }
 
+}
+
+
+// CONSTRAINTS
+
+extension CryptoHoldingsScrollView {
+    
+    override func updateConstraints() {
+        
+        contentView.snp.makeConstraints { make in
+            make.top.bottom.equalTo(self)
+            make.left.right.equalTo(0)
+            make.width.equalTo(self)
+            make.height.equalTo(1000)
+        }
+        
+        balanceView.snp.makeConstraints { make in
+            make.left.equalTo(16)
+            make.right.equalToSuperview().inset(16)
+            make.top.equalToSuperview().offset(16)
+            make.height.equalTo(126)
+        }
+        
+        costView.snp.makeConstraints { make in
+            make.left.equalTo(16)
+            make.right.equalTo(contentView.snp.centerX).inset(8)
+            make.top.equalTo(balanceView.snp.bottom).offset(16)
+            make.height.equalTo(76)
+        }
+        
+        amountView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(16)
+            make.left.equalTo(contentView.snp.centerX).offset(8)
+            make.top.equalTo(balanceView.snp.bottom).offset(16)
+            make.height.equalTo(76)
+        }
+        
+        profitLossView.snp.makeConstraints { make in
+            make.left.equalTo(16)
+            make.right.equalTo(contentView.snp.centerX).inset(8)
+            make.top.equalTo(costView.snp.bottom).offset(16)
+            make.height.equalTo(76)
+        }
+        
+        changeView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(16)
+            make.left.equalTo(contentView.snp.centerX).offset(8)
+            make.top.equalTo(amountView.snp.bottom).offset(16)
+            make.height.equalTo(76)
+        }
+        
+        distributionView.snp.makeConstraints { make in
+            make.left.equalTo(16)
+            make.width.equalToSuperview().inset(32)
+            make.top.equalTo(profitLossView.snp.bottom).offset(30)
+            make.height.equalTo(328)
+        }
+        
+        
+        super.updateConstraints()
+    }
+    
 }

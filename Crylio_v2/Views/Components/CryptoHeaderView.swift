@@ -15,7 +15,7 @@ class CryptoHeaderView: UIView {
     lazy var symbolLabel = UILabel()
     lazy var icon = UIImageView()
     
-    lazy var price = UILabel()
+    lazy var priceLabel = UILabel()
     lazy var changeBox = PriceChangeBox()
     
     lazy var timeframeButton = UIButton()
@@ -23,22 +23,16 @@ class CryptoHeaderView: UIView {
     
     lazy var watchButton = UIButton()
     
+    var crypto: Cryptocurrency! {
+        didSet {
+            initValues()
+        }
+    }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        commonInit()
-    }
-    
-    init(name: String, symbol: String, price: Float, change: Float, iconName: String) {
-        super.init(frame: CGRect.zero)
-        
-        self.nameLabel.text = name
-        self.symbolLabel.text = symbol
-        self.price.text = usdFormat(price)
-        self.changeBox = PriceChangeBox(change: change)
-        self.icon.image = UIImage(named: iconName)
-                        
         commonInit()
     }
     
@@ -50,16 +44,22 @@ class CryptoHeaderView: UIView {
     
     private func commonInit() {
         
+        translatesAutoresizingMaskIntoConstraints = false
+        
         nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         symbolLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
-        price.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        changeBox.change.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        priceLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        changeBox.changeLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         
         symbolLabel.textColor = AppColors.label.secondary
         
+        priceLabel.textAlignment = .right
         
-        timeframeDropdownView.backgroundColor = .systemGray4
-        timeframeDropdownView.selectionBackgroundColor = .systemGray5
+        timeframeDropdownView.cornerRadius = 10
+        timeframeDropdownView.textColor = AppColors.label.primary
+        timeframeDropdownView.backgroundColor = AppColors.background.tertiary
+        timeframeDropdownView.selectionBackgroundColor = .systemBlue.withAlphaComponent(0.2)
+        timeframeDropdownView.dimmedBackgroundColor = .black.withAlphaComponent(0.3)
         timeframeDropdownView.setupCornerRadius(10)
         timeframeDropdownView.dataSource = ["1 hour", "12 hours", "1 days", "3 days", "1 weeks", "1 months", "3 months", "1 years", "All"]
         timeframeDropdownView.anchorView = timeframeButton
@@ -72,8 +72,12 @@ class CryptoHeaderView: UIView {
         timeframeButton.setTitle("1 day", for: .normal)
         timeframeButton.setTitleColor(.systemBlue, for: .normal)
         timeframeButton.addTarget(self, action: #selector(self.timeframeButtonAction(sender:)), for: .touchUpInside)
+        timeframeButton.backgroundColor = .clear
+        timeframeButton.layer.cornerRadius = 10
+        timeframeButton.layer.borderWidth = 1
+        timeframeButton.layer.borderColor = UIColor.systemBlue.cgColor
         
-        watchButton.layer.cornerRadius = 7
+        watchButton.layer.cornerRadius = 10
         watchButton.backgroundColor = .systemBlue.withAlphaComponent(0.2)
         watchButton.setTitle("Watch", for: .normal)
         watchButton.setTitleColor(.systemBlue, for: .normal)
@@ -85,13 +89,20 @@ class CryptoHeaderView: UIView {
         
         addSubview(nameLabel)
         addSubview(symbolLabel)
-        addSubview(price)
+        addSubview(priceLabel)
         addSubview(changeBox)
         addSubview(icon)
         addSubview(timeframeButton)
         addSubview(watchButton)
+    }
+    
+    func initValues() {
         
-        setNeedsUpdateConstraints()
+        self.nameLabel.text = crypto.name
+        self.symbolLabel.text = crypto.symbol
+        self.priceLabel.attributedText = priceLabel.getDollarMutableString(value: crypto.price)
+        self.changeBox.change = crypto.change
+        self.icon.image = UIImage(named: crypto.iconName)
     }
     
     @objc func timeframeButtonAction(sender: UIButton!) {
@@ -123,6 +134,24 @@ class CryptoHeaderView: UIView {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+                
+        changeBox.snp.remakeConstraints { make in
+            make.right.equalToSuperview().inset(16)
+            make.centerY.equalTo(symbolLabel)
+            make.height.equalTo(20)
+            make.width.equalTo(changeBox.changeLabel.intrinsicContentSize.width + 25)
+        }
+    }
+    
+}
+
+
+// CONSTRAINTS
+
+extension CryptoHeaderView {
+    
     override func updateConstraints() {
         
         icon.snp.makeConstraints { make in
@@ -133,30 +162,29 @@ class CryptoHeaderView: UIView {
         
         nameLabel.snp.makeConstraints { make in
             make.left.equalTo(icon.snp.right).offset(15)
+            make.right.equalTo(self.snp.centerX).inset(8)
             make.top.equalTo(icon)
             make.height.equalTo(29)
-            make.width.equalTo(nameLabel.intrinsicContentSize)
         }
         
         symbolLabel.snp.makeConstraints { make in
             make.left.equalTo(icon.snp.right).offset(15)
+            make.right.equalTo(self.snp.centerX).inset(8)
             make.bottom.equalTo(icon)
             make.height.equalTo(20)
-            make.width.equalTo(symbolLabel.intrinsicContentSize)
         }
         
-        price.snp.makeConstraints { make in
+        priceLabel.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(16)
+            make.left.equalTo(self.snp.centerX).offset(8)
             make.centerY.equalTo(nameLabel)
             make.height.equalTo(29)
-            make.width.equalTo(price.intrinsicContentSize)
         }
         
         changeBox.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(16)
             make.centerY.equalTo(symbolLabel)
             make.height.equalTo(20)
-            make.width.equalTo(changeBox.change.intrinsicContentSize.width + 25)
         }
         
         timeframeButton.snp.makeConstraints { make in
@@ -174,20 +202,6 @@ class CryptoHeaderView: UIView {
         }
         
         super.updateConstraints()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        timeframeButton.backgroundColor = .clear
-        timeframeButton.layer.cornerRadius = 7
-        timeframeButton.layer.borderWidth = 1
-        timeframeButton.layer.borderColor = UIColor.systemBlue.cgColor
-        
-        timeframeDropdownView.bottomOffset = CGPoint(x: 0, y:(timeframeDropdownView.anchorView?.plainView.bounds.height)!)
-        
-     
-
     }
 
 }

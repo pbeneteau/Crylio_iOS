@@ -30,7 +30,7 @@ class HomeTableViewCell: UITableViewCell {
                 balance.text = crypto?.balanceToString()
                 amount.text = crypto?.amountToString() 
                 price.text = crypto?.priceToString()
-                change.change.text = crypto?.changeToString()
+                change.changeLabel.text = crypto?.changeToString()
             }
     }
     

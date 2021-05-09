@@ -12,7 +12,7 @@ class CryptoDetailViewController: BaseViewController {
     
     var blurredHeaderViewAlpha: CGFloat = 0.0
     
-    var scrollView: CryptoDetailScrollView!
+    lazy var scrollView = CryptoDetailScrollView()
     weak var scrollViewDelegate: ScrollViewDidScrollDelegate?
 
     var refreshControl = UIRefreshControl()
@@ -23,7 +23,7 @@ class CryptoDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView = CryptoDetailScrollView(crypto: crypto)
+        scrollView.crypto = crypto
         
         scrollView.delegate = self
         

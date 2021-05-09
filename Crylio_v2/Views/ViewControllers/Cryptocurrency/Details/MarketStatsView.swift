@@ -9,44 +9,37 @@ import UIKit
 
 class MarketStatsView: UIView {
     
-    lazy var title = UILabel()
+    lazy var titleLabel = UILabel()
     
-    lazy var backgroundBox = UIView()
+    lazy var backgroundBoxView = UIView()
     
     lazy var volumeIcon = UIImageView(image: UIImage(named: "volumeIcon")!.withRenderingMode(.alwaysTemplate))
     lazy var marketCapIcon = UIImageView(image: UIImage(named: "marketCapIcon")!.withRenderingMode(.alwaysTemplate))
     lazy var availableSupplyIcon = UIImageView(image: UIImage(named: "availableSupplyIcon")!.withRenderingMode(.alwaysTemplate))
     lazy var totalSupplyIcon = UIImageView(image: UIImage(named: "totalSupplyIcon")!.withRenderingMode(.alwaysTemplate))
     
-    lazy var volume24Title = UILabel()
-    lazy var volume24 = UILabel()
-    lazy var volume24Change = UILabel()
-    lazy var marketCapTitle = UILabel()
-    lazy var marketCap = UILabel()
-    lazy var marketCapChange = UILabel()
-    lazy var availableSupplyTitle = UILabel()
-    lazy var availableSupply = UILabel()
-    lazy var availableSupplyChange = UILabel()
-    lazy var totalSupplyTitle = UILabel()
-    lazy var totalSupply = UILabel()
-
+    lazy var volume24TitleLabel = UILabel()
+    lazy var volume24Label = UILabel()
+    lazy var volume24ChangeLabel = UILabel()
+    lazy var marketCapTitleLabel = UILabel()
+    lazy var marketCapLabel = UILabel()
+    lazy var marketCapChangeLabel = UILabel()
+    lazy var availableSupplyTitleLabel = UILabel()
+    lazy var availableSupplyLabel = UILabel()
+    lazy var availableSupplyChangeLabel = UILabel()
+    lazy var totalSupplyTitleLabel = UILabel()
+    lazy var totalSupplyLabel = UILabel()
+    
+    var marketStats: CryptoMarketStats! {
+        didSet {
+            initValues()
+        }
+    }
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        commonInit()
-    }
-    
-    init(marketStats: CryptoMarketStats) {
-        super.init(frame: CGRect.zero)
-        
-        self.volume24.text = amountFormat(marketStats.volume24)
-        self.volume24Change.text = percentFormat(marketStats.volume24Change)
-        self.marketCap.text = usdFormat(marketStats.marketCap)
-        self.marketCapChange.text = percentFormat(marketStats.marketCapChange)
-        self.availableSupply.text = amountFormat(marketStats.availableSupply)
-        self.availableSupplyChange.text = percentFormat(marketStats.availableSupplyChange)
-        self.totalSupply.text = amountFormat(marketStats.totalSupply)
-                
         commonInit()
     }
     
@@ -58,116 +51,120 @@ class MarketStatsView: UIView {
     
     private func commonInit() {
         
+        translatesAutoresizingMaskIntoConstraints = false
+        
         backgroundColor = .clear
-        backgroundBox.backgroundColor = AppColors.background.secondary
+        backgroundBoxView.backgroundColor = AppColors.background.secondary
         
-        backgroundBox.layer.cornerRadius = 10
+        backgroundBoxView.layer.cornerRadius = 10
         
-        title.text = "Market Stats"
+        titleLabel.text = "Market Stats"
         
-        volume24Title.text = "Volume 24h"
-        marketCapTitle.text = "Market Cap"
-        availableSupplyTitle.text = "Available Supply"
-        totalSupplyTitle.text = "Total Supply"
+        volume24TitleLabel.text = "Volume 24h"
+        marketCapTitleLabel.text = "Market Cap"
+        availableSupplyTitleLabel.text = "Available Supply"
+        totalSupplyTitleLabel.text = "Total Supply"
         
-        title.font = .systemFont(ofSize: 20, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
         
-        volume24Title.font = .systemFont(ofSize: 13)
-        volume24.font = .systemFont(ofSize: 17, weight: .medium)
-        volume24Change.font = .systemFont(ofSize: 17)
-        marketCapTitle.font = .systemFont(ofSize: 13)
-        marketCap.font = .systemFont(ofSize: 17, weight: .medium)
-        marketCapChange.font = .systemFont(ofSize: 17)
-        availableSupplyTitle.font = .systemFont(ofSize: 13)
-        availableSupply.font = .systemFont(ofSize: 17, weight: .medium)
-        availableSupplyChange.font = .systemFont(ofSize: 17)
-        totalSupplyTitle.font = .systemFont(ofSize: 13)
-        totalSupply.font = .systemFont(ofSize: 17, weight: .medium)
+        volume24TitleLabel.font = .systemFont(ofSize: 13)
+        volume24Label.font = .systemFont(ofSize: 17, weight: .medium)
+        volume24ChangeLabel.font = .systemFont(ofSize: 15)
+        marketCapTitleLabel.font = .systemFont(ofSize: 13)
+        marketCapLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        marketCapChangeLabel.font = .systemFont(ofSize: 15)
+        availableSupplyTitleLabel.font = .systemFont(ofSize: 13)
+        availableSupplyLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        availableSupplyChangeLabel.font = .systemFont(ofSize: 15)
+        totalSupplyTitleLabel.font = .systemFont(ofSize: 13)
+        totalSupplyLabel.font = .systemFont(ofSize: 17, weight: .medium)
         
-        title.textColor = .label
+        titleLabel.textColor = .label
         
-        volume24Title.textColor = .systemGray
-        volume24.textColor = .label
-        volume24Change.textColor = .systemGreen
-        marketCapTitle.textColor = .systemGray
-        marketCap.textColor = .label
-        marketCapChange.textColor = .systemGreen
-        availableSupplyTitle.textColor = .systemGray
-        availableSupply.textColor = .label
-        availableSupplyChange.textColor = .systemGreen
-        totalSupplyTitle.textColor = .systemGray
-        totalSupply.textColor = .label
+        volume24TitleLabel.textColor = .systemGray
+        marketCapTitleLabel.textColor = .systemGray
+        availableSupplyTitleLabel.textColor = .systemGray
+        totalSupplyTitleLabel.textColor = .systemGray
         
-        volume24Change.textAlignment = .right
-        marketCapChange.textAlignment = .right
-        availableSupplyChange.textAlignment = .right
+        volume24ChangeLabel.textAlignment = .right
+        marketCapChangeLabel.textAlignment = .right
+        availableSupplyChangeLabel.textAlignment = .right
         
         volumeIcon.tintColor = AppColors.icon
         marketCapIcon.tintColor = AppColors.icon
         availableSupplyIcon.tintColor = AppColors.icon
         totalSupplyIcon.tintColor = AppColors.icon
+                
+        addSubview(titleLabel)
+        addSubview(backgroundBoxView)
         
+        backgroundBoxView.addSubview(volumeIcon)
+        backgroundBoxView.addSubview(marketCapIcon)
+        backgroundBoxView.addSubview(availableSupplyIcon)
+        backgroundBoxView.addSubview(totalSupplyIcon)
         
-        addSubview(title)
+        backgroundBoxView.addSubview(volume24TitleLabel)
+        backgroundBoxView.addSubview(volume24Label)
+        backgroundBoxView.addSubview(volume24ChangeLabel)
+        backgroundBoxView.addSubview(marketCapTitleLabel)
+        backgroundBoxView.addSubview(marketCapLabel)
+        backgroundBoxView.addSubview(marketCapChangeLabel)
+        backgroundBoxView.addSubview(availableSupplyTitleLabel)
+        backgroundBoxView.addSubview(availableSupplyLabel)
+        backgroundBoxView.addSubview(availableSupplyChangeLabel)
+        backgroundBoxView.addSubview(totalSupplyTitleLabel)
+        backgroundBoxView.addSubview(totalSupplyLabel)
         
-        addSubview(backgroundBox)
+    }
+    
+    func initValues() {
         
-        backgroundBox.addSubview(volumeIcon)
-        backgroundBox.addSubview(marketCapIcon)
-        backgroundBox.addSubview(availableSupplyIcon)
-        backgroundBox.addSubview(totalSupplyIcon)
+        volume24Label.attributedText = volume24Label.getDollarMutableString(value: marketStats.volume24, precision: 0)
+        volume24ChangeLabel.attributedText = volume24ChangeLabel.getPercentMutableString(value: marketStats.volume24Change, colors: true)
+        marketCapLabel.attributedText = marketCapLabel.getDollarMutableString(value: marketStats.marketCap, precision: 0)
+        marketCapChangeLabel.attributedText = marketCapChangeLabel.getPercentMutableString(value: marketStats.marketCapChange, colors: true)
+        availableSupplyLabel.attributedText = availableSupplyLabel.getAmountMutableString(value: marketStats.availableSupply)
+        availableSupplyChangeLabel.attributedText = availableSupplyChangeLabel.getPercentMutableString(value: marketStats.availableSupplyChange, colors: true)
+        totalSupplyLabel.attributedText = totalSupplyLabel.getAmountMutableString(value: marketStats.totalSupply)
         
-        backgroundBox.addSubview(volume24Title)
-        backgroundBox.addSubview(volume24)
-        backgroundBox.addSubview(volume24Change)
-        backgroundBox.addSubview(marketCapTitle)
-        backgroundBox.addSubview(marketCap)
-        backgroundBox.addSubview(marketCapChange)
-        backgroundBox.addSubview(availableSupplyTitle)
-        backgroundBox.addSubview(availableSupply)
-        backgroundBox.addSubview(availableSupplyChange)
-        backgroundBox.addSubview(totalSupplyTitle)
-        backgroundBox.addSubview(totalSupply)
-        
-        translatesAutoresizingMaskIntoConstraints = false
     }
     
     override func updateConstraints() {
         
-        title.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.width.equalTo(200)
             make.left.equalTo(16)
             make.top.equalToSuperview()
             make.height.equalTo(22)
         }
         
-        backgroundBox.snp.makeConstraints { make in
+        backgroundBoxView.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalTo(title.snp.bottom).offset(15)
+            make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.width.equalToSuperview().offset(-32)
             make.bottom.equalToSuperview().offset(-10)
         }
         
         volumeIcon.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
-            make.top.equalTo(title.snp.bottom).offset(30)
+            make.top.equalTo(titleLabel.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }
-        volume24Title.snp.makeConstraints { make in
+        volume24TitleLabel.snp.makeConstraints { make in
             make.left.equalTo(volumeIcon.snp.right).offset(15)
             make.top.equalTo(volumeIcon).offset(-5)
             make.width.equalTo(150)
             make.height.equalTo(16)
         }
-        volume24.snp.makeConstraints { make in
+        volume24Label.snp.makeConstraints { make in
             make.left.equalTo(volumeIcon.snp.right).offset(15)
-            make.bottom.equalTo(volumeIcon).offset(5)
-            make.width.equalTo(volume24.intrinsicContentSize.width)
+            make.bottom.equalTo(volumeIcon).offset(3)
+            make.width.equalTo(volume24Label.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
-        volume24Change.snp.makeConstraints { make in
+        volume24ChangeLabel.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(volume24)
+            make.centerY.equalTo(volume24Label)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
@@ -177,21 +174,21 @@ class MarketStatsView: UIView {
             make.top.equalTo(volumeIcon.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }
-        marketCapTitle.snp.makeConstraints { make in
+        marketCapTitleLabel.snp.makeConstraints { make in
             make.left.equalTo(marketCapIcon.snp.right).offset(15)
             make.top.equalTo(marketCapIcon).offset(-5)
             make.width.equalTo(150)
             make.height.equalTo(16)
         }
-        marketCap.snp.makeConstraints { make in
+        marketCapLabel.snp.makeConstraints { make in
             make.left.equalTo(marketCapIcon.snp.right).offset(15)
-            make.bottom.equalTo(marketCapIcon).offset(5)
-            make.width.equalTo(marketCap.intrinsicContentSize.width)
+            make.bottom.equalTo(marketCapIcon).offset(3)
+            make.width.equalTo(marketCapLabel.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
-        marketCapChange.snp.makeConstraints { make in
+        marketCapChangeLabel.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(marketCap)
+            make.centerY.equalTo(marketCapLabel)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
@@ -201,21 +198,21 @@ class MarketStatsView: UIView {
             make.top.equalTo(marketCapIcon.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }
-        availableSupplyTitle.snp.makeConstraints { make in
+        availableSupplyTitleLabel.snp.makeConstraints { make in
             make.left.equalTo(availableSupplyIcon.snp.right).offset(15)
             make.top.equalTo(availableSupplyIcon).offset(-5)
             make.width.equalTo(150)
             make.height.equalTo(16)
         }
-        availableSupply.snp.makeConstraints { make in
+        availableSupplyLabel.snp.makeConstraints { make in
             make.left.equalTo(availableSupplyIcon.snp.right).offset(15)
-            make.bottom.equalTo(availableSupplyIcon).offset(5)
-            make.width.equalTo(availableSupply.intrinsicContentSize.width)
+            make.bottom.equalTo(availableSupplyIcon).offset(3)
+            make.width.equalTo(availableSupplyLabel.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
-        availableSupplyChange.snp.makeConstraints { make in
+        availableSupplyChangeLabel.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(availableSupply)
+            make.centerY.equalTo(availableSupplyLabel)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
@@ -225,19 +222,18 @@ class MarketStatsView: UIView {
             make.top.equalTo(availableSupplyIcon.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }
-        totalSupplyTitle.snp.makeConstraints { make in
+        totalSupplyTitleLabel.snp.makeConstraints { make in
             make.left.equalTo(totalSupplyIcon.snp.right).offset(15)
             make.top.equalTo(totalSupplyIcon).offset(-5)
             make.width.equalTo(150)
             make.height.equalTo(16)
         }
-        totalSupply.snp.makeConstraints { make in
+        totalSupplyLabel.snp.makeConstraints { make in
             make.left.equalTo(totalSupplyIcon.snp.right).offset(15)
-            make.bottom.equalTo(totalSupplyIcon).offset(5)
-            make.width.equalTo(totalSupply.intrinsicContentSize.width)
+            make.bottom.equalTo(totalSupplyIcon).offset(3)
+            make.width.equalTo(totalSupplyLabel.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
-        
         
         super.updateConstraints()
     }

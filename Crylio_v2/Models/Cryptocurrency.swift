@@ -46,20 +46,21 @@ class Cryptocurrency {
     
     
     func balanceToString() -> String {
-        return usdFormat(balance)
+        return balance.toDollarString()
     }
     
     func amountToString() -> String {
-        return String(amount)
+        return amount.toAmountString()
     }
     
     func priceToString() -> String {
-        return usdFormat(price)
+        return price.toDollarString()
     }
     
     func changeToString() -> String {
-        return percentFormat(change)
+        return change.toPercentString()
     }
+    
     
     
     init?(id: Int,

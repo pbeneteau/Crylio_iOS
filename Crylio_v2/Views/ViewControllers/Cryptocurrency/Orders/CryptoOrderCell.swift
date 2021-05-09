@@ -9,19 +9,18 @@ import UIKit
 
 class CryptoOrderCell: UITableViewCell {
     
-    lazy var orderType = UILabel()
-    lazy var amount = UILabel()
-    lazy var exchange = UILabel()
-    lazy var worth = UILabel()
-    lazy var date = UILabel()
-    lazy var filledStatusBox = RoundedCornersView()
-    lazy var filledStatus = UILabel()
+    lazy var orderTypeLabel = UILabel()
+    lazy var amountLabel = UILabel()
+    lazy var exchangeLabel = UILabel()
+    lazy var worthLabel = UILabel()
+    lazy var dateLabel = UILabel()
+    lazy var filledStatusBoxView = RoundedCornersView()
+    lazy var filledStatusLabel = UILabel()
     
         
     var order: Order! {
         didSet {
-            
-            updateValues()
+            initValues()
         }
     }
 
@@ -30,74 +29,80 @@ class CryptoOrderCell: UITableViewCell {
         
         commonInit()
     }
+    
+    init(order: Order) {
+        self.init()
+        
+        self.order = order
+        
+        commonInit()
+    }
 
     private func commonInit() {
         
-        orderType.font = .systemFont(ofSize: 17, weight: .medium)
+        orderTypeLabel.font = .systemFont(ofSize: 17, weight: .medium)
         
-        exchange.font = .systemFont(ofSize: 15)
-        exchange.textColor = .systemGray
+        exchangeLabel.font = .systemFont(ofSize: 15)
+        exchangeLabel.textColor = .systemGray
         
-        amount.textAlignment = .right
-        amount.font = .systemFont(ofSize: 15)
+        amountLabel.textAlignment = .right
+        amountLabel.font = .systemFont(ofSize: 15)
         
-        date.textColor = .systemGray
-        date.font = .systemFont(ofSize: 13)
+        dateLabel.textColor = .systemGray
+        dateLabel.font = .systemFont(ofSize: 13)
         
-        worth.textAlignment = .right
-        worth.font = .systemFont(ofSize: 13)
+        worthLabel.textAlignment = .right
+        worthLabel.font = .systemFont(ofSize: 13)
         
-        filledStatusBox.layer.cornerRadius = 3
-        filledStatusBox.backgroundColor = .systemGreen
-        filledStatusBox.alpha = 0.15
+        filledStatusBoxView.layer.cornerRadius = 3
+        filledStatusBoxView.backgroundColor = .systemGreen
+        filledStatusBoxView.alpha = 0.15
         
-        filledStatus.textAlignment = .center
-        filledStatus.font = .systemFont(ofSize: 13)
-        filledStatus.textColor = .systemGreen
-        
-        addSubview(orderType)
-        addSubview(amount)
-        addSubview(exchange)
-        addSubview(worth)
-        addSubview(date)
-        addSubview(filledStatusBox)
-        addSubview(filledStatus)
+        filledStatusLabel.textAlignment = .center
+        filledStatusLabel.font = .systemFont(ofSize: 13)
+        filledStatusLabel.textColor = .systemGreen
+                
+        addSubview(orderTypeLabel)
+        addSubview(amountLabel)
+        addSubview(exchangeLabel)
+        addSubview(worthLabel)
+        addSubview(dateLabel)
+        addSubview(filledStatusBoxView)
+        addSubview(filledStatusLabel)
     }
     
-    func updateValues() {
+    func initValues() {
         
-        orderType.text = order.orderType.rawValue
-        worth.text = usdFormat(order.worth)
-        date.text = order.dateString
-        filledStatus.text = order.status.rawValue
+        orderTypeLabel.text = order.orderType.rawValue
+        worthLabel.attributedText = worthLabel.getDollarMutableString(value: order.worth)
+        dateLabel.text = order.dateString
+        filledStatusLabel.text = order.status.rawValue
         
-        amount.text =  amountFormat(order.amount) + "/" + amountFormat(order.amount)
-        amount.setSpannedColor(fullText:  amount.text!, changeText: "/" + amountFormat(order.amount), color: .systemGray)
+        amountLabel.text = order.amount.toAmountString() + "/" + order.amount.toAmountString()
+        amountLabel.setSpannedColor(fullText:  amountLabel.text!, changeText: "/" + order.amount.toAmountString(), color: .systemGray)
         
-        exchange.text =  "via " + order.exchange
-        exchange.setSpannedColor(fullText:  exchange.text!, changeText: order.exchange, color: .label)
+        exchangeLabel.text =  "via " + order.exchange
+        exchangeLabel.setSpannedColor(fullText:  exchangeLabel.text!, changeText: order.exchange, color: .label)
 
         switch order.orderType {
         case .marketSell:
-            orderType.textColor = .systemRed
+            orderTypeLabel.textColor = .systemRed
         case .marketBuy:
-            orderType.textColor = .systemGreen
+            orderTypeLabel.textColor = .systemGreen
         case .limitBuy:
-            orderType.textColor = .systemGreen
+            orderTypeLabel.textColor = .systemGreen
         case .limitSell:
-            orderType.textColor = .systemRed
+            orderTypeLabel.textColor = .systemRed
         }
         
         switch order.status {
         case .filled:
-            filledStatusBox.backgroundColor = .systemGreen
-            filledStatus.textColor = .systemGreen
+            filledStatusBoxView.backgroundColor = .systemGreen
+            filledStatusLabel.textColor = .systemGreen
         default:
-            filledStatusBox.backgroundColor = .systemGray
-            filledStatus.textColor = .systemGray
+            filledStatusBoxView.backgroundColor = .systemGray
+            filledStatusLabel.textColor = .systemGray
         }
-        
-        setNeedsUpdateConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -113,50 +118,50 @@ extension CryptoOrderCell {
     
     override func updateConstraints() {
         
-        orderType.snp.makeConstraints { make in
+        orderTypeLabel.snp.makeConstraints { make in
             make.left.equalTo(16)
             make.top.equalToSuperview().offset(10)
-            make.width.equalTo(orderType.intrinsicContentSize.width)
+            make.width.equalTo(orderTypeLabel.intrinsicContentSize.width)
             make.height.equalTo(20)
         }
         
-        exchange.snp.makeConstraints { make in
+        exchangeLabel.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalTo(orderType.snp.bottom).offset(9)
-            make.width.equalTo(exchange.intrinsicContentSize.width)
+            make.top.equalTo(orderTypeLabel.snp.bottom).offset(9)
+            make.width.equalTo(exchangeLabel.intrinsicContentSize.width)
             make.height.equalTo(18)
         }
         
-        date.snp.makeConstraints { make in
+        dateLabel.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalTo(exchange.snp.bottom).offset(4)
-            make.width.equalTo(date.intrinsicContentSize.width)
+            make.top.equalTo(exchangeLabel.snp.bottom).offset(4)
+            make.width.equalTo(dateLabel.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         
-        filledStatusBox.snp.makeConstraints { make in
+        filledStatusBoxView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(orderType)
-            make.width.equalTo(filledStatus.intrinsicContentSize.width + 8)
+            make.centerY.equalTo(orderTypeLabel)
+            make.width.equalTo(filledStatusLabel.intrinsicContentSize.width + 8)
             make.height.equalTo(20)
         }
         
-        filledStatus.snp.makeConstraints { make in
-            make.center.equalTo(filledStatusBox)
-            make.height.width.equalTo(filledStatusBox)
+        filledStatusLabel.snp.makeConstraints { make in
+            make.center.equalTo(filledStatusBoxView)
+            make.height.width.equalTo(filledStatusBoxView)
         }
         
-        amount.snp.makeConstraints { make in
+        amountLabel.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(exchange)
-            make.width.equalTo(amount.intrinsicContentSize.width)
+            make.centerY.equalTo(exchangeLabel)
+            make.width.equalTo(amountLabel.intrinsicContentSize.width)
             make.height.equalTo(18)
         }
             
-        worth.snp.makeConstraints { make in
+        worthLabel.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(date)
-            make.width.equalTo(worth.intrinsicContentSize.width)
+            make.centerY.equalTo(dateLabel)
+            make.width.equalTo(worthLabel.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         

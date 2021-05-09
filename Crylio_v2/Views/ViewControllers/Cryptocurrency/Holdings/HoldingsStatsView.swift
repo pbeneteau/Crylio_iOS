@@ -37,34 +37,6 @@ class HoldingsStatsView: UIView {
         commonInit()
     }
     
-    init(worth:Float,
-         averageCost: Float,
-         totalAmount: Float,
-         profitLoss: Float,
-         percentChange: Float) {
-        
-        super.init(frame: CGRect.zero)
-        
-        self.worth.text = usdFormat(worth)
-        self.averageCost.text = usdFormat(averageCost)
-        self.totalAmount.text = amountFormat(totalAmount)
-        self.profitLoss.text = usdFormat(profitLoss)
-        self.percentChange.text = percentFormat(percentChange)
-        
-        if percentChange > 0 {
-            self.percentChange.textColor = .systemGreen
-            self.profitLoss.textColor = .systemGreen
-        } else if percentChange < 0 {
-            self.percentChange.textColor = .systemRed
-            self.profitLoss.textColor = .systemRed
-        } else {
-            self.percentChange.textColor = .systemGray
-            self.profitLoss.textColor = .systemGray
-        }
-                
-        commonInit()
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         

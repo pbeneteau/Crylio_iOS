@@ -10,7 +10,7 @@ import UIKit
 
 class RoundedCornersView: UIView {
 
-    private var flx_lastSetRadius : CGFloat = 7
+    private var flx_lastSetRadius : CGFloat = 10
     private var flx_smoothMask : CAShapeLayer?
 
     var flx_smoothCorners: Bool = false {
@@ -28,6 +28,7 @@ class RoundedCornersView: UIView {
     }
 
     func updateMaskIfNeeded() {
+        
         if (flx_smoothCorners) {
             if let maskBounds = flx_smoothMask?.path?.boundingBoxOfPath {
                 if (!bounds.equalTo(maskBounds)

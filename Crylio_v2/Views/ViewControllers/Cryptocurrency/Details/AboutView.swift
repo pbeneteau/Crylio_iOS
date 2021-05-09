@@ -9,23 +9,24 @@ import UIKit
 
 class AboutView: UIView {
     
-    lazy var title = UILabel()
+    lazy var titleLabel = UILabel()
+    lazy var backgroundBoxView = UIView()
+    lazy var descriptionTextLabel = UILabel()
     
-    lazy var backgroundBox = UIView()
+    var descriptionString: String! {
+        didSet {
+            descriptionTextLabel.text = descriptionString!
+        }
+    }
     
-    lazy var descriptionText = UILabel()
+    var name: String! {
+        didSet {
+            titleLabel.text = "About \(name!)"
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        commonInit()
-    }
-    
-    init(name: String, description: String) {
-        super.init(frame: CGRect.zero)
-        
-        self.title.text = "About \(name)"
-        self.descriptionText.text = description
         
         commonInit()
     }
@@ -38,46 +39,45 @@ class AboutView: UIView {
     
     private func commonInit() {
         
-        backgroundColor = .clear
-        backgroundBox.backgroundColor = AppColors.background.secondary
-        
-        backgroundBox.layer.cornerRadius = 7
-        
-        title.font = .systemFont(ofSize: 20, weight: .bold)
-        title.textColor = .label
-        
-        descriptionText.font = .systemFont(ofSize: 17)
-        descriptionText.textColor = .systemGray
-        descriptionText.numberOfLines = 0
-        
-        descriptionText.sizeToFit()
-        
-        addSubview(title)
-        
-        addSubview(backgroundBox)
-        
-        backgroundBox.addSubview(descriptionText)
-        
         translatesAutoresizingMaskIntoConstraints = false
+        
+        backgroundColor = .clear
+        backgroundBoxView.backgroundColor = AppColors.background.secondary
+        
+        backgroundBoxView.layer.cornerRadius = 7
+        
+        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textColor = .label
+        
+        descriptionTextLabel.font = .systemFont(ofSize: 17)
+        descriptionTextLabel.textColor = .systemGray
+        descriptionTextLabel.numberOfLines = 0
+        
+        descriptionTextLabel.sizeToFit()
+        
+        addSubview(titleLabel)
+        addSubview(backgroundBoxView)
+        
+        backgroundBoxView.addSubview(descriptionTextLabel)
     }
     
     override func updateConstraints() {
         
-        title.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.width.equalTo(200)
             make.left.equalTo(16)
             make.top.equalToSuperview()
             make.height.equalTo(22)
         }
         
-        backgroundBox.snp.makeConstraints { make in
+        backgroundBoxView.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalTo(title.snp.bottom).offset(15)
+            make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.width.equalToSuperview().offset(-32)
-            make.bottom.equalTo(descriptionText.snp.bottom).offset(16)
+            make.bottom.equalTo(descriptionTextLabel.snp.bottom).offset(16)
         }
         
-        descriptionText.snp.makeConstraints { make in
+        descriptionTextLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
             make.top.equalToSuperview().offset(16)
             make.right.equalToSuperview().offset(-16)
@@ -89,8 +89,7 @@ class AboutView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        descriptionText.sizeToFit()
-        
+        descriptionTextLabel.sizeToFit()
     }
 
 }

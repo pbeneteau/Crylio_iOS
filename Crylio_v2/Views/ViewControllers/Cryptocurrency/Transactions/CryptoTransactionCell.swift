@@ -13,22 +13,21 @@ class CryptoTransactionCell: UITableViewCell {
     
     static let reuseId = "TransactionCell"
 
-    
     let bgView = UIView()
     
-    lazy var transactionTypeCircle = CircleView()
-    lazy var transactionType = UILabel()
-    lazy var amount = UILabel()
-    lazy var exchange = UILabel()
-    lazy var worth = UILabel()
-    lazy var date = UILabel()
-    lazy var filledStatusBox = RoundedCornersView()
-    lazy var filledStatus = UILabel()
+    lazy var transactionTypeCircleView = CircleView()
+    lazy var transactionTypeLabel = UILabel()
+    lazy var amountLabel = UILabel()
+    lazy var exchangeLabel = UILabel()
+    lazy var worthLabel = UILabel()
+    lazy var dateLabel = UILabel()
+    lazy var filledStatusBoxView = RoundedCornersView()
+    lazy var filledStatusLabel = UILabel()
         
     var transaction: Transaction! {
         didSet {
             
-            updateValues()
+            initValues()
         }
     }
     
@@ -49,92 +48,89 @@ class CryptoTransactionCell: UITableViewCell {
         bgView.layer.masksToBounds = true
         bgView.layer.cornerRadius = 7
         
-        transactionType.font = .systemFont(ofSize: 17)
+        transactionTypeLabel.font = .systemFont(ofSize: 17)
         
-        exchange.font = .systemFont(ofSize: 15)
-        exchange.textColor = .systemGray
+        exchangeLabel.font = .systemFont(ofSize: 15)
+        exchangeLabel.textColor = .systemGray
         
-        amount.textAlignment = .right
-        amount.font = .systemFont(ofSize: 15)
+        amountLabel.textAlignment = .right
+        amountLabel.font = .systemFont(ofSize: 13)
         
-        date.textColor = .systemGray
-        date.font = .systemFont(ofSize: 13)
+        dateLabel.textColor = .systemGray
+        dateLabel.font = .systemFont(ofSize: 13)
         
-        worth.textAlignment = .right
-        worth.font = .systemFont(ofSize: 13)
+        worthLabel.textAlignment = .right
+        worthLabel.font = .systemFont(ofSize: 15, weight: .medium)
         
-        filledStatusBox.layer.cornerRadius = 3
-        filledStatusBox.backgroundColor = .systemGreen
-        filledStatusBox.alpha = 0.15
+        filledStatusBoxView.layer.cornerRadius = 3
+        filledStatusBoxView.backgroundColor = .systemGreen
+        filledStatusBoxView.alpha = 0.15
         
-        filledStatus.textAlignment = .center
-        filledStatus.font = .systemFont(ofSize: 13)
-        filledStatus.textColor = .systemGreen
+        filledStatusLabel.textAlignment = .center
+        filledStatusLabel.font = .systemFont(ofSize: 13)
+        filledStatusLabel.textColor = .systemGreen
                 
         contentView.addSubview(bgView)
-        bgView.addSubview(transactionTypeCircle)
-        bgView.addSubview(transactionType)
-        bgView.addSubview(amount)
-        bgView.addSubview(exchange)
-        bgView.addSubview(worth)
-        bgView.addSubview(date)
-        bgView.addSubview(filledStatusBox)
-        bgView.addSubview(filledStatus)
+        bgView.addSubview(transactionTypeCircleView)
+        bgView.addSubview(transactionTypeLabel)
+        bgView.addSubview(amountLabel)
+        bgView.addSubview(exchangeLabel)
+        bgView.addSubview(worthLabel)
+        bgView.addSubview(dateLabel)
+        bgView.addSubview(filledStatusBoxView)
+        bgView.addSubview(filledStatusLabel)
     }
     
-    func updateValues() {
+    func initValues() {
         
-        transactionType.text = transaction.transactionType.rawValue
-        filledStatus.text = transaction.status.rawValue
+        transactionTypeLabel.text = transaction.transactionType.rawValue
+        filledStatusLabel.text = transaction.status.rawValue
         
-        exchange.text =  "via " + transaction.exchange
+        exchangeLabel.text =  "via " + transaction.exchange
         if transaction.transactionType == .transferOut || transaction.transactionType == .transferIn {
-            exchange.text = "to " + transaction.exchange
+            exchangeLabel.text = "to " + transaction.exchange
         }
-        exchange.setSpannedColor(fullText:  exchange.text!, changeText: transaction.exchange, color: .label)
+        exchangeLabel.setSpannedColor(fullText:  exchangeLabel.text!, changeText: transaction.exchange, color: .label)
 
+        worthLabel.attributedText = worthLabel.getDollarMutableString(value: transaction.worth)
         
-        worth.text = usdFormat(transaction.worth)
-        
-        amount.text =  amountFormat(transaction.amount) + "/" + amountFormat(transaction.amountExecuted)
-        amount.setSpannedColor(fullText:  amount.text!, changeText: "/" + amountFormat(transaction.amountExecuted), color: .systemGray)
+        amountLabel.text = transaction.amount.toAmountString() + "/" + transaction.amountExecuted.toAmountString()
+        amountLabel.setSpannedColor(fullText: transaction.amount.toAmountString(), changeText: "/" + transaction.amountExecuted.toAmountString(), color: .systemGray)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/YY HH:MM:ss"
-        date.text = dateFormatter.string(from: transaction.time)
+        dateLabel.text = dateFormatter.string(from: transaction.time)
 
         
         switch transaction.transactionType {
         case .marketSell:
-            transactionTypeCircle.backgroundColor = .systemRed
+            transactionTypeCircleView.backgroundColor = .systemRed
         case .marketBuy:
-            transactionTypeCircle.backgroundColor = .systemGreen
+            transactionTypeCircleView.backgroundColor = .systemGreen
         case .limitBuy:
-            transactionTypeCircle.backgroundColor = .systemGreen
+            transactionTypeCircleView.backgroundColor = .systemGreen
         case .limitSell:
-            transactionTypeCircle.backgroundColor = .systemRed
+            transactionTypeCircleView.backgroundColor = .systemRed
         case .transferIn:
-            transactionTypeCircle.backgroundColor = .systemBlue
+            transactionTypeCircleView.backgroundColor = .systemBlue
         case .transferOut:
-            transactionTypeCircle.backgroundColor = .systemBlue
+            transactionTypeCircleView.backgroundColor = .systemBlue
         }
         
         switch transaction.status {
         case .filled:
-            filledStatusBox.backgroundColor = .systemGreen
-            filledStatus.textColor = .systemGreen
+            filledStatusBoxView.backgroundColor = .systemGreen
+            filledStatusLabel.textColor = .systemGreen
         case .sent:
-            filledStatusBox.backgroundColor = .systemGreen
-            filledStatus.textColor = .systemGreen
+            filledStatusBoxView.backgroundColor = .systemGreen
+            filledStatusLabel.textColor = .systemGreen
         case .canceled:
-            filledStatusBox.backgroundColor = .systemRed
-            filledStatus.textColor = .systemRed
+            filledStatusBoxView.backgroundColor = .systemRed
+            filledStatusLabel.textColor = .systemRed
         default:
-            filledStatusBox.backgroundColor = .systemGray
-            filledStatus.textColor = .systemGray
+            filledStatusBoxView.backgroundColor = .systemGray
+            filledStatusLabel.textColor = .systemGray
         }
-        
-        setNeedsUpdateConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -143,6 +139,16 @@ class CryptoTransactionCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    override func layoutSubviews() {
+        
+        filledStatusBoxView.snp.remakeConstraints { make in
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(transactionTypeLabel)
+            make.width.equalTo(filledStatusLabel.intrinsicContentSize.width + 8)
+            make.height.equalTo(20)
+        }
     }
 }
 
@@ -159,58 +165,59 @@ extension CryptoTransactionCell {
             make.height.equalToSuperview()
         }
         
-        transactionTypeCircle.snp.makeConstraints { make in
+        transactionTypeCircleView.snp.makeConstraints { make in
             make.left.equalTo(16)
             make.top.equalToSuperview().offset(20)
             make.height.width.equalTo(8)
         }
         
-        transactionType.snp.makeConstraints { make in
-            make.left.equalTo(transactionTypeCircle.snp.right).offset(8)
-            make.centerY.equalTo(transactionTypeCircle)
-            make.width.equalTo(transactionType.intrinsicContentSize.width)
+        transactionTypeLabel.snp.makeConstraints { make in
+            make.left.equalTo(transactionTypeCircleView.snp.right).offset(8)
+            make.right.equalToSuperview().offset(-16)
+            make.centerY.equalTo(transactionTypeCircleView)
             make.height.equalTo(20)
         }
         
-        exchange.snp.makeConstraints { make in
+        exchangeLabel.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalTo(transactionType.snp.bottom).offset(9)
-            make.width.equalTo(exchange.intrinsicContentSize.width)
+            make.right.equalTo(self.snp.centerX).inset(8)
+            make.top.equalTo(transactionTypeLabel.snp.bottom).offset(9)
             make.height.equalTo(18)
         }
         
-        date.snp.makeConstraints { make in
+        dateLabel.snp.makeConstraints { make in
             make.left.equalTo(16)
-            make.top.equalTo(exchange.snp.bottom).offset(4)
-            make.width.equalTo(date.intrinsicContentSize.width)
+            make.right.equalTo(self.snp.centerX).inset(8)
+            make.top.equalTo(exchangeLabel.snp.bottom).offset(4)
             make.height.equalTo(16)
         }
         
-        filledStatusBox.snp.makeConstraints { make in
+        filledStatusBoxView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(transactionType)
-            make.width.equalTo(filledStatus.intrinsicContentSize.width + 8)
+            make.centerY.equalTo(transactionTypeLabel)
+            make.width.equalTo(filledStatusLabel.intrinsicContentSize.width + 8)
             make.height.equalTo(20)
         }
         
-        filledStatus.snp.makeConstraints { make in
-            make.center.equalTo(filledStatusBox)
-            make.height.width.equalTo(filledStatusBox)
+        filledStatusLabel.snp.makeConstraints { make in
+            make.center.equalTo(filledStatusBoxView)
+            make.height.width.equalTo(filledStatusBoxView)
         }
         
-        amount.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(exchange)
-            make.width.equalTo(amount.intrinsicContentSize.width)
+        worthLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.snp.centerX).offset(8)
+            make.right.equalToSuperview().inset(16)
+            make.centerY.equalTo(exchangeLabel)
             make.height.equalTo(18)
         }
-            
-        worth.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-16)
-            make.centerY.equalTo(date)
-            make.width.equalTo(worth.intrinsicContentSize.width)
+        
+        amountLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.snp.centerX).offset(8)
+            make.right.equalToSuperview().inset(16)
+            make.centerY.equalTo(dateLabel)
             make.height.equalTo(16)
         }
+        
         
         super.updateConstraints()
     }
