@@ -9,14 +9,20 @@ import UIKit
 import WebKit
 
 
-class ChartView: UIView {
+protocol ChartViewDelegate: AnyObject {
+    
+    func chartViewDoubleTapped()
+}
+
+
+class ChartView: UIView, UIGestureRecognizerDelegate {
         
     lazy var backgroundBox = RoundedCornersView()
 
-    var webView: WKWebView!
-    
-    lazy var chartView = UIView()
-    
+    lazy var chartView = WKWebView()
+        
+    weak var delegate: ChartViewDelegate!
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,23 +40,28 @@ class ChartView: UIView {
     private func commonInit() {
         
         translatesAutoresizingMaskIntoConstraints = false
-        
-        loadView()
-        
+                
         backgroundColor = .clear
+        
         backgroundBox.backgroundColor = AppColors.background.secondary
-        
         backgroundBox.layer.cornerRadius = 10
-        
         backgroundBox.clipsToBounds = true
         
-        webView.allowsBackForwardNavigationGestures = false
-        webView.scrollView.isScrollEnabled = false
-        webView.isOpaque = false
-        webView.backgroundColor = .clear
-        webView.scrollView.bounces = false
-        webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        chartView.allowsBackForwardNavigationGestures = false
+        chartView.scrollView.isScrollEnabled = false
+        chartView.scrollView.showsVerticalScrollIndicator = false
+        chartView.backgroundColor = .clear
+        chartView.scrollView.bounces = false
+        chartView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
+        chartView.scrollView.contentInsetAdjustmentBehavior = .never
+        chartView.navigationDelegate = self
+
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(chartViewDoubleTapped))
+        tap.delegate = self
+        tap.numberOfTapsRequired = 2
+        
+        chartView.addGestureRecognizer(tap)
         
         addSubview(backgroundBox)
         backgroundBox.addSubview(chartView)
@@ -58,15 +69,16 @@ class ChartView: UIView {
         updateChart()
     }
     
-    func loadView() {
-        webView = WKWebView()
-        webView.navigationDelegate = self
-        chartView = webView
-    }
-    
     func updateChart() {
         
-        webView.loadHTMLString(TradingViewChart.getChart(exchange: "BINANCE", symbol: "VETUSDT", interval: "D", theme: traitCollection.userInterfaceStyle == .dark ? "dark": "light"), baseURL: nil)
+        let t = TradingViewChart(symbol: "BTCUSDT", exchange: .binance, theme: .dark, interval: .day)
+        
+        chartView.loadHTMLString(t.getMinimizedChart(), baseURL: nil)
+    }
+    
+    @objc func chartViewDoubleTapped() {
+        
+        delegate.chartViewDoubleTapped()
     }
     
     override func updateConstraints() {
@@ -84,10 +96,6 @@ class ChartView: UIView {
         }
         
         super.updateConstraints()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
     }
     
 }
@@ -108,5 +116,14 @@ extension ChartView: WKNavigationDelegate {
         
    }
     
+    
+}
+
+extension ChartView {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return true
+    }
     
 }

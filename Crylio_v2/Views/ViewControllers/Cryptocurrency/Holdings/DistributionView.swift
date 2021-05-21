@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Charts
+
 
 class DistributionView: UIView {
     
@@ -14,19 +16,9 @@ class DistributionView: UIView {
     lazy var backgroundBox = UIView()
     
     lazy var statesTitle = UILabel()
-
-    var statesBar: DistributionBar!
     
-    lazy var stackedIcon = UIImageView()
-    lazy var onTradeIcon = UIImageView()
-    lazy var onOrderIcon = UIImageView()
-    lazy var availableIcon = UIImageView()
+    lazy var pieChartView = PieChartView_2()
     
-    lazy var stackedlabel = UILabel()
-    lazy var onTradelabel = UILabel()
-    lazy var onOrderlabel = UILabel()
-    lazy var availablelabel = UILabel()
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,12 +32,6 @@ class DistributionView: UIView {
          available: Float) {
         
         super.init(frame: CGRect.zero)
-        
-        statesBar = DistributionBar(values: [BarValue(percent: onTrade, color: .systemRed, name: "On Trade"),
-                                             BarValue(percent: onOrder, color: .systemGreen, name: "On Order"),
-                                             BarValue(percent: stacked, color: .systemBlue, name: "Stacked"),
-                                             BarValue(percent: available, color: .systemGray, name: "Available")])
-           
         commonInit()
     }
     
@@ -58,9 +44,9 @@ class DistributionView: UIView {
     
     private func commonInit() {
         
-        backgroundColor = .clear
+        translatesAutoresizingMaskIntoConstraints = false
+                
         backgroundBox.backgroundColor = AppColors.background.secondary
-        
         backgroundBox.layer.cornerRadius = 7
         
         title.text = "Distribution"
@@ -68,46 +54,22 @@ class DistributionView: UIView {
         
         title.font = .systemFont(ofSize: 20, weight: .bold)
         title.textColor = .label
-        
-        stackedlabel.text = "Stacked"
-        onTradelabel.text = "On Trade"
-        onOrderlabel.text = "On Order"
-        availablelabel.text = "Available"
-        
-        stackedlabel.font = .systemFont(ofSize: 13)
-        onTradelabel.font = .systemFont(ofSize: 13)
-        onOrderlabel.font = .systemFont(ofSize: 13)
-        availablelabel.font = .systemFont(ofSize: 13)
-        
-        stackedlabel.textColor = .systemGray
-        onTradelabel.textColor = .systemGray
-        onOrderlabel.textColor = .systemGray
-        availablelabel.textColor = .systemGray
-        
-        stackedIcon.image = UIImage(named: "stackedIcon")
-        onTradeIcon.image = UIImage(named: "onTradeIcon")
-        onOrderIcon.image = UIImage(named: "onOrderIcon")
-        availableIcon.image = UIImage(named: "availableIcon")
-        
                 
+        pieChartView.values = ["stacked": 34.42, "on order": 12.95, "available": 48.6, "on trade": 4.03]
+        
         addSubview(title)
         addSubview(backgroundBox)
         backgroundBox.addSubview(statesTitle)
-        backgroundBox.addSubview(statesBar)
         
-        backgroundBox.addSubview(stackedIcon)
-        backgroundBox.addSubview(onTradeIcon)
-        backgroundBox.addSubview(onOrderIcon)
-        backgroundBox.addSubview(availableIcon)
-
-        backgroundBox.addSubview(stackedlabel)
-        backgroundBox.addSubview(onTradelabel)
-        backgroundBox.addSubview(onOrderlabel)
-        backgroundBox.addSubview(availablelabel)
-
-
-        translatesAutoresizingMaskIntoConstraints = false
+        backgroundBox.addSubview(pieChartView)
     }
+
+}
+
+
+// MARKS: Constraints
+
+extension DistributionView {
     
     override func updateConstraints() {
         
@@ -125,73 +87,14 @@ class DistributionView: UIView {
             make.bottom.equalToSuperview().offset(-10)
         }
         
-        statesTitle.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.top.equalToSuperview().offset(16)
-            make.height.equalTo(20)
-            make.width.equalTo(statesTitle.intrinsicContentSize.width)
+        pieChartView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.right.equalToSuperview().inset(16)
+            make.top.equalToSuperview().offset(20)
+            make.height.equalTo(pieChartView.snp.width).multipliedBy(0.4)
         }
-        
-        statesBar.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.top.equalTo(statesTitle.snp.bottom).offset(10)
-            make.height.equalTo(20)
-            make.right.equalToSuperview().offset(-16)
-        }
-        
-        onTradeIcon.snp.makeConstraints { make in
-            make.left.equalTo(statesBar)
-            make.top.equalTo(statesBar.snp.bottom).offset(10)
-            make.width.height.equalTo(25)
-        }
-        onTradelabel.snp.makeConstraints { make in
-            make.left.equalTo(onTradeIcon.snp.right).offset(10)
-            make.centerY.equalTo(onTradeIcon)
-            make.width.equalTo(70)
-            make.height.equalTo(20)
-        }
-        
-        onOrderIcon.snp.makeConstraints { make in
-            make.left.equalTo(onTradelabel.snp.right).offset(20)
-            make.top.equalTo(statesBar.snp.bottom).offset(10)
-            make.width.height.equalTo(25)
-        }
-        onOrderlabel.snp.makeConstraints { make in
-            make.left.equalTo(onOrderIcon.snp.right).offset(10)
-            make.centerY.equalTo(onOrderIcon)
-            make.width.equalTo(70)
-            make.height.equalTo(20)
-        }
-        
-        stackedIcon.snp.makeConstraints { make in
-            make.left.equalTo(onOrderlabel.snp.right).offset(20)
-            make.top.equalTo(statesBar.snp.bottom).offset(10)
-            make.width.height.equalTo(25)
-        }
-        stackedlabel.snp.makeConstraints { make in
-            make.left.equalTo(stackedIcon.snp.right).offset(10)
-            make.centerY.equalTo(stackedIcon)
-            make.width.equalTo(70)
-            make.height.equalTo(20)
-        }
-        
-        availableIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.top.equalTo(onOrderIcon.snp.bottom).offset(10)
-            make.width.height.equalTo(25)
-        }
-        availablelabel.snp.makeConstraints { make in
-            make.left.equalTo(availableIcon.snp.right).offset(10)
-            make.centerY.equalTo(availableIcon)
-            make.width.equalTo(70)
-            make.height.equalTo(20)
-        }
-        
-        
-        
+
         super.updateConstraints()
         
     }
-    
-
 }

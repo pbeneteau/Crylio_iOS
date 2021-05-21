@@ -40,6 +40,8 @@ class CryptoTransactionCell: UITableViewCell {
     
     private func commonInit() {
         
+        selectionStyle = .none
+        
         backgroundColor = .clear
         contentView.backgroundColor = .clear
         bgView.backgroundColor = AppColors.background.secondary

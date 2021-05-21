@@ -211,9 +211,7 @@ extension CryptoTransactionsViewController: UITableViewDelegate, UITableViewData
         } else {
             cell.bgView.layer.cornerRadius = 0
         }
-        
-        cell.selectionStyle = .none
-        
+                
         return cell
     }
     

@@ -52,12 +52,10 @@ class AboutView: UIView {
         descriptionTextLabel.font = .systemFont(ofSize: 17)
         descriptionTextLabel.textColor = .systemGray
         descriptionTextLabel.numberOfLines = 0
-        
         descriptionTextLabel.sizeToFit()
         
         addSubview(titleLabel)
         addSubview(backgroundBoxView)
-        
         backgroundBoxView.addSubview(descriptionTextLabel)
     }
     

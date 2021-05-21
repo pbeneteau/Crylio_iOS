@@ -61,7 +61,7 @@ class CryptoHeaderView: UIView {
         timeframeDropdownView.selectionBackgroundColor = .systemBlue.withAlphaComponent(0.2)
         timeframeDropdownView.dimmedBackgroundColor = .black.withAlphaComponent(0.3)
         timeframeDropdownView.setupCornerRadius(10)
-        timeframeDropdownView.dataSource = ["1 hour", "12 hours", "1 days", "3 days", "1 weeks", "1 months", "3 months", "1 years", "All"]
+        timeframeDropdownView.dataSource = ["1 hour", "12 hours", "1 day", "3 days", "1 week", "1 month", "3 months", "1 year", "All"]
         timeframeDropdownView.anchorView = timeframeButton
         timeframeDropdownView.bottomOffset = CGPoint(x: 0, y:(timeframeDropdownView.anchorView?.plainView.bounds.height)!)
         timeframeDropdownView.shadowColor = .systemGray6

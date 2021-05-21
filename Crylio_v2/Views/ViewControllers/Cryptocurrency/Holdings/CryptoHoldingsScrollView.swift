@@ -88,13 +88,12 @@ class CryptoHoldingsScrollView: UIScrollView {
         super.layoutSubviews()
         
         contentSize = CGSize(width: frame.width, height: contentView.frame.height * 1.2)
-                
     }
 
 }
 
 
-// CONSTRAINTS
+// MARKS: Constraints
 
 extension CryptoHoldingsScrollView {
     
@@ -143,12 +142,11 @@ extension CryptoHoldingsScrollView {
         }
         
         distributionView.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.width.equalToSuperview().inset(32)
+            make.left.equalTo(0)
+            make.width.equalToSuperview()
             make.top.equalTo(profitLossView.snp.bottom).offset(30)
-            make.height.equalTo(328)
+            make.height.equalTo(225)
         }
-        
         
         super.updateConstraints()
     }

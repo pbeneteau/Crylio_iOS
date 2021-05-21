@@ -20,6 +20,24 @@
         }
       },
       {
+        "package": "Hero",
+        "repositoryURL": "https://github.com/HeroTransitions/Hero.git",
+        "state": {
+          "branch": null,
+          "revision": "efa709686035831b23b7bf58f652b0c4b892aa1d",
+          "version": "1.6.1"
+        }
+      },
+      {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
+        "state": {
+          "branch": null,
+          "revision": "44450a8f564d7c0165f736ba2250649ff8d3e556",
+          "version": "6.3.0"
+        }
+      },
+      {
         "package": "Lottie",
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {

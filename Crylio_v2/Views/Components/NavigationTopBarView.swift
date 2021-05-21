@@ -14,7 +14,8 @@ protocol BackButtonProtocol: NSObjectProtocol {
 class NavigationTopBarView: UIView {
     
     lazy var topBar = UIView()
-    lazy var blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    
+    let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
 
     lazy var backButton = UIButton(type: .custom)
     lazy var title = UILabel()
@@ -39,13 +40,12 @@ class NavigationTopBarView: UIView {
     }
     
     private func commonInit() {
-        
-        backgroundColor = .clear
-        
+                
         topBar.backgroundColor = AppColors.background.primary
         
+        blurredView.backgroundColor = AppColors.blur
         blurredView.alpha = 0
-        
+
         // create chevron image
         let config = UIImage.SymbolConfiguration(pointSize: 25.0, weight: .medium, scale: .medium)
         let image = UIImage(systemName: "chevron.left", withConfiguration: config)
@@ -64,6 +64,7 @@ class NavigationTopBarView: UIView {
         price.textColor = AppColors.label.primary
         price.font = .systemFont(ofSize: 17, weight: .medium)
         
+        
         addSubview(blurredView)
         addSubview(topBar)
         addSubview(backButton)
@@ -71,14 +72,11 @@ class NavigationTopBarView: UIView {
         addSubview(price)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
     func hideCryptoInfo() {
         
         if isCryptoInfoHidden { return }
         isCryptoInfoHidden = true
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
             self.title.alpha = 0
             self.title.transform = CGAffineTransform(translationX: 0, y: 5)
@@ -88,8 +86,10 @@ class NavigationTopBarView: UIView {
     }
     
     func showCryptoInfo() {
+        
         if !isCryptoInfoHidden { return }
         isCryptoInfoHidden = false
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
             self.title.alpha = 1
             self.title.transform = CGAffineTransform(translationX: 0, y: -5)

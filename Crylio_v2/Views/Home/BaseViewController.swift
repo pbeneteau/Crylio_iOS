@@ -17,6 +17,18 @@ class BaseViewController: UIViewController {
         initColors()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.setAnimationsEnabled(true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        UIView.setAnimationsEnabled(false)
+        
+        super.viewDidDisappear(animated)
+    }
     
     func initColors() {
         

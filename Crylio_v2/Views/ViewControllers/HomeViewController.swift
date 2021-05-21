@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class HomeViewController: UIViewController {
+class HomeViewController: BaseViewController {
     
     let cellId = "CryptoTableViewCell"
     

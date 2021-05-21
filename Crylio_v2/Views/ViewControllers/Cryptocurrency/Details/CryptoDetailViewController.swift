@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Hero
 
 
 class CryptoDetailViewController: BaseViewController {
@@ -24,8 +25,9 @@ class CryptoDetailViewController: BaseViewController {
         super.viewDidLoad()
         
         scrollView.crypto = crypto
-        
         scrollView.delegate = self
+        
+        scrollView.chartView.delegate = self
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
 
@@ -43,6 +45,23 @@ class CryptoDetailViewController: BaseViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             self.refreshControl.endRefreshing()
         }
+    }
+
+}
+
+// CHART VIEW DELEGATE
+
+extension CryptoDetailViewController: ChartViewDelegate {
+
+    func chartViewDoubleTapped() {
+
+        let vc = ChartViewController()
+        vc.tradingViewChart = TradingViewChart(symbol: crypto.symbol + "USDT", exchange: .binance, theme: .dark, interval: .day)
+
+        vc.modalPresentationStyle = .popover
+
+        
+        present(vc, animated: true, completion: nil)
     }
 
 }

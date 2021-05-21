@@ -18,7 +18,7 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
     
     lazy var navigationTopBar = NavigationTopBarView()
     lazy var header = CryptoHeaderView()
-    lazy var menu = HorizontalMenu(items: ["Details", "Holding", "Orders", "Transactions"], scrollable: true)
+    lazy var menu = HorizontalMenu(items: ["Details", "Holding", "News", "Transactions"], scrollable: true)
     
     lazy var menuScrollView: UIScrollView = {
         
@@ -40,7 +40,7 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
     // MARK: ViewControllers
     lazy var detailVC  = CryptoDetailViewController()
     lazy var holdingsVC = CryptoHoldingsViewController()
-    lazy var ordersVC = CryptoOrdersViewController()
+    lazy var ordersVC = CryptoNewsFeedViewController()
     lazy var transactionsVC = CryptoTransactionsViewController()
     
     var viewDidLayoutFirstTime = true
