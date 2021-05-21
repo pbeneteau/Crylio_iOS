@@ -239,7 +239,7 @@
 				388DC27C25FBD2EB007B1B86 /* Details */,
 				388DC27925FBD2CE007B1B86 /* Holdings */,
 				38ECAAF526090A28008AF50B /* Transactions */,
-				38ECAAFA26090A39008AF50B /* Orders */,
+				38ECAAFA26090A39008AF50B /* News */,
 			);
 			path = Cryptocurrency;
 			sourceTree = "<group>";
@@ -431,13 +431,13 @@
 			path = Transactions;
 			sourceTree = "<group>";
 		};
-		38ECAAFA26090A39008AF50B /* Orders */ = {
+		38ECAAFA26090A39008AF50B /* News */ = {
 			isa = PBXGroup;
 			children = (
 				3894FCEC25D18CCB00BFD26F /* CryptoNewsFeedViewController.swift */,
 				38619A732613B0660044D273 /* CryptoNewsCell.swift */,
 			);
-			path = Orders;
+			path = News;
 			sourceTree = "<group>";
 		};
 		BFF215B6FE16C78A7A8E2773 /* Frameworks */ = {
