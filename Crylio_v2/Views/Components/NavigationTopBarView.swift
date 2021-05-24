@@ -64,6 +64,7 @@ class NavigationTopBarView: UIView {
         price.textColor = AppColors.label.primary
         price.font = .systemFont(ofSize: 17, weight: .medium)
         
+        addBottomBorder()
         
         addSubview(blurredView)
         addSubview(topBar)
@@ -98,6 +99,26 @@ class NavigationTopBarView: UIView {
         }, completion: nil)
         
     }
+    
+    @objc func backButtonAction(sender: UIButton!) {
+        if let delegate = backButtonDelegate {
+            delegate.backButtonAction()
+        }
+    }
+    
+    func addBottomBorder() {
+        let border = UIView()
+        border.backgroundColor = .systemGray.withAlphaComponent(0.2)
+        border.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+        border.frame = CGRect(x: 0, y:  blurredView.frame.size.height - 0.3, width:  blurredView.frame.size.width, height: 0.3)
+        blurredView.contentView.addSubview(border)
+    }
+}
+
+
+// MARK: - Constraints
+
+extension NavigationTopBarView {
         
     override func updateConstraints() {
                 
@@ -133,10 +154,5 @@ class NavigationTopBarView: UIView {
         }
         
         super.updateConstraints()
-    }
-    
-    @objc func backButtonAction(sender: UIButton!) {
-
-        self.backButtonDelegate?.backButtonAction()
     }
 }

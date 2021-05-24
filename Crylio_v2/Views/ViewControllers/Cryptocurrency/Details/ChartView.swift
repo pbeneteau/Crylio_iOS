@@ -55,7 +55,7 @@ class ChartView: UIView, UIGestureRecognizerDelegate {
         chartView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
         chartView.scrollView.contentInsetAdjustmentBehavior = .never
         chartView.navigationDelegate = self
-
+        chartView.allowsLinkPreview = false
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(chartViewDoubleTapped))
         tap.delegate = self
@@ -66,14 +66,14 @@ class ChartView: UIView, UIGestureRecognizerDelegate {
         addSubview(backgroundBox)
         backgroundBox.addSubview(chartView)
         
-        updateChart()
+        reloadChart()
     }
     
-    func updateChart() {
+    func reloadChart(dateRange: TradingViewChartDateRange = .day) {
         
-        let t = TradingViewChart(symbol: "BTCUSDT", exchange: .binance, theme: .dark, interval: .day)
+        let t = TradingViewChart(symbol: "BTCUSDT", exchange: .binance, theme: .dark)
         
-        chartView.loadHTMLString(t.getMinimizedChart(), baseURL: nil)
+        chartView.loadHTMLString(t.getMinimizedChart(with: dateRange), baseURL: nil)
     }
     
     @objc func chartViewDoubleTapped() {

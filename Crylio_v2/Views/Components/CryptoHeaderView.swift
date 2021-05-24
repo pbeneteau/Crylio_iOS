@@ -9,6 +9,11 @@ import UIKit
 import DropDown
 
 
+protocol DateRangeDropdownDelegate: NSObjectProtocol {
+    
+    func dateRangeDidChange(to dateRange: TradingViewChartDateRange)
+}
+
 class CryptoHeaderView: UIView {
     
     lazy var nameLabel = UILabel()
@@ -18,10 +23,14 @@ class CryptoHeaderView: UIView {
     lazy var priceLabel = UILabel()
     lazy var changeBox = PriceChangeBox()
     
-    lazy var timeframeButton = UIButton()
+    lazy var dateRangeButton = UIButton()
     lazy var timeframeDropdownView = DropDown()
     
     lazy var watchButton = UIButton()
+    
+    weak var dateRangeDropdownDelegate: DateRangeDropdownDelegate!
+    
+    let dateRanges = TradingViewChartDateRange.allCases
     
     var crypto: Cryptocurrency! {
         didSet {
@@ -58,27 +67,27 @@ class CryptoHeaderView: UIView {
         timeframeDropdownView.cornerRadius = 10
         timeframeDropdownView.textColor = AppColors.label.primary
         timeframeDropdownView.backgroundColor = AppColors.background.tertiary
-        timeframeDropdownView.selectionBackgroundColor = .systemBlue.withAlphaComponent(0.2)
+        timeframeDropdownView.selectionBackgroundColor = AppColors.buttonActiveBackground
         timeframeDropdownView.dimmedBackgroundColor = .black.withAlphaComponent(0.3)
         timeframeDropdownView.setupCornerRadius(10)
-        timeframeDropdownView.dataSource = ["1 hour", "12 hours", "1 day", "3 days", "1 week", "1 month", "3 months", "1 year", "All"]
-        timeframeDropdownView.anchorView = timeframeButton
+        timeframeDropdownView.dataSource = dateRanges.map { $0.description }
+        timeframeDropdownView.anchorView = dateRangeButton
         timeframeDropdownView.bottomOffset = CGPoint(x: 0, y:(timeframeDropdownView.anchorView?.plainView.bounds.height)!)
         timeframeDropdownView.shadowColor = .systemGray6
-        timeframeDropdownView.selectRow(2)
-        timeframeDropdownView.selectionAction = { [unowned self] (index: Int, timeframe: String) in timeframeSelected(index: index, timeframe: timeframe) }
+        timeframeDropdownView.selectRow(0)
+        timeframeDropdownView.selectionAction = { [unowned self] (index: Int, dateRange: String) in dateRangedropDowMenuSelected(index: index) }
 
-        timeframeButton.titleLabel?.font = .systemFont(ofSize: 15)
-        timeframeButton.setTitle("1 day", for: .normal)
-        timeframeButton.setTitleColor(.systemBlue, for: .normal)
-        timeframeButton.addTarget(self, action: #selector(self.timeframeButtonAction(sender:)), for: .touchUpInside)
-        timeframeButton.backgroundColor = .clear
-        timeframeButton.layer.cornerRadius = 10
-        timeframeButton.layer.borderWidth = 1
-        timeframeButton.layer.borderColor = UIColor.systemBlue.cgColor
+        dateRangeButton.titleLabel?.font = .systemFont(ofSize: 15)
+        dateRangeButton.setTitle("1 day", for: .normal)
+        dateRangeButton.setTitleColor(.systemBlue, for: .normal)
+        dateRangeButton.addTarget(self, action: #selector(self.timeframeButtonAction(sender:)), for: .touchUpInside)
+        dateRangeButton.backgroundColor = .clear
+        dateRangeButton.layer.cornerRadius = 10
+        dateRangeButton.layer.borderWidth = 1.5
+        dateRangeButton.layer.borderColor = UIColor.systemBlue.cgColor
         
         watchButton.layer.cornerRadius = 10
-        watchButton.backgroundColor = .systemBlue.withAlphaComponent(0.2)
+        watchButton.backgroundColor = AppColors.buttonActiveBackground
         watchButton.setTitle("Watch", for: .normal)
         watchButton.setTitleColor(.systemBlue, for: .normal)
         watchButton.setTitle("Unwatch", for: .selected)
@@ -92,44 +101,44 @@ class CryptoHeaderView: UIView {
         addSubview(priceLabel)
         addSubview(changeBox)
         addSubview(icon)
-        addSubview(timeframeButton)
+        addSubview(dateRangeButton)
         addSubview(watchButton)
     }
     
     func initValues() {
-        
         self.nameLabel.text = crypto.name
         self.symbolLabel.text = crypto.symbol
         self.priceLabel.attributedText = priceLabel.getDollarMutableString(value: crypto.price)
         self.changeBox.change = crypto.change
-        self.icon.image = UIImage(named: crypto.iconName)
+        self.icon.setImage(from: crypto.iconURL)
     }
     
     @objc func timeframeButtonAction(sender: UIButton!) {
-        
         timeframeDropdownView.show()
     }
     
     
-    func timeframeSelected(index: Int, timeframe: String) {
-        
-        print("Selected timeframe: \(timeframe) at index: \(index)")
-        timeframeButton.setTitle(timeframe, for: .normal)
+    func dateRangedropDowMenuSelected(index: Int) {
+        let dateRange = dateRanges[index]
+        if let delegate = dateRangeDropdownDelegate {
+            delegate.dateRangeDidChange(to: dateRange)
+        }
+        dateRangeButton.setTitle(dateRange.description, for: .normal)
+        print("Selected date range: ", dateRange.description)
     }
     
     
     @objc func watchButtonAction(sender: UIButton!) {
-                
         if sender.isSelected {
             // unwatched
-            watchButton.backgroundColor = .systemBlue.withAlphaComponent(0.2)
+            watchButton.backgroundColor = AppColors.buttonActiveBackground
             watchButton.layer.borderWidth = 0
             sender.isSelected = false
         } else {
             // watched
             watchButton.backgroundColor = .clear
-            watchButton.layer.borderWidth = 1
-            watchButton.layer.borderColor = AppColors.label.secondary.withAlphaComponent(0.5).cgColor
+            watchButton.layer.borderWidth = 1.5
+            watchButton.layer.borderColor = AppColors.background.secondary.cgColor
             sender.isSelected = true
         }
     }
@@ -148,7 +157,7 @@ class CryptoHeaderView: UIView {
 }
 
 
-// CONSTRAINTS
+// MARK: - Constraints
 
 extension CryptoHeaderView {
     
@@ -187,7 +196,7 @@ extension CryptoHeaderView {
             make.height.equalTo(20)
         }
         
-        timeframeButton.snp.makeConstraints { make in
+        dateRangeButton.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
             make.bottom.equalToSuperview().offset(-20)
             make.width.equalTo(100)
@@ -195,8 +204,8 @@ extension CryptoHeaderView {
         }
         
         watchButton.snp.makeConstraints { make in
-            make.left.equalTo(timeframeButton.snp.right).offset(15)
-            make.centerY.equalTo(timeframeButton)
+            make.left.equalTo(dateRangeButton.snp.right).offset(15)
+            make.centerY.equalTo(dateRangeButton)
             make.width.equalTo(100)
             make.height.equalTo(34)
         }

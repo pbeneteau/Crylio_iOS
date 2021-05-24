@@ -30,9 +30,9 @@ class CryptoDetailViewController: BaseViewController {
         scrollView.chartView.delegate = self
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-
-        view.addSubview(scrollView)
+        
         scrollView.addSubview(refreshControl)
+        view.addSubview(scrollView)
     }
     
 
@@ -49,30 +49,27 @@ class CryptoDetailViewController: BaseViewController {
 
 }
 
-// CHART VIEW DELEGATE
+// MARK: - Chart view delegate
 
 extension CryptoDetailViewController: ChartViewDelegate {
 
     func chartViewDoubleTapped() {
 
         let vc = ChartViewController()
-        vc.tradingViewChart = TradingViewChart(symbol: crypto.symbol + "USDT", exchange: .binance, theme: .dark, interval: .day)
+        vc.tradingViewChart = TradingViewChart(symbol: crypto.symbol + "USDT", exchange: .binance, theme: .dark)
 
         vc.modalPresentationStyle = .popover
-
         
         present(vc, animated: true, completion: nil)
     }
-
 }
 
 
-// SCROLL VIEW DELEGATE
+// MARK: - Scroll view delegate
 
 extension CryptoDetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-                
         guard let delegate = scrollViewDelegate else { return }
         delegate.scrollViewDidScrollVertically(scrollView: scrollView)
     }
@@ -80,7 +77,7 @@ extension CryptoDetailViewController: UIScrollViewDelegate {
 }
 
 
-// CONSTRAINTS
+// MARK: - Constraints
 
 extension CryptoDetailViewController {
     
@@ -96,11 +93,11 @@ extension CryptoDetailViewController {
 }
 
 
-// DARK MODE HANDLING
+// MARK: user interface style handling
 
 extension CryptoDetailViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        scrollView.chartView.updateChart()
+        scrollView.chartView.reloadChart()
     }
 }

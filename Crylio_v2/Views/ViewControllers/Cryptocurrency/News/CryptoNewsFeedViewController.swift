@@ -29,20 +29,20 @@ enum NewsType: String {
 class CryptoNewsFeedViewController: BaseViewController {
     
     lazy var tableView = UITableView(frame: CGRect.zero, style: .plain)
-
+    
     var refreshControl = UIRefreshControl()
     
     weak var scrollViewDelegate: ScrollViewDidScrollDelegate?
     
     var blurredHeaderViewAlpha: CGFloat = 0.0
-
+    
     var news = [News]() {
         didSet {
             initValues()
         }
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +59,7 @@ class CryptoNewsFeedViewController: BaseViewController {
     }
     
     private func commonInit() {
-                
+        
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -104,6 +104,43 @@ class CryptoNewsFeedViewController: BaseViewController {
         tableView.reloadData()
     }
     
+    
+    @objc private func shareNewsButton(_ sender: UIButton) {
+        
+        let newsUrl = news[sender.tag].url
+        
+        // Setting description
+        let firstActivityItem = news[sender.tag].title
+        
+        // Setting url
+        let secondActivityItem : NSURL = NSURL(string: newsUrl)!
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: [firstActivityItem, secondActivityItem], applicationActivities: nil)
+        
+        // This lines is for the popover you need to show in iPad
+        activityViewController.popoverPresentationController?.sourceView = (sender)
+        
+        // This line remove the arrow of the popover to show in iPad
+        activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        // Pre-configuring activity items
+        activityViewController.activityItemsConfiguration = [
+            UIActivity.ActivityType.message
+        ] as? UIActivityItemsConfigurationReading
+        
+        // Anything you want to exclude
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        activityViewController.isModalInPresentation = true
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    
 }
 
 
@@ -123,23 +160,20 @@ extension CryptoNewsFeedViewController: UITableViewDelegate, UITableViewDataSour
             fatalError("The dequeued cell is not an instance of HomeTableViewCell.")
         }
         
+        cell.moreButton.addTarget(self, action: #selector(shareNewsButton(_:)), for: .touchUpInside)
+        cell.moreButton.tag = indexPath.row
+        
         cell.news = news[indexPath.row]
         cell.newsImageView.kf.cancelDownloadTask()
-
+        
+        cell.layoutIfNeeded()
+        
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//
-//        if news[indexPath.row].imageURL != nil {
-//            return 381 + 16
-//        }
-//        return 65 + 36 + 16
-//    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            print("You tapped cell number \(indexPath.row).")
-        }
+        print("tapped news at index: \(indexPath.row).")
+    }
 }
 
 
@@ -148,7 +182,7 @@ extension CryptoNewsFeedViewController: UITableViewDelegate, UITableViewDataSour
 extension CryptoNewsFeedViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-                
+        
         guard let delegate = scrollViewDelegate else { return }
         delegate.scrollViewDidScrollVertically(scrollView: scrollView)
     }

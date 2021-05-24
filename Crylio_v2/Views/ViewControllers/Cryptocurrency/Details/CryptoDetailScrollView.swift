@@ -58,7 +58,7 @@ class CryptoDetailScrollView: UIScrollView {
         aboutView.name = crypto.name
         aboutView.descriptionString = crypto.description
         
-        balanceView.iconName = crypto.iconName
+        balanceView.iconView.setImage(from: crypto.iconURL)
         balanceView.symbol = crypto.symbol
         balanceView.worth = Float(13415.42)
         balanceView.amount = Float(3.1)

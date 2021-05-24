@@ -123,9 +123,9 @@ class CryptoTransactionCell: UITableViewCell {
         case .filled:
             filledStatusBoxView.backgroundColor = .systemGreen
             filledStatusLabel.textColor = .systemGreen
-        case .sent:
-            filledStatusBoxView.backgroundColor = .systemGreen
-            filledStatusLabel.textColor = .systemGreen
+        case .transfered:
+            filledStatusBoxView.backgroundColor = .systemGray
+            filledStatusLabel.textColor = .systemGray
         case .canceled:
             filledStatusBoxView.backgroundColor = .systemRed
             filledStatusLabel.textColor = .systemRed
@@ -154,10 +154,12 @@ class CryptoTransactionCell: UITableViewCell {
     }
 }
 
+
+// MARK: - Constraints
+
 extension CryptoTransactionCell {
     
-    
-    override func updateConstraints() {
+    override func layoutIfNeeded() {
         
         bgView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
@@ -221,7 +223,7 @@ extension CryptoTransactionCell {
         }
         
         
-        super.updateConstraints()
+        super.layoutIfNeeded()
     }
     
 }

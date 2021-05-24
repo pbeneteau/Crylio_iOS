@@ -117,16 +117,15 @@ extension PieChartView_2 {
         if enableLegend {
             
             chartView.snp.makeConstraints { make in
-                make.left.top.equalToSuperview()
-                make.height.equalTo(self.snp.height)
+                make.left.equalToSuperview().offset(10)
+                make.top.bottom.equalToSuperview()
                 make.width.equalTo(chartView.snp.height)
             }
             
             legendView.snp.makeConstraints { make in
                 make.left.equalTo(self.snp.centerX)
-                make.top.equalToSuperview()
-                make.right.equalToSuperview().inset(16)
-                make.height.equalTo(chartView)
+                make.top.equalToSuperview().offset(10)
+                make.right.bottom.equalToSuperview().inset(16)
             }
         } else {
             

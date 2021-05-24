@@ -65,6 +65,15 @@
         }
       },
       {
+        "package": "SHSearchBar",
+        "repositoryURL": "https://github.com/Blackjacx/SHSearchBar.git",
+        "state": {
+          "branch": null,
+          "revision": "89e86e6979d305011edc7e4a4299cb2f40760978",
+          "version": "2.0.0"
+        }
+      },
+      {
         "package": "SnapKit",
         "repositoryURL": "https://github.com/SnapKit/SnapKit.git",
         "state": {

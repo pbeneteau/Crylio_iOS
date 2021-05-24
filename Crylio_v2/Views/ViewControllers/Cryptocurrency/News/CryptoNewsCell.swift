@@ -80,7 +80,6 @@ class CryptoNewsCell: UITableViewCell {
         contentBox.addSubview(moreButton)
         contentBox.addSubview(titleLabel)
         contentBox.addSubview(newsImageView)
-
     }
     
     func initValues() {
@@ -95,90 +94,18 @@ class CryptoNewsCell: UITableViewCell {
             titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
         }
         
-        setNeedsUpdateConstraints()
-        
         if let url =  news.imageURL {
-            setImage(with: url)
+            DispatchQueue.main.async { self.newsImageView.setImage(from: url) }
         }
-        
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        
-        super.setSelected(selected, animated: animated)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
-    
 }
 
 
-extension CryptoNewsCell {
-    
-    private func loadImage(_ url: String) {
-        
-        let url = URL(string: url)
-        let processor = ResizingImageProcessor(referenceSize: CGSize(width: 363, height: 200), mode: .aspectFill)
-        
-        newsImageView.kf.indicatorType = .activity
-        
-        newsImageView.kf.setImage(
-            with: url,
-            options: [
-                .processor(processor),
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(0.3)),
-                .cacheOriginalImage
-            ])
-        {
-            result in
-            switch result {
-            case .success(let success):
-                print("\(success.image)")
-            case .failure(let error):
-                print("Error Downloading news image: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    private func setImage(with url: String) {
-        
-        let cache = ImageCache.default
-        
-        if cache.isCached(forKey: url) {
-            
-            cache.retrieveImage(forKey: "cacheKey") { result in
-                switch result {
-                case .success(let value):
-                    print("Found cached news image")
-                    switch value {
-                    case .none:
-                        self.loadImage(url)
-                    case .disk:
-                        DispatchQueue.main.async { self.newsImageView.image = value.image }
-                    case .memory:
-                        DispatchQueue.main.async { self.newsImageView.image = value.image }
-                    }
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        } else {
-            self.loadImage(url)
-        }
-    }
-
-}
-
-
-// MARKS: Constraints
+// MARK: - Constraints
 
 extension CryptoNewsCell {
     
-    override func updateConstraints() {
+    override func layoutIfNeeded() {
         
         contentBox.snp.makeConstraints { make in
             make.left.top.equalToSuperview().offset(16)
@@ -246,8 +173,7 @@ extension CryptoNewsCell {
             }
         }
         
-        super.updateConstraints()
+        super.layoutIfNeeded()
     }
-
 }
 

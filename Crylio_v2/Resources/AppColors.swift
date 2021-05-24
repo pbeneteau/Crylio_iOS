@@ -45,6 +45,8 @@ class AppColors {
     
     static let blur = .clear | .systemBlue.withAlphaComponent(0.1)
     
+    static let buttonActiveBackground = .systemBlue.withAlphaComponent(0.3) | .systemBlue.withAlphaComponent(0.2)
+     
 }
 
 infix operator |: AdditionPrecedence

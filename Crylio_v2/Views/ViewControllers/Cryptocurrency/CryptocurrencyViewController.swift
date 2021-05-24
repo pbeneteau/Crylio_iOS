@@ -74,9 +74,6 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
         navigationTopBar.title.text = crypto.name
         navigationTopBar.price.attributedText = navigationTopBar.price.getDollarMutableString(value: crypto.price)
         
-        menu.delegate = self
-        navigationTopBar.backButtonDelegate = self
-                
         view.addSubview(menuScrollView)
         menuScrollView.addSubview(detailVC.view)
         menuScrollView.addSubview(holdingsVC.view)
@@ -104,11 +101,15 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
         transactionsVC.tableView.tag = 3
         transactionsVC.scrollViewDelegate = self
         
+        menu.delegate = self
+        navigationTopBar.backButtonDelegate = self
+        header.dateRangeDropdownDelegate = self
+        detailVC.scrollView.balanceView.delegate = self
+        
         detailVC.view.tag = 0
         holdingsVC.view.tag = 1
         ordersVC.view.tag = 2
         transactionsVC.view.tag = 3
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,6 +126,9 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
     
 }
 
+
+// MARK: - Scroll views delegate
+
 extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollViewDelegate {
 
     
@@ -138,6 +142,12 @@ extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollVie
             updateOtherScrollViewsOffset(yOffset: scrollView.contentOffset.y)
         }
     }
+    
+}
+
+// MARK: - Menu manager
+
+extension CryptocurrencyViewController {
     
     func updateOtherScrollViewsOffset(yOffset: CGFloat) {
                 
@@ -205,7 +215,6 @@ extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollVie
         }
         
     }
-
     
     func saveBlurredViewAlpha(alpha: CGFloat) {
         
@@ -222,8 +231,7 @@ extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollVie
             return
         }
     }
-    
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let xOffset = scrollView.contentOffset.x
@@ -251,7 +259,6 @@ extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollVie
         
     }
     
-    
     func updateHeaderAlpha() {
         
         switch displayedVCTag {
@@ -271,7 +278,9 @@ extension CryptocurrencyViewController: ScrollViewDidScrollDelegate, UIScrollVie
 }
 
 
-extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtocol {
+// MARK: - Other protocols
+
+extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtocol, DateRangeDropdownDelegate, CryptoDetailBalanceDelegate {
     
     func menuButtonTapped(sender: UIButton!) {
                 
@@ -284,12 +293,21 @@ extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtoc
     }
     
     func backButtonAction() {
-
-        _ = navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func dateRangeDidChange(to dateRange: TradingViewChartDateRange) {
+        detailVC.scrollView.chartView.reloadChart(dateRange: dateRange)
+    }
+    
+    func CryptoDetailBalanceTouched() {
+        menuScrollView.setContentOffset(CGPoint(x: view.frame.width, y: 0), animated: true)
     }
     
 }
 
+
+// MARK: - Constraints
 
 extension CryptocurrencyViewController {
     

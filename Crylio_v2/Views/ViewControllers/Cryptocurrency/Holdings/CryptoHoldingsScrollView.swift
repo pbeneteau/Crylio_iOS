@@ -55,8 +55,6 @@ class CryptoHoldingsScrollView: UIScrollView {
         contentView.addSubview(distributionView)
         
         initValues()
-        
-        setNeedsUpdateConstraints()
     }
     
     private func initValues() {
@@ -100,50 +98,48 @@ extension CryptoHoldingsScrollView {
     override func updateConstraints() {
         
         contentView.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self)
-            make.left.right.equalTo(0)
-            make.width.equalTo(self)
-            make.height.equalTo(1000)
+            make.top.bottom.equalToSuperview()
+            make.left.equalToSuperview().offset(16)
+            make.width.equalToSuperview().inset(16)
+            make.height.equalTo(700)
         }
         
         balanceView.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.right.equalToSuperview().inset(16)
+            make.left.right.equalToSuperview()
             make.top.equalToSuperview().offset(16)
             make.height.equalTo(126)
         }
         
         costView.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.right.equalTo(contentView.snp.centerX).inset(8)
+            make.left.equalToSuperview()
+            make.right.equalTo(contentView.snp.centerX).offset(-8)
             make.top.equalTo(balanceView.snp.bottom).offset(16)
             make.height.equalTo(76)
         }
         
         amountView.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(16)
             make.left.equalTo(contentView.snp.centerX).offset(8)
+            make.right.equalToSuperview()
             make.top.equalTo(balanceView.snp.bottom).offset(16)
             make.height.equalTo(76)
         }
         
         profitLossView.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.right.equalTo(contentView.snp.centerX).inset(8)
+            make.left.equalToSuperview()
+            make.right.equalTo(contentView.snp.centerX).offset(-8)
             make.top.equalTo(costView.snp.bottom).offset(16)
             make.height.equalTo(76)
         }
         
         changeView.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(16)
             make.left.equalTo(contentView.snp.centerX).offset(8)
+            make.right.equalToSuperview()
             make.top.equalTo(amountView.snp.bottom).offset(16)
             make.height.equalTo(76)
         }
         
         distributionView.snp.makeConstraints { make in
-            make.left.equalTo(0)
-            make.width.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.top.equalTo(profitLossView.snp.bottom).offset(30)
             make.height.equalTo(225)
         }

@@ -29,19 +29,89 @@ fileprivate let secondPart = """
      </body>
      """
 
-enum TradingViewChartInterval: String {
+enum TradingViewChartTimeInterval: CaseIterable {
     
-    case minute1 = "1"
-    case minute3 = "3"
-    case minute5 = "5"
-    case minute15 = "15"
-    case minute30 = "30"
-    case hour1 = "60"
-    case hour2 = "120"
-    case hour3 = "180"
-    case hour4 = "240"
-    case day = "D"
-    case week = "W"
+    case minute1
+    case minute3
+    case minute5
+    case minute15
+    case minute30
+    case hour1
+    case hour2
+    case hour3
+    case hour4
+    case day
+    case week
+    
+    var description: String {
+            switch self {
+            case .minute1: return "1m"
+            case .minute3: return "3m"
+            case .minute5: return "5m"
+            case .minute15: return "15m"
+            case .minute30: return "30m"
+            case .hour1: return "1h"
+            case .hour2: return "2h"
+            case .hour3: return "3h"
+            case .hour4: return "4h"
+            case .day: return "1d"
+            case .week: return "1w"
+            }
+        }
+    
+    var tradingViewValue: String {
+        switch self {
+        case .minute1: return "1"
+        case .minute3: return "3"
+        case .minute5: return "5"
+        case .minute15: return "15"
+        case .minute30: return "30"
+        case .hour1: return "60"
+        case .hour2: return "120"
+        case .hour3: return "180"
+        case .hour4: return "240"
+        case .day: return "D"
+        case .week: return "W"
+        }
+    }
+}
+
+enum TradingViewChartDateRange: CaseIterable {
+    
+    case day
+    case days5
+    case month1
+    case months3
+    case months6
+    case year
+    case years5
+    case all
+    
+    var description: String {
+            switch self {
+            case .day: return "1d"
+            case .days5: return "5d"
+            case .month1: return "1m"
+            case .months3: return "3m"
+            case .months6: return "6m"
+            case .year: return "1y"
+            case .years5: return "5y"
+            case .all: return "All"
+            }
+    }
+    
+    var tradingViewValue: String {
+        switch self {
+        case .day: return "1D"
+        case .days5: return "5D"
+        case .month1: return "1M"
+        case .months3: return "3M"
+        case .months6: return "6M"
+        case .year: return "12M"
+        case .years5: return "60M"
+        case .all: return "ALL"
+        }
+    }
 }
 
 enum TradingViewChartExchange: String {
@@ -57,50 +127,109 @@ enum TradingViewChartTheme: String {
     case light = "light"
 }
 
+enum TadingViewChartBarStyle: CaseIterable {
+    
+    case bars
+    case candles
+    case hollowCandles
+    case heikinAshi
+    case line
+    case area
+    case renko
+    case lineBreak
+    case kagi
+    case pointAndFigure
+    
+    var description: String {
+            switch self {
+            case .bars: return "bars"
+            case .candles: return "candles"
+            case .hollowCandles: return "hollow candles"
+            case .heikinAshi: return "heikin ashi"
+            case .line: return "line"
+            case .area: return "area"
+            case .renko: return "renko"
+            case .lineBreak: return "line break"
+            case .kagi: return "kagi"
+            case .pointAndFigure: return "point and figure"
+            }
+    }
+    
+    var tradingViewValue: Int {
+        switch self {
+        case .bars: return 0
+        case .candles: return 1
+        case .hollowCandles: return 9
+        case .heikinAshi: return 8
+        case .line: return 2
+        case .area: return 3
+        case .renko: return 4
+        case .lineBreak: return 7
+        case .kagi: return 5
+        case .pointAndFigure: return 6
+        }
+    }
+}
+
 
 class TradingViewChart {
     
     var symbol: String!
     var theme: TradingViewChartTheme!
     var exchange: TradingViewChartExchange!
-    var interval: TradingViewChartInterval
+    var barStyle: TadingViewChartBarStyle!
     
-    init(symbol: String, exchange: TradingViewChartExchange, theme: TradingViewChartTheme, interval: TradingViewChartInterval) {
+    init(symbol: String, exchange: TradingViewChartExchange, theme: TradingViewChartTheme, barStyle: TadingViewChartBarStyle = .line) {
         
         self.symbol = symbol
-        self.exchange = exchange
         self.theme = theme
-        self.interval = interval
+        self.exchange = exchange
+        self.barStyle = barStyle
     }
 
-    func getMinimizedChart() -> String {
+    func getMinimizedChart(with interval: TradingViewChartTimeInterval = .day) -> String {
         
-        let params = ["autosize":true, "symbol":exchange.rawValue + ":" + symbol, "interval":interval.rawValue, "timezone":"Etc/UTC", "theme":theme.rawValue, "style":"1", "local":"en", "toolbar_bg":"#f1f3f6", "enable_publishing":false, "hide_top_toolbar":true, "hide_legend": true, "save_image": false, "container_id": "tradingview_bab73"] as [String : Any]
+        return getChartString(with: interval, hideLegend: true)
+    }
+    
+    func getMinimizedChart(with range: TradingViewChartDateRange = .day) -> String {
         
+        return getChartString(with: range, hideLegend: true)
+    }
+    
+    func getFullChart(with interval: TradingViewChartTimeInterval = .day) -> String {
+        
+        return getChartString(with: interval, hideLegend: false)
+    }
+    
+    func getFullChart(with range: TradingViewChartDateRange = .day) -> String {
+        
+        return getChartString(with: range, hideLegend: false)
+    }
+    
+    func getChartString(with range: TradingViewChartDateRange, hideLegend: Bool) -> String {
+        let params = ["autosize":true, "symbol":self.exchange.rawValue + ":" + self.symbol, "range":range.tradingViewValue, "timezone":"Etc/UTC", "theme":self.theme.rawValue, "style":self.barStyle.tradingViewValue, "local":"en", "toolbar_bg":"#f1f3f6", "enable_publishing":false, "withdateranges": false, "hide_legend":hideLegend, "hide_top_toolbar": true, "save_image":false, "container_id": "tradingview_bab73",
+                      "studies":[]] as [String : Any]
         do {
             let json = try params.toJson()
-            
-            print(firstPart + json + secondPart)
             return firstPart + json + secondPart
         } catch {
+            print(#function, ": Error getting trading view chart string")
             return ""
         }
     }
     
-    func getFullChart() -> String {
-        
-        let params = ["autosize":true, "symbol":exchange.rawValue + ":" + symbol, "interval":interval.rawValue, "timezone":"Etc/UTC", "theme":theme.rawValue, "style":"1", "local":"en", "toolbar_bg":"#f1f3f6", "enable_publishing":false, "withdateranges": true, "hide_legend":false, "hide_top_toolbar": true, "save_image":true, "container_id": "tradingview_bab73",
-                      "studies":["MACD@tv-basicstudies"]] as [String : Any]
+    func getChartString(with interval: TradingViewChartTimeInterval, hideLegend: Bool) -> String {
+        let params = ["autosize":true, "symbol":self.exchange.rawValue + ":" + self.symbol, "interval":interval.tradingViewValue, "timezone":"Etc/UTC", "theme":self.theme.rawValue, "style":self.barStyle.tradingViewValue, "local":"en", "toolbar_bg":"#f1f3f6", "enable_publishing":false, "withdateranges": false, "hide_legend":hideLegend, "hide_top_toolbar": true, "save_image":false, "container_id": "tradingview_bab73",
+                      "studies":[]] as [String : Any]
         do {
             let json = try params.toJson()
-            
-            print(firstPart + json + secondPart)
             return firstPart + json + secondPart
         } catch {
+            print(#function, ": Error getting trading view chart string")
             return ""
         }
     }
-    
     
 }
 
@@ -118,22 +247,5 @@ extension Dictionary {
         throw NSError(domain: "Dictionary", code: 1, userInfo: ["message": "Data cannot be converted to .utf8 string"])
     }
 }
-
-
-//{
-//"autosize": true,
-//"symbol": "BINANCE:VETUSDT",
-//"interval": "D",
-//"timezone": "Etc/UTC",
-//"theme": "light",
-//"style": "1",
-//"locale": "en",
-//"toolbar_bg": "#f1f3f6",
-//"enable_publishing": false,
-//"hide_top_toolbar": true,
-//"hide_legend": true,
-//"save_image": false,
-//"container_id": "tradingview_bab73"
-//}
 
 

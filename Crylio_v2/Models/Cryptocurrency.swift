@@ -35,15 +35,9 @@ class Cryptocurrency {
     var price: Float
     var change: Float
     
-    var iconName: String {
-        didSet {
-            icon = UIImage(named: iconName)!
-        }
-    }
-    var icon: UIImage?
+    var iconURL: String
     
     var marketStats: CryptoMarketStats
-    
     
     func balanceToString() -> String {
         return balance.toDollarString()
@@ -72,7 +66,7 @@ class Cryptocurrency {
           amount: Float,
           price: Float,
           change: Float,
-          iconName: String,
+          iconURL: String,
           marketStats: CryptoMarketStats) {
         self.id = id
         self.name = name
@@ -83,7 +77,7 @@ class Cryptocurrency {
         self.amount = amount
         self.price = price
         self.change = change
-        self.iconName = iconName
+        self.iconURL = iconURL
         self.marketStats = marketStats
     }
     

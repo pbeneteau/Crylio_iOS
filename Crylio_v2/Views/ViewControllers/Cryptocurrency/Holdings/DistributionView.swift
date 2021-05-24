@@ -47,7 +47,8 @@ class DistributionView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
                 
         backgroundBox.backgroundColor = AppColors.background.secondary
-        backgroundBox.layer.cornerRadius = 7
+        
+        backgroundBox.layer.cornerRadius = 10
         
         title.text = "Distribution"
         statesTitle.text = "States"
@@ -74,16 +75,15 @@ extension DistributionView {
     override func updateConstraints() {
         
         title.snp.makeConstraints { make in
+            make.left.equalToSuperview()
             make.width.equalTo(200)
-            make.left.equalTo(16)
             make.top.equalToSuperview()
             make.height.equalTo(22)
         }
         
         backgroundBox.snp.makeConstraints { make in
-            make.left.equalTo(16)
+            make.left.right.equalToSuperview()
             make.top.equalTo(title.snp.bottom).offset(15)
-            make.width.equalToSuperview().offset(-32)
             make.bottom.equalToSuperview().offset(-10)
         }
         

@@ -36,7 +36,7 @@ enum TransactionStatus: String {
     case filled = "Filled"
     case unfilled = "Unfilled"
     case canceled = "Canceled"
-    case sent = "Sent"
+    case transfered = "Transfered"
 }
 
 struct TransactionsMonthSection {
@@ -118,14 +118,14 @@ class CryptoTransactionsViewController: BaseViewController {
     private func data() {
         
         let item1 = Transaction(asset: "BTC", transactionType: .marketBuy, exchange: "Binance", amount: 0.48591, amountExecuted: 2.4, time: Date(), worth: 9401.41, status: .filled)
-        let item2 = Transaction(asset: "BTC", transactionType: .marketSell, exchange: "Bitfinex", amount: 0.94114, amountExecuted: 2.4, time: Date(), worth: 41491.67, status: .canceled)
+        let item2 = Transaction(asset: "BTC", transactionType: .limitSell, exchange: "Bitfinex", amount: 0.94114, amountExecuted: 2.4, time: Date(), worth: 41491.67, status: .canceled)
         
         var dateComponent = DateComponents()
         
         dateComponent.month = 1
         let futureDate = Calendar.current.date(byAdding: dateComponent, to: Date())
         
-        let item3 = Transaction(asset: "BTC", transactionType: .transferIn, exchange: "Coinbase", amount: 0.24123, amountExecuted: 2.4, time: futureDate!, worth: 5141.10, status: .sent)
+        let item3 = Transaction(asset: "BTC", transactionType: .transferIn, exchange: "Coinbase", amount: 0.24123, amountExecuted: 2.4, time: futureDate!, worth: 5141.10, status: .transfered)
         
         transactions.append(item1)
         transactions.append(item2)

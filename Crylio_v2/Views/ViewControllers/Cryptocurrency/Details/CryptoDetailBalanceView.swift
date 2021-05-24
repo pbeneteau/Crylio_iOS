@@ -7,18 +7,19 @@
 
 import UIKit
 
+protocol CryptoDetailBalanceDelegate: NSObjectProtocol {
+    func CryptoDetailBalanceTouched()
+}
+
 class CryptoDetailBalanceView: RoundedCornersView {
+    
+    weak var delegate: CryptoDetailBalanceDelegate!
         
     lazy var iconView = UIImageView()
     lazy var titleLabel = UILabel()
     lazy var worthLabel = UILabel()
     lazy var amountLabel = UILabel()
-    
-    var iconName: String! {
-        didSet {
-            iconView.image = UIImage(named: iconName)
-        }
-    }
+    lazy var arrowView = UIImageView()
     
     var symbol: String! {
         didSet {
@@ -67,14 +68,26 @@ class CryptoDetailBalanceView: RoundedCornersView {
         worthLabel.textAlignment = .right
         amountLabel.textAlignment = .right
         
+        arrowView.image = UIImage(named: "rightArrow")
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
+        
         addSubview(iconView)
         addSubview(titleLabel)
         addSubview(worthLabel)
         addSubview(amountLabel)
+        addSubview(arrowView)
+    }
+    
+    @objc private func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        if let delegate = delegate {
+            delegate.CryptoDetailBalanceTouched()
+        }
     }
 }
 
-// CONSTRAINTS
+
+// MARK: - Constraints
 
 extension CryptoDetailBalanceView {
     
@@ -88,22 +101,29 @@ extension CryptoDetailBalanceView {
         titleLabel.snp.makeConstraints { make in
             make.left.equalTo(iconView.snp.right).offset(15)
             make.centerY.equalTo(iconView)
-            make.right.equalTo(self.snp.centerX).inset(8)
+            make.right.equalTo(snp.centerX).inset(8)
             make.height.equalTo(18)
         }
         
         worthLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.snp.centerX).offset(8)
-            make.right.equalToSuperview().inset(16)
+            make.left.equalTo(snp.centerX).offset(8)
+            make.right.equalTo(arrowView.snp.left).offset(-16)
             make.top.equalToSuperview().offset(16)
             make.height.equalTo(20)
         }
         
         amountLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.snp.centerX).offset(8)
-            make.right.equalToSuperview().inset(16)
+            make.left.equalTo(snp.centerX).offset(8)
+            make.right.equalTo(arrowView.snp.left).offset(-16)
             make.bottom.equalToSuperview().inset(16)
             make.height.equalTo(18)
+        }
+        
+        arrowView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(4)
+            make.height.equalTo(14)
         }
         
         super.updateConstraints()

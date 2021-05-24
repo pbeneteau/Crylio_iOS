@@ -21,7 +21,8 @@ class RoundedCornersView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
+        clipsToBounds = true
         if (flx_smoothCorners) {
             updateMaskIfNeeded()
         }
