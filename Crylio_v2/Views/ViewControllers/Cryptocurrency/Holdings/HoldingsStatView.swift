@@ -34,7 +34,7 @@ class HoldingsStatView: RoundedCornersView {
         backgroundColor = AppColors.background.secondary
         
         title.font = .systemFont(ofSize: 13)
-        value.font = .systemFont(ofSize: 17, weight: .bold)
+        value.font = .systemFont(ofSize: 17, weight: .medium)
         
         title.textColor = AppColors.label.secondary
         value.textColor = AppColors.label.primary

@@ -56,6 +56,7 @@ class ChartView: UIView, UIGestureRecognizerDelegate {
         chartView.scrollView.contentInsetAdjustmentBehavior = .never
         chartView.navigationDelegate = self
         chartView.allowsLinkPreview = false
+        chartView.isUserInteractionEnabled = false
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(chartViewDoubleTapped))
         tap.delegate = self

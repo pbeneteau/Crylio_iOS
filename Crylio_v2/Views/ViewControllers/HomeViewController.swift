@@ -53,7 +53,6 @@ class HomeViewController: BaseViewController {
         
         tableView.tableHeaderView = searchBar
         tableView.tableHeaderView?.frame.size.height = 35
-        
 
         searchBar.delegate = self
         

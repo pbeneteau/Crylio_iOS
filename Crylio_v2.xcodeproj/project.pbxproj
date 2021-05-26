@@ -47,9 +47,15 @@
 		38828A852657BEF9008DB9B8 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38828A842657BEF9008DB9B8 /* Colors.xcassets */; };
 		38828A882657F761008DB9B8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 38828A872657F761008DB9B8 /* Kingfisher */; };
 		38828A8A2657F784008DB9B8 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38828A892657F784008DB9B8 /* ImageUtils.swift */; };
+		388BBA4F265D5BA400F8C524 /* AddToFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388BBA4E265D5BA400F8C524 /* AddToFavoriteButton.swift */; };
+		388BBA51265D709200F8C524 /* AddTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388BBA50265D709200F8C524 /* AddTransactionViewController.swift */; };
+		388BBA53265D76D800F8C524 /* AddTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388BBA52265D76D800F8C524 /* AddTransactionTableViewCell.swift */; };
 		388D016825CD99D100AD0050 /* AAInfographics in Frameworks */ = {isa = PBXBuildFile; productRef = 388D016725CD99D100AD0050 /* AAInfographics */; };
 		3891ADA826569DD2005FF3CA /* ChartLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891ADA726569DD2005FF3CA /* ChartLegendView.swift */; };
 		3891ADAA2656A004005FF3CA /* ChartLegendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891ADA92656A004005FF3CA /* ChartLegendTableViewCell.swift */; };
+		389451F1265EAB2700C3CC26 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389451F0265EAB2700C3CC26 /* SearchTextField.swift */; };
+		389451F3265EB8A200C3CC26 /* SearchTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389451F2265EB8A200C3CC26 /* SearchTextFieldTableViewCell.swift */; };
+		389451F5265EBF1500C3CC26 /* SearchTextFieldSuggestionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389451F4265EBF1500C3CC26 /* SearchTextFieldSuggestionsHeader.swift */; };
 		3894FCC425D16C5B00BFD26F /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 3894FCC325D16C5B00BFD26F /* Charts */; };
 		3894FCD225D17A9400BFD26F /* CryptoHoldingsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */; };
 		3894FCD925D17BE000BFD26F /* PagingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3894FCD825D17BE000BFD26F /* PagingKit */; };
@@ -151,8 +157,14 @@
 		38619A732613B0660044D273 /* CryptoNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoNewsCell.swift; sourceTree = "<group>"; };
 		38828A842657BEF9008DB9B8 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		38828A892657F784008DB9B8 /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
+		388BBA4E265D5BA400F8C524 /* AddToFavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToFavoriteButton.swift; sourceTree = "<group>"; };
+		388BBA50265D709200F8C524 /* AddTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewController.swift; sourceTree = "<group>"; };
+		388BBA52265D76D800F8C524 /* AddTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		3891ADA726569DD2005FF3CA /* ChartLegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegendView.swift; sourceTree = "<group>"; };
 		3891ADA92656A004005FF3CA /* ChartLegendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegendTableViewCell.swift; sourceTree = "<group>"; };
+		389451F0265EAB2700C3CC26 /* SearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		389451F2265EB8A200C3CC26 /* SearchTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		389451F4265EBF1500C3CC26 /* SearchTextFieldSuggestionsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextFieldSuggestionsHeader.swift; sourceTree = "<group>"; };
 		3894FCD125D17A9400BFD26F /* CryptoHoldingsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHoldingsScrollView.swift; sourceTree = "<group>"; };
 		3894FCDE25D17FAB00BFD26F /* CryptoHoldingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHoldingsViewController.swift; sourceTree = "<group>"; };
 		3894FCE225D17FC500BFD26F /* CryptoTransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTransactionsViewController.swift; sourceTree = "<group>"; };
@@ -246,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				389DE65125C5D27200954F4F /* CryptocurrencyViewController.swift */,
+				388BBA54265D78F500F8C524 /* AddTransaction */,
 				388DC27C25FBD2EB007B1B86 /* Details */,
 				388DC27925FBD2CE007B1B86 /* Holdings */,
 				38ECAAF526090A28008AF50B /* Transactions */,
@@ -356,6 +369,7 @@
 		384CFAFD25C21E9B0064C932 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				389451ED265EAAAB00C3CC26 /* SearchTextfield */,
 				389DE65625C758B500954F4F /* NavigationTopBarView.swift */,
 				389DE66325C8269E00954F4F /* CryptoHeaderView.swift */,
 				384CFB0125C21EC70064C932 /* PriceChangeBox.swift */,
@@ -366,9 +380,19 @@
 				38350D192640ADF500B1E0C0 /* CircleView.swift */,
 				38C0EB852658536B0034179C /* RoundCornerButton.swift */,
 				38C0EB8926585C090034179C /* CustomSearchBar.swift */,
+				388BBA4E265D5BA400F8C524 /* AddToFavoriteButton.swift */,
 				3891ADAC2656A525005FF3CA /* Charts */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		388BBA54265D78F500F8C524 /* AddTransaction */ = {
+			isa = PBXGroup;
+			children = (
+				388BBA50265D709200F8C524 /* AddTransactionViewController.swift */,
+				388BBA52265D76D800F8C524 /* AddTransactionTableViewCell.swift */,
+			);
+			path = AddTransaction;
 			sourceTree = "<group>";
 		};
 		388DC27825FBD2B0007B1B86 /* Home */ = {
@@ -425,6 +449,16 @@
 				3891ADAB2656A25F005FF3CA /* ChartLegend */,
 			);
 			path = Charts;
+			sourceTree = "<group>";
+		};
+		389451ED265EAAAB00C3CC26 /* SearchTextfield */ = {
+			isa = PBXGroup;
+			children = (
+				389451F0265EAB2700C3CC26 /* SearchTextField.swift */,
+				389451F2265EB8A200C3CC26 /* SearchTextFieldTableViewCell.swift */,
+				389451F4265EBF1500C3CC26 /* SearchTextFieldSuggestionsHeader.swift */,
+			);
+			path = SearchTextfield;
 			sourceTree = "<group>";
 		};
 		38B6D5B425D5AB1D00AC8238 /* Lottie animations */ = {
@@ -730,20 +764,24 @@
 				38570390265686C30073724A /* PieChartView.swift in Sources */,
 				3891ADAA2656A004005FF3CA /* ChartLegendTableViewCell.swift in Sources */,
 				384CFB0225C21EC70064C932 /* PriceChangeBox.swift in Sources */,
+				388BBA51265D709200F8C524 /* AddTransactionViewController.swift in Sources */,
 				384CFB0725C2224D0064C932 /* AppColors.swift in Sources */,
 				3894FCD225D17A9400BFD26F /* CryptoHoldingsScrollView.swift in Sources */,
 				3891ADA826569DD2005FF3CA /* ChartLegendView.swift in Sources */,
 				3894FCF325D1A0B600BFD26F /* AboutView.swift in Sources */,
 				38C0EB812658503F0034179C /* FilterMenuView.swift in Sources */,
+				388BBA4F265D5BA400F8C524 /* AddToFavoriteButton.swift in Sources */,
 				3837C12325FFA0390056BB27 /* NumberFormatters.swift in Sources */,
 				3844884325D3177F002BF26C /* HomeHeaderPortfolioView.swift in Sources */,
 				389DE66425C8269E00954F4F /* CryptoHeaderView.swift in Sources */,
+				389451F3265EB8A200C3CC26 /* SearchTextFieldTableViewCell.swift in Sources */,
 				384CFB2825C451C50064C932 /* GradientView.swift in Sources */,
 				384CFAF125C1F6960064C932 /* HomeTableViewCell.swift in Sources */,
 				3800219925CD728000FA4773 /* MarketStatsView.swift in Sources */,
 				389DE65F25C76F4700954F4F /* RoundedCornersView.swift in Sources */,
 				38619A742613B0660044D273 /* CryptoNewsCell.swift in Sources */,
 				38E1AEC42647479500CD7D91 /* CryptoDetailBalanceView.swift in Sources */,
+				389451F5265EBF1500C3CC26 /* SearchTextFieldSuggestionsHeader.swift in Sources */,
 				389DE68625C8379000954F4F /* CryptoDetailScrollView.swift in Sources */,
 				38211C80264B02C100F7AF11 /* TradingViewChart.swift in Sources */,
 				389DE65225C5D27200954F4F /* CryptocurrencyViewController.swift in Sources */,
@@ -759,6 +797,7 @@
 				3894FCDF25D17FAB00BFD26F /* CryptoHoldingsViewController.swift in Sources */,
 				38598135261B75D1002F2FE3 /* DateUtils.swift in Sources */,
 				389DE65725C758B500954F4F /* NavigationTopBarView.swift in Sources */,
+				388BBA53265D76D800F8C524 /* AddTransactionTableViewCell.swift in Sources */,
 				3837C12D25FFB2740056BB27 /* DistributionBar.swift in Sources */,
 				38211C82264B049B00F7AF11 /* ChartViewController.swift in Sources */,
 				38C0EB8A26585C090034179C /* CustomSearchBar.swift in Sources */,
@@ -767,6 +806,7 @@
 				3894FCE325D17FC500BFD26F /* CryptoTransactionsViewController.swift in Sources */,
 				384CFA9A25C1E67D0064C932 /* HomeViewController.swift in Sources */,
 				38C0EB862658536B0034179C /* RoundCornerButton.swift in Sources */,
+				389451F1265EAB2700C3CC26 /* SearchTextField.swift in Sources */,
 				384CFA9625C1E67D0064C932 /* AppDelegate.swift in Sources */,
 				38828A8A2657F784008DB9B8 /* ImageUtils.swift in Sources */,
 				384CFAF625C1F7E20064C932 /* Cryptocurrency.swift in Sources */,

@@ -1,16 +1,20 @@
 PODS:
   - DropDown (2.3.6)
+  - SwiftSVG (2.3.2)
 
 DEPENDENCIES:
   - DropDown (= 2.3.6)
+  - SwiftSVG (~> 2.3)
 
 SPEC REPOS:
   trunk:
     - DropDown
+    - SwiftSVG
 
 SPEC CHECKSUMS:
   DropDown: e8bfbce001b2e6b7e8abfdd42e12b565712d84f4
+  SwiftSVG: ca7f64e403b8ea7ea8eba8c823b83ba4a059834c
 
-PODFILE CHECKSUM: cd655af903e044ed0d841e3b453c88276d95d64b
+PODFILE CHECKSUM: 72e45acf1a4ef3dd2d27c04a8b388df599c92a3e
 
 COCOAPODS: 1.10.1

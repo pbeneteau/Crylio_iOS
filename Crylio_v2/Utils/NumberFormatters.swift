@@ -38,10 +38,10 @@ extension Float {
         let number = NSNumber(value: self)
         
         if sign {
-            return  self < 0 ? "-": "+" + formatter.string(from: number)! + "%"
+            return  self < 0 ? "-": "+" + formatter.string(from: number)! + " %"
         }
         
-        return formatter.string(from: number)! + "%"
+        return formatter.string(from: number)! + " %"
     }
     
     func toAmountString(sign: Bool = false, symbol: String = "") -> String {

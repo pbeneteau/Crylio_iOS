@@ -20,6 +20,7 @@ class NavigationTopBarView: UIView {
     lazy var backButton = UIButton(type: .custom)
     lazy var title = UILabel()
     lazy var price = UILabel()
+    lazy var addToFavoriteButton = AddToFavoriteButton()
     
     var isCryptoInfoHidden = true
     var isBlurriedViewHidden = true
@@ -71,6 +72,7 @@ class NavigationTopBarView: UIView {
         addSubview(backButton)
         addSubview(title)
         addSubview(price)
+        addSubview(addToFavoriteButton)
     }
     
     func hideCryptoInfo() {
@@ -78,12 +80,17 @@ class NavigationTopBarView: UIView {
         if isCryptoInfoHidden { return }
         isCryptoInfoHidden = true
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
             self.title.alpha = 0
             self.title.transform = CGAffineTransform(translationX: 0, y: 5)
             self.price.alpha = 0
             self.price.transform = CGAffineTransform(translationX: 0, y: 5)
-        }, completion: nil)
+        })
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+            self.addToFavoriteButton.alpha = 1
+            self.addToFavoriteButton.transform = CGAffineTransform(translationX: 0, y: 5)
+        })
     }
     
     func showCryptoInfo() {
@@ -91,12 +98,18 @@ class NavigationTopBarView: UIView {
         if !isCryptoInfoHidden { return }
         isCryptoInfoHidden = false
         
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+            self.addToFavoriteButton.alpha = 0
+            self.addToFavoriteButton.transform = CGAffineTransform(translationX: 0, y: -5)
+        })
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+
             self.title.alpha = 1
             self.title.transform = CGAffineTransform(translationX: 0, y: -5)
             self.price.alpha = 1
             self.price.transform = CGAffineTransform(translationX: 0, y: -5)
-        }, completion: nil)
+        })
         
     }
     
@@ -151,6 +164,12 @@ extension NavigationTopBarView {
             make.centerY.equalTo(backButton).offset(5)
             make.height.equalTo(20)
             make.width.equalTo(price.intrinsicContentSize.width)
+        }
+        
+        addToFavoriteButton.snp.remakeConstraints { make in
+            make.right.equalToSuperview().inset(16)
+            make.centerY.equalTo(backButton)
+            make.height.width.equalTo(28)
         }
         
         super.updateConstraints()

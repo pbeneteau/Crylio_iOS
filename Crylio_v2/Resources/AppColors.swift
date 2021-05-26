@@ -13,16 +13,22 @@ class AppColors {
     
     
     struct background {
-        static var primary: UIColor { return UIColor.systemGray6 | UIColor(red: 0.07, green: 0.09, blue: 0.13, alpha: 1.00)}
-        static var secondary: UIColor { return UIColor.white | UIColor(red: 0.09, green: 0.11, blue: 0.15, alpha: 1.00)}
-        static var tertiary: UIColor { return UIColor(red: 0.12, green: 0.13, blue: 0.17, alpha: 1.00) }
-        static var quaternary: UIColor { return UIColor(red: 0.31, green: 0.31, blue: 0.31, alpha: 1.00) }
+        static var primary: UIColor { return UIColor.systemGray6 | UIColor(hexString: "#131721")}
+        static var secondary: UIColor { return UIColor.white | UIColor(hexString: "#181B26")}
+        static var tertiary: UIColor { return UIColor.systemGray5 | UIColor(hexString: "#2A2D37") }
+    }
+    
+    struct foreground {
+        static var primary: UIColor { return UIColor.systemGray6 | UIColor(hexString: "#131721")}
+        static var secondary: UIColor { return UIColor.white | UIColor(hexString: "#181B26")}
+        static var tertiary: UIColor { return UIColor.systemGray5 | UIColor(hexString: "#2a2c39") }
     }
     
     struct label {
         static var primary: UIColor { return UIColor.label }
         static var secondary: UIColor { return UIColor(red: 0.45, green: 0.48, blue: 0.52, alpha: 1.00) }
         static var tertiary: UIColor { return UIColor(red: 0.56, green: 0.55, blue: 0.56, alpha: 1.00) }
+        static var primaryReversed: UIColor { return UIColor.white | UIColor.black }
     }
     
     static let action = UIColor(red: 0.21, green: 0.53, blue: 0.96, alpha: 1.00)
@@ -46,6 +52,7 @@ class AppColors {
     static let blur = .clear | .systemBlue.withAlphaComponent(0.1)
     
     static let buttonActiveBackground = .systemBlue.withAlphaComponent(0.3) | .systemBlue.withAlphaComponent(0.2)
+    static let selectionBackground = .systemBlue.withAlphaComponent(0.2) | .systemBlue.withAlphaComponent(0.1)
      
 }
 
@@ -75,5 +82,35 @@ public extension UILabel {
         let attribute = NSMutableAttributedString.init(string: fullText)
         attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: color , range: range)
         self.attributedText = attribute
+    }
+}
+
+extension UIColor {
+    
+    convenience init(hexString: String, alpha: CGFloat = 1.0) {
+        let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let scanner = Scanner(string: hexString)
+        if (hexString.hasPrefix("#")) {
+            scanner.scanLocation = 1
+        }
+        var color: UInt32 = 0
+        scanner.scanHexInt32(&color)
+        let mask = 0x000000FF
+        let r = Int(color >> 16) & mask
+        let g = Int(color >> 8) & mask
+        let b = Int(color) & mask
+        let red   = CGFloat(r) / 255.0
+        let green = CGFloat(g) / 255.0
+        let blue  = CGFloat(b) / 255.0
+        self.init(red:red, green:green, blue:blue, alpha:alpha)
+    }
+    func toHexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        return String(format:"#%06x", rgb)
     }
 }

@@ -9,9 +9,10 @@ import UIKit
 import DropDown
 
 
-protocol DateRangeDropdownDelegate: NSObjectProtocol {
+protocol CryptoHeaderViewDelegate: NSObjectProtocol {
     
     func dateRangeDidChange(to dateRange: TradingViewChartDateRange)
+    func addTransactionButtonTapped()
 }
 
 class CryptoHeaderView: UIView {
@@ -26,9 +27,9 @@ class CryptoHeaderView: UIView {
     lazy var dateRangeButton = UIButton()
     lazy var timeframeDropdownView = DropDown()
     
-    lazy var watchButton = UIButton()
+    lazy var addTransactionButton = UIButton()
     
-    weak var dateRangeDropdownDelegate: DateRangeDropdownDelegate!
+    weak var cryptoHeaderViewDelegate: CryptoHeaderViewDelegate!
     
     let dateRanges = TradingViewChartDateRange.allCases
     
@@ -73,36 +74,35 @@ class CryptoHeaderView: UIView {
         timeframeDropdownView.dataSource = dateRanges.map { $0.description }
         timeframeDropdownView.anchorView = dateRangeButton
         timeframeDropdownView.bottomOffset = CGPoint(x: 0, y:(timeframeDropdownView.anchorView?.plainView.bounds.height)!)
-        timeframeDropdownView.shadowColor = .systemGray6
+        timeframeDropdownView.shadowColor = .black.withAlphaComponent(0.1)
         timeframeDropdownView.selectRow(0)
         timeframeDropdownView.selectionAction = { [unowned self] (index: Int, dateRange: String) in dateRangedropDowMenuSelected(index: index) }
 
-        dateRangeButton.titleLabel?.font = .systemFont(ofSize: 15)
-        dateRangeButton.setTitle("1 day", for: .normal)
+        dateRangeButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        dateRangeButton.setTitle(dateRanges[0].description, for: .normal)
         dateRangeButton.setTitleColor(.systemBlue, for: .normal)
         dateRangeButton.addTarget(self, action: #selector(self.timeframeButtonAction(sender:)), for: .touchUpInside)
         dateRangeButton.backgroundColor = .clear
         dateRangeButton.layer.cornerRadius = 10
-        dateRangeButton.layer.borderWidth = 1.5
+        dateRangeButton.layer.borderWidth = 1
         dateRangeButton.layer.borderColor = UIColor.systemBlue.cgColor
         
-        watchButton.layer.cornerRadius = 10
-        watchButton.backgroundColor = AppColors.buttonActiveBackground
-        watchButton.setTitle("Watch", for: .normal)
-        watchButton.setTitleColor(.systemBlue, for: .normal)
-        watchButton.setTitle("Unwatch", for: .selected)
-        watchButton.setTitleColor(.label, for: .selected)
-        watchButton.addTarget(self, action: #selector(self.watchButtonAction(sender:)), for: .touchUpInside)
-        
-        watchButton.isSelected = false
-        
+        addTransactionButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        addTransactionButton.setTitle("Add Transaction", for: .normal)
+        addTransactionButton.setTitleColor(.systemBlue, for: .normal)
+        addTransactionButton.addTarget(self, action: #selector(self.addTransactionButtonAction(sender:)), for: .touchUpInside)
+        addTransactionButton.backgroundColor = .clear
+        addTransactionButton.layer.cornerRadius = 10
+        addTransactionButton.layer.borderWidth = 1
+        addTransactionButton.layer.borderColor = UIColor.systemBlue.cgColor
+                
         addSubview(nameLabel)
         addSubview(symbolLabel)
         addSubview(priceLabel)
         addSubview(changeBox)
         addSubview(icon)
         addSubview(dateRangeButton)
-        addSubview(watchButton)
+        addSubview(addTransactionButton)
     }
     
     func initValues() {
@@ -120,7 +120,7 @@ class CryptoHeaderView: UIView {
     
     func dateRangedropDowMenuSelected(index: Int) {
         let dateRange = dateRanges[index]
-        if let delegate = dateRangeDropdownDelegate {
+        if let delegate = cryptoHeaderViewDelegate {
             delegate.dateRangeDidChange(to: dateRange)
         }
         dateRangeButton.setTitle(dateRange.description, for: .normal)
@@ -128,18 +128,9 @@ class CryptoHeaderView: UIView {
     }
     
     
-    @objc func watchButtonAction(sender: UIButton!) {
-        if sender.isSelected {
-            // unwatched
-            watchButton.backgroundColor = AppColors.buttonActiveBackground
-            watchButton.layer.borderWidth = 0
-            sender.isSelected = false
-        } else {
-            // watched
-            watchButton.backgroundColor = .clear
-            watchButton.layer.borderWidth = 1.5
-            watchButton.layer.borderColor = AppColors.background.secondary.cgColor
-            sender.isSelected = true
+    @objc func addTransactionButtonAction(sender: UIButton!) {
+        if let delegate = cryptoHeaderViewDelegate {
+            delegate.addTransactionButtonTapped()
         }
     }
     
@@ -203,10 +194,10 @@ extension CryptoHeaderView {
             make.height.equalTo(34)
         }
         
-        watchButton.snp.makeConstraints { make in
-            make.left.equalTo(dateRangeButton.snp.right).offset(15)
+        addTransactionButton.snp.makeConstraints { make in
+            make.left.equalTo(dateRangeButton.snp.right).offset(10)
             make.centerY.equalTo(dateRangeButton)
-            make.width.equalTo(100)
+            make.width.equalTo(141)
             make.height.equalTo(34)
         }
         

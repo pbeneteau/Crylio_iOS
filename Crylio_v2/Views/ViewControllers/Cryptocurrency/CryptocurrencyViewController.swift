@@ -103,7 +103,7 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
         
         menu.delegate = self
         navigationTopBar.backButtonDelegate = self
-        header.dateRangeDropdownDelegate = self
+        header.cryptoHeaderViewDelegate = self
         detailVC.scrollView.balanceView.delegate = self
         
         detailVC.view.tag = 0
@@ -256,7 +256,6 @@ extension CryptocurrencyViewController {
         UIView.animate(withDuration: 0.2, animations: {
             self.updateHeaderAlpha()
         })
-        
     }
     
     func updateHeaderAlpha() {
@@ -280,7 +279,7 @@ extension CryptocurrencyViewController {
 
 // MARK: - Other protocols
 
-extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtocol, DateRangeDropdownDelegate, CryptoDetailBalanceDelegate {
+extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtocol, CryptoHeaderViewDelegate, CryptoDetailBalanceDelegate {
     
     func menuButtonTapped(sender: UIButton!) {
                 
@@ -296,6 +295,23 @@ extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtoc
         navigationController?.popToRootViewController(animated: true)
     }
     
+    func addTransactionButtonTapped() {
+        print("adding transaction...")
+        
+        let popoverVC = AddTransactionViewController()
+        popoverVC.title = crypto.name
+        popoverVC.popoverPresentationController?.sourceView = self.view
+        popoverVC.popoverPresentationController?.permittedArrowDirections = .up
+        popoverVC.popoverPresentationController?.delegate = self
+        popoverVC.view.frame = self.view.frame
+        
+        let nav = UINavigationController(rootViewController: popoverVC)
+        nav.navigationBar.barTintColor = AppColors.background.secondary
+        nav.modalPresentationStyle = .popover
+        
+        present(nav, animated: true, completion: nil)
+    }
+    
     func dateRangeDidChange(to dateRange: TradingViewChartDateRange) {
         detailVC.scrollView.chartView.reloadChart(dateRange: dateRange)
     }
@@ -303,6 +319,12 @@ extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtoc
     func CryptoDetailBalanceTouched() {
         menuScrollView.setContentOffset(CGPoint(x: view.frame.width, y: 0), animated: true)
     }
+    
+}
+
+// MARK: - Constraints
+
+extension CryptocurrencyViewController: UIPopoverPresentationControllerDelegate {
     
 }
 
@@ -387,6 +409,17 @@ extension CryptocurrencyViewController {
 }
 
 
+// MARK: user interface style handling
+
+extension CryptocurrencyViewController {
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        header.timeframeDropdownView.textColor = AppColors.label.primary
+        header.timeframeDropdownView.backgroundColor = AppColors.background.tertiary
+        header.timeframeDropdownView.selectionBackgroundColor = AppColors.buttonActiveBackground
+    }
+}
+
 
 extension UIScrollView {
 
@@ -410,3 +443,5 @@ extension UIScrollView {
     setContentOffset(maxContentOffset, animated: animated)
   }
 }
+
+
