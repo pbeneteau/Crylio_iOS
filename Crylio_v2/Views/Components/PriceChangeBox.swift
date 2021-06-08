@@ -50,7 +50,7 @@ class PriceChangeBox: UIView {
             boxView.image = UIImage(named: "priceDown")
         }
         
-        self.changeLabel.attributedText = changeLabel.getPercentMutableString(value: change, colors: true)
+        changeLabel.setPercentMutableString(value: change, colors: true)
     }
     
     override func updateConstraints() {

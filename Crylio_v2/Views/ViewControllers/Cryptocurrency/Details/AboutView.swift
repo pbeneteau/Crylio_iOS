@@ -62,23 +62,22 @@ class AboutView: UIView {
     override func updateConstraints() {
         
         titleLabel.snp.makeConstraints { make in
-            make.width.equalTo(200)
-            make.left.equalTo(16)
+            make.right.left.equalToSuperview()
             make.top.equalToSuperview()
             make.height.equalTo(22)
         }
         
         backgroundBoxView.snp.makeConstraints { make in
-            make.left.equalTo(16)
+            make.left.equalToSuperview()
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
-            make.width.equalToSuperview().offset(-32)
-            make.bottom.equalTo(descriptionTextLabel.snp.bottom).offset(16)
+            make.right.equalToSuperview()
+            make.bottom.equalTo(descriptionTextLabel.snp.bottom).offset(CONTENT_BOTTOM_MARGIN)
         }
         
         descriptionTextLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.top.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
+            make.left.equalToSuperview().offset(CONTENT_HORIZONTAL_MARGIN)
+            make.top.equalToSuperview().offset(CONTENT_TOP_MARGIN)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
         }
         
         super.updateConstraints()

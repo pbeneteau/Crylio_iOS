@@ -10,7 +10,7 @@ import UIKit
 
 protocol AssetsFilterDelegate: NSObjectProtocol {
     
-    func filterDidChanged(_ sender: RoundCornerButton, order: FilterOrderingMode)
+    func filterDidChanged(_ sender: RoundCornersButton, order: FilterOrderingMode)
     func filterIsNotActive()
 }
 
@@ -23,9 +23,9 @@ enum FilterOrderingMode {
 
 class FilterMenuView: UIView {
     
-    lazy var nameFilterButton = RoundCornerButton()
-    lazy var holdingsFilterButton = RoundCornerButton()
-    lazy var priceFilterButton = RoundCornerButton()
+    lazy var nameFilterButton = RoundCornersButton()
+    lazy var holdingsFilterButton = RoundCornersButton()
+    lazy var priceFilterButton = RoundCornersButton()
         
     weak var delegate: AssetsFilterDelegate!
     
@@ -103,7 +103,7 @@ class FilterMenuView: UIView {
 
 extension FilterMenuView {
     
-    @objc private func filterButtonPressed(sender: RoundCornerButton) {
+    @objc private func filterButtonPressed(sender: RoundCornersButton) {
         
         if sender.isSelected {
             /// filter active

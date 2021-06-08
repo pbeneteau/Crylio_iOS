@@ -71,15 +71,15 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
         addChild(transactionsVC)
         transactionsVC.didMove(toParent: self)
         
-        navigationTopBar.title.text = crypto.name
-        navigationTopBar.price.attributedText = navigationTopBar.price.getDollarMutableString(value: crypto.price)
+        navigationTopBar.titleLabel.text = crypto.name
+        navigationTopBar.changeLabel.setPercentMutableString(value: crypto.change, colors: true)
         
-        view.addSubview(menuScrollView)
         menuScrollView.addSubview(detailVC.view)
         menuScrollView.addSubview(holdingsVC.view)
         menuScrollView.addSubview(ordersVC.view)
         menuScrollView.addSubview(transactionsVC.view)
         
+        view.addSubview(menuScrollView)
         view.addSubview(header)
         view.addSubview(navigationTopBar)
         view.addSubview(menu)
@@ -103,19 +103,12 @@ class CryptocurrencyViewController: BaseViewController, UIGestureRecognizerDeleg
         
         menu.delegate = self
         navigationTopBar.backButtonDelegate = self
-        header.cryptoHeaderViewDelegate = self
         detailVC.scrollView.balanceView.delegate = self
         
         detailVC.view.tag = 0
         holdingsVC.view.tag = 1
         ordersVC.view.tag = 2
         transactionsVC.view.tag = 3
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.navigationBar.isHidden = true
     }
     
     convenience init(crypto: Cryptocurrency) {
@@ -185,9 +178,9 @@ extension CryptocurrencyViewController {
         header.transform = CGAffineTransform(translationX: 0, y: min(0, -yOffset))
         
         menu.snp.remakeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.width.equalToSuperview().offset(-16)
-            make.height.equalTo(40)
+            make.left.equalToSuperview().offset(SAFE_AREA_MARGIN)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
+            make.height.equalTo(37)
             make.top.equalTo(max(navigationTopBar.topBar.frame.maxY, header.frame.maxY))
         }
                     
@@ -209,9 +202,9 @@ extension CryptocurrencyViewController {
         }
         
         if header.nameLabel.frame.maxY/1.5 + header.frame.minY < navigationTopBar.topBar.frame.maxY {
-            navigationTopBar.showCryptoInfo()
+            navigationTopBar.showTitle()
         } else {
-            navigationTopBar.hideCryptoInfo()
+            navigationTopBar.hideTitle()
         }
         
     }
@@ -279,8 +272,8 @@ extension CryptocurrencyViewController {
 
 // MARK: - Other protocols
 
-extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtocol, CryptoHeaderViewDelegate, CryptoDetailBalanceDelegate {
-    
+extension CryptocurrencyViewController: HorizontalMenuProtocol, NavigationTopBarDelegate, CryptoDetailBalanceDelegate {
+
     func menuButtonTapped(sender: UIButton!) {
                 
         //menuScrollView.setContentOffset(CGPoint(x: Int(view.bounds.width) * sender.tag, y: 0), animated: true)
@@ -292,31 +285,24 @@ extension CryptocurrencyViewController: HorizontalMenuProtocol, BackButtonProtoc
     }
     
     func backButtonAction() {
+        
         navigationController?.popToRootViewController(animated: true)
     }
-    
-    func addTransactionButtonTapped() {
-        print("adding transaction...")
+    func addButtonAction() {
         
+        print("adding transaction...")
+                
         let popoverVC = AddTransactionViewController()
         popoverVC.title = crypto.name
         popoverVC.popoverPresentationController?.sourceView = self.view
         popoverVC.popoverPresentationController?.permittedArrowDirections = .up
         popoverVC.popoverPresentationController?.delegate = self
-        popoverVC.view.frame = self.view.frame
-        
-        let nav = UINavigationController(rootViewController: popoverVC)
-        nav.navigationBar.barTintColor = AppColors.background.secondary
-        nav.modalPresentationStyle = .popover
-        
-        present(nav, animated: true, completion: nil)
-    }
     
-    func dateRangeDidChange(to dateRange: TradingViewChartDateRange) {
-        detailVC.scrollView.chartView.reloadChart(dateRange: dateRange)
+        navigationController?.present(popoverVC, animated: true, completion: nil)
     }
     
     func CryptoDetailBalanceTouched() {
+        
         menuScrollView.setContentOffset(CGPoint(x: view.frame.width, y: 0), animated: true)
     }
     
@@ -343,13 +329,13 @@ extension CryptocurrencyViewController {
         header.snp.makeConstraints { make in
             make.left.width.equalToSuperview()
             make.top.equalTo(navigationTopBar.topBar.snp.bottom)
-            make.height.equalTo(130)
+            make.height.equalTo(100)
         }
         
         menu.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.width.equalToSuperview().offset(-16)
-            make.height.equalTo(40)
+            make.left.equalToSuperview().offset(SAFE_AREA_MARGIN)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
+            make.height.equalTo(37)
             make.top.equalTo(header.snp.bottom)
         }
         
@@ -407,19 +393,6 @@ extension CryptocurrencyViewController {
     }
     
 }
-
-
-// MARK: user interface style handling
-
-extension CryptocurrencyViewController {
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        header.timeframeDropdownView.textColor = AppColors.label.primary
-        header.timeframeDropdownView.backgroundColor = AppColors.background.tertiary
-        header.timeframeDropdownView.selectionBackgroundColor = AppColors.buttonActiveBackground
-    }
-}
-
 
 extension UIScrollView {
 

@@ -89,7 +89,7 @@ extension DistributionView {
         
         pieChartView.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.right.equalToSuperview().inset(16)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalToSuperview().offset(20)
             make.height.equalTo(pieChartView.snp.width).multipliedBy(0.4)
         }

@@ -255,8 +255,7 @@ extension CryptoTransactionsViewController {
     override func updateViewConstraints() {
         
         tableView.snp.makeConstraints { make in
-            make.left.top.bottom.right.equalToSuperview()
-            make.width.height.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         super.updateViewConstraints()

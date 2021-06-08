@@ -94,7 +94,7 @@ class CryptoTransactionCell: UITableViewCell {
         }
         exchangeLabel.setSpannedColor(fullText:  exchangeLabel.text!, changeText: transaction.exchange, color: .label)
 
-        worthLabel.attributedText = worthLabel.getDollarMutableString(value: transaction.worth)
+        worthLabel.setDollarMutableString(value: transaction.worth)
         
         amountLabel.text = transaction.amount.toAmountString() + "/" + transaction.amountExecuted.toAmountString()
         amountLabel.setSpannedColor(fullText: transaction.amount.toAmountString(), changeText: "/" + transaction.amountExecuted.toAmountString(), color: .systemGray)
@@ -162,42 +162,40 @@ extension CryptoTransactionCell {
     override func layoutIfNeeded() {
         
         bgView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().offset(-16)
+            make.left.equalToSuperview().offset(SAFE_AREA_MARGIN)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
             make.top.bottom.equalToSuperview()
-            make.width.equalToSuperview().offset(-32)
-            make.height.equalToSuperview()
         }
         
         transactionTypeCircleView.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalToSuperview().offset(20)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.top.equalToSuperview().offset(CONTENT_TOP_MARGIN)
             make.height.width.equalTo(8)
         }
         
         transactionTypeLabel.snp.makeConstraints { make in
             make.left.equalTo(transactionTypeCircleView.snp.right).offset(8)
-            make.right.equalToSuperview().offset(-16)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalTo(transactionTypeCircleView)
             make.height.equalTo(20)
         }
         
         exchangeLabel.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.right.equalTo(self.snp.centerX).inset(8)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.right.equalTo(snp.centerX).inset(8)
             make.top.equalTo(transactionTypeLabel.snp.bottom).offset(9)
             make.height.equalTo(18)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.right.equalTo(self.snp.centerX).inset(8)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.right.equalTo(snp.centerX).inset(8)
             make.top.equalTo(exchangeLabel.snp.bottom).offset(4)
             make.height.equalTo(16)
         }
         
         filledStatusBoxView.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-16)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalTo(transactionTypeLabel)
             make.width.equalTo(filledStatusLabel.intrinsicContentSize.width + 8)
             make.height.equalTo(20)
@@ -209,19 +207,18 @@ extension CryptoTransactionCell {
         }
         
         worthLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.snp.centerX).offset(8)
-            make.right.equalToSuperview().inset(16)
+            make.left.equalTo(snp.centerX).offset(8)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalTo(exchangeLabel)
             make.height.equalTo(18)
         }
         
         amountLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.snp.centerX).offset(8)
-            make.right.equalToSuperview().inset(16)
+            make.left.equalTo(snp.centerX).offset(8)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalTo(dateLabel)
             make.height.equalTo(16)
         }
-        
         
         super.layoutIfNeeded()
     }

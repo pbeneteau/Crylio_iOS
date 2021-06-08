@@ -16,7 +16,8 @@ class HomeViewController: BaseViewController {
     lazy var header = UIView()
     lazy var filterMenuView = FilterMenuView()
     lazy var tableView = HomeTableView()
-    
+    var searchBar = UISearchBar()
+
     var searchActive = false
     
     var offsetSet = false
@@ -28,9 +29,6 @@ class HomeViewController: BaseViewController {
     
     var cryptos = [Cryptocurrency]()
     var filteredCryptos = [Cryptocurrency]()
-    
-    var searchBar = UISearchBar()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,22 +71,12 @@ class HomeViewController: BaseViewController {
                 backgroundview.backgroundColor = .clear
             }
         }
-                
+                        
         view.addSubview(header)
         view.addSubview(filterMenuView)
         view.addSubview(tableView)
         
         loadCryptos()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -148,7 +136,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 76
+        return 80
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -187,7 +175,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: AssetsFilterDelegate {
     
-    func filterDidChanged(_ sender: RoundCornerButton, order: FilterOrderingMode) {
+    func filterDidChanged(_ sender: RoundCornersButton, order: FilterOrderingMode) {
                 
         switch sender.tag {
         case 0:
@@ -266,23 +254,23 @@ extension HomeViewController {
     override func updateViewConstraints() {
         
         header.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
+            make.left.equalToSuperview().offset(SAFE_AREA_MARGIN)
             make.top.equalToSuperview().offset(60)
-            make.right.equalToSuperview().inset(16)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
             make.height.equalTo(180)
         }
         
         filterMenuView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().inset(16)
+            make.left.equalToSuperview().offset(SAFE_AREA_MARGIN)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
             make.top.equalTo(header.snp.bottom).offset(30)
             make.height.equalTo(30)
         }
                 
         tableView.snp.makeConstraints { make in
             make.top.equalTo(filterMenuView.snp.bottom).offset(20)
-            make.left.equalTo(header)
-            make.width.equalTo(header)
+            make.left.equalToSuperview().offset(SAFE_AREA_MARGIN)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
             make.bottom.equalToSuperview()
         }
         

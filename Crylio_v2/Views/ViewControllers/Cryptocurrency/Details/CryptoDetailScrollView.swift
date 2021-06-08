@@ -39,6 +39,7 @@ class CryptoDetailScrollView: UIScrollView {
         
         translatesAutoresizingMaskIntoConstraints = false
         contentInsetAdjustmentBehavior = .never
+        showsHorizontalScrollIndicator = false
         
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -75,16 +76,15 @@ class CryptoDetailScrollView: UIScrollView {
         super.layoutSubviews()
                 
         aboutView.snp.remakeConstraints { make in
-            make.left.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.top.equalTo(marketStatsView.snp.bottom).offset(30)
-            make.width.equalToSuperview()
-            make.height.equalTo(aboutView.descriptionTextLabel.frame.maxY).offset(16)
+            make.height.equalTo(aboutView.descriptionTextLabel.frame.maxY).offset(CONTENT_BOTTOM_MARGIN)
         }
         
         contentView.snp.remakeConstraints { make in
             make.top.bottom.equalToSuperview()
-            make.left.right.equalToSuperview()
-            make.width.equalToSuperview()
+            make.left.equalTo(SAFE_AREA_MARGIN)
+            make.width.equalToSuperview().offset(-SAFE_AREA_MARGIN*2)
             make.height.equalTo(aboutView.frame.maxY)
         }
                 
@@ -94,44 +94,40 @@ class CryptoDetailScrollView: UIScrollView {
 }
 
 
-// CONSTRAINTS
+// MARK: - Constraints
 
 extension CryptoDetailScrollView {
     
     override func updateConstraints() {
         
         contentView.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self)
-            make.left.right.equalTo(0)
-            make.width.equalTo(self)
+            make.top.bottom.equalToSuperview()
+            make.left.equalTo(SAFE_AREA_MARGIN)
+            make.width.equalToSuperview().offset(-SAFE_AREA_MARGIN*2)
             make.height.equalTo(400 + 382)
         }
         
         chartView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.top.equalToSuperview().offset(16)
-            make.width.equalToSuperview()
-            make.height.equalTo(350)
+            make.left.right.equalToSuperview()
+            make.top.equalTo(16)
+            make.height.equalTo(428)
         }
         
         balanceView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().inset(16)
+            make.left.right.equalToSuperview()
             make.top.equalTo(chartView.snp.bottom).offset(30)
             make.height.equalTo(74)
         }
 
         marketStatsView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
-            make.width.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.top.equalTo(balanceView.snp.bottom).offset(30)
             make.height.equalTo(297)
         }
         
         aboutView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.top.equalTo(marketStatsView.snp.bottom).offset(30)
-            make.width.equalToSuperview()
         }
         
         super.updateConstraints()

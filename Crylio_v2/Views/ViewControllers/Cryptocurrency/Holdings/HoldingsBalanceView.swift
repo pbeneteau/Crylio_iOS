@@ -89,21 +89,22 @@ extension HoldingsBalanceView {
     override func updateConstraints() {
         
         title.snp.makeConstraints { make in
-            make.left.top.equalTo(16)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.top.equalTo(CONTENT_TOP_MARGIN)
             make.width.equalTo(title.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         
         value.snp.makeConstraints { make in
-            make.left.equalTo(16)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalTo(title.snp.bottom).offset(5)
-            make.width.equalTo(value.intrinsicContentSize.width)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.height.equalTo(31)
         }
         
         progressBar.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.width.equalToSuperview().offset(-32)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalTo(value.snp.bottom).offset(15)
             make.height.equalTo(8)
         }
@@ -121,7 +122,6 @@ extension HoldingsBalanceView {
             make.width.equalTo(ath.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
-        
         
         super.updateConstraints()
     }

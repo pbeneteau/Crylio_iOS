@@ -20,9 +20,9 @@ class ChartView: UIView, UIGestureRecognizerDelegate {
     lazy var backgroundBox = RoundedCornersView()
 
     lazy var chartView = WKWebView()
-        
+    lazy var dateRangePicker = UISegmentedControl(items: TradingViewChartDateRange.allCases.map { return $0.description })
+    
     weak var delegate: ChartViewDelegate!
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,7 +36,6 @@ class ChartView: UIView, UIGestureRecognizerDelegate {
         commonInit()
     }
     
-
     private func commonInit() {
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -56,16 +55,21 @@ class ChartView: UIView, UIGestureRecognizerDelegate {
         chartView.scrollView.contentInsetAdjustmentBehavior = .never
         chartView.navigationDelegate = self
         chartView.allowsLinkPreview = false
-        chartView.isUserInteractionEnabled = false
-        
+        //chartView.isUserInteractionEnabled = false
+                
         let tap = UITapGestureRecognizer(target: self, action: #selector(chartViewDoubleTapped))
         tap.delegate = self
         tap.numberOfTapsRequired = 2
         
         chartView.addGestureRecognizer(tap)
         
+        dateRangePicker.selectedSegmentIndex = 0
+        dateRangePicker.backgroundColor = AppColors.background.secondary
+        dateRangePicker.selectedSegmentTintColor = AppColors.background.secondary
+        
         addSubview(backgroundBox)
         backgroundBox.addSubview(chartView)
+        backgroundBox.addSubview(dateRangePicker)
         
         reloadChart()
     }
@@ -85,15 +89,21 @@ class ChartView: UIView, UIGestureRecognizerDelegate {
     override func updateConstraints() {
         
         backgroundBox.snp.makeConstraints { make in
-            make.left.equalTo(16)
-            make.top.equalToSuperview()
-            make.width.equalToSuperview().offset(-32)
-            make.bottom.equalToSuperview().offset(-10)
+            make.edges.equalToSuperview()
         }
         
         chartView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.width.equalToSuperview().multipliedBy(1.06)
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(1)
+            make.height.equalTo(374)
+        }
+        
+        dateRangePicker.snp.makeConstraints { make in
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
+            make.top.equalTo(chartView.snp.bottom).offset(10)
+            make.height.equalTo(29)
         }
         
         super.updateConstraints()

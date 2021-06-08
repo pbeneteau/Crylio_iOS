@@ -7,8 +7,9 @@
 
 import UIKit
 
-protocol BackButtonProtocol: NSObjectProtocol {
+protocol NavigationTopBarDelegate: NSObjectProtocol {
     func backButtonAction()
+    func addButtonAction()
 }
 
 class NavigationTopBarView: UIView {
@@ -17,15 +18,21 @@ class NavigationTopBarView: UIView {
     
     let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
 
+    /// left
     lazy var backButton = UIButton(type: .custom)
-    lazy var title = UILabel()
-    lazy var price = UILabel()
-    lazy var addToFavoriteButton = AddToFavoriteButton()
     
-    var isCryptoInfoHidden = true
+    /// center
+    lazy var titleLabel = UILabel()
+    lazy var changeLabel = UILabel()
+    
+    // right
+    lazy var addToFavoriteButton = AddToFavoriteButton()
+    lazy var addTransactionButton = UIButton()
+    
+    var isTitleHidden = true
     var isBlurriedViewHidden = true
     
-    weak var backButtonDelegate: BackButtonProtocol? = nil
+    weak var backButtonDelegate: NavigationTopBarDelegate!
     
 
     override init(frame: CGRect) {
@@ -51,77 +58,76 @@ class NavigationTopBarView: UIView {
         let config = UIImage.SymbolConfiguration(pointSize: 25.0, weight: .medium, scale: .medium)
         let image = UIImage(systemName: "chevron.left", withConfiguration: config)
         
-        backButton.setTitle("Back", for: .normal)
+        backButton.setTitle(" Back", for: .normal)
         backButton.setImage(image, for: .normal)
         backButton.setTitleColor(backButton.tintColor, for: .normal)
         backButton.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
-
-        title.alpha = 0
-        title.textAlignment = .center
-        title.font = .systemFont(ofSize: 17, weight: .bold)
         
-        price.alpha = 0
-        price.textAlignment = .right
-        price.textColor = AppColors.label.primary
-        price.font = .systemFont(ofSize: 17, weight: .medium)
+        titleLabel.alpha = 0
+        titleLabel.textAlignment = .right
+        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        
+        changeLabel.alpha = 0
+        changeLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        
+        addTransactionButton.setImage(UIImage(named: "add"), for: .normal)
+        addTransactionButton.addTarget(self, action: #selector(addButtonAction(sender:)), for: .touchUpInside)
         
         addBottomBorder()
         
         addSubview(blurredView)
         addSubview(topBar)
         addSubview(backButton)
-        addSubview(title)
-        addSubview(price)
+        addSubview(titleLabel)
+        addSubview(changeLabel)
         addSubview(addToFavoriteButton)
+        addSubview(addTransactionButton)
     }
     
-    func hideCryptoInfo() {
+    func hideTitle() {
         
-        if isCryptoInfoHidden { return }
-        isCryptoInfoHidden = true
-        
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
-            self.title.alpha = 0
-            self.title.transform = CGAffineTransform(translationX: 0, y: 5)
-            self.price.alpha = 0
-            self.price.transform = CGAffineTransform(translationX: 0, y: 5)
-        })
+        if isTitleHidden { return }
+        isTitleHidden = true
         
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
-            self.addToFavoriteButton.alpha = 1
-            self.addToFavoriteButton.transform = CGAffineTransform(translationX: 0, y: 5)
+            self.titleLabel.alpha = 0
+            self.titleLabel.transform = CGAffineTransform(translationX: 0, y: 5)
+            self.changeLabel.alpha = 0
+            self.changeLabel.transform = CGAffineTransform(translationX: 0, y: 5)
         })
     }
     
-    func showCryptoInfo() {
+    func showTitle() {
         
-        if !isCryptoInfoHidden { return }
-        isCryptoInfoHidden = false
-        
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
-            self.addToFavoriteButton.alpha = 0
-            self.addToFavoriteButton.transform = CGAffineTransform(translationX: 0, y: -5)
-        })
+        if !isTitleHidden { return }
+        isTitleHidden = false
         
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
-
-            self.title.alpha = 1
-            self.title.transform = CGAffineTransform(translationX: 0, y: -5)
-            self.price.alpha = 1
-            self.price.transform = CGAffineTransform(translationX: 0, y: -5)
+            self.titleLabel.alpha = 1
+            self.titleLabel.transform = CGAffineTransform.identity
+            self.changeLabel.alpha = 1
+            self.changeLabel.transform = CGAffineTransform.identity
         })
-        
     }
     
     @objc func backButtonAction(sender: UIButton!) {
+        
         if let delegate = backButtonDelegate {
             delegate.backButtonAction()
         }
     }
     
+    @objc func addButtonAction(sender: UIButton!) {
+        
+        if let delegate = backButtonDelegate {
+            delegate.addButtonAction()
+        }
+    }
+    
     func addBottomBorder() {
+        
         let border = UIView()
-        border.backgroundColor = .systemGray.withAlphaComponent(0.2)
+        border.backgroundColor = .systemGray.withAlphaComponent(0.1)
         border.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
         border.frame = CGRect(x: 0, y:  blurredView.frame.size.height - 0.3, width:  blurredView.frame.size.width, height: 0.3)
         blurredView.contentView.addSubview(border)
@@ -152,24 +158,30 @@ extension NavigationTopBarView {
             make.width.equalTo(100)
         }
         
-        title.snp.remakeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalTo(backButton).offset(5)
+        titleLabel.snp.remakeConstraints { make in
+            make.right.equalTo(snp.centerX).inset(5)
+            make.centerY.equalTo(backButton)
             make.height.equalTo(20)
-            make.width.equalTo(title.intrinsicContentSize.width)
+            make.width.equalTo(titleLabel.intrinsicContentSize.width)
         }
         
-        price.snp.remakeConstraints { make in
-            make.right.equalToSuperview().inset(16)
-            make.centerY.equalTo(backButton).offset(5)
+        changeLabel.snp.remakeConstraints { make in
+            make.left.equalTo(snp.centerX).offset(5)
+            make.centerY.equalTo(backButton)
             make.height.equalTo(20)
-            make.width.equalTo(price.intrinsicContentSize.width)
+            make.width.equalTo(changeLabel.intrinsicContentSize.width)
+        }
+        
+        addTransactionButton.snp.remakeConstraints { make in
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
+            make.centerY.equalTo(backButton)
+            make.height.width.equalTo(21)
         }
         
         addToFavoriteButton.snp.remakeConstraints { make in
-            make.right.equalToSuperview().inset(16)
+            make.right.equalTo(addTransactionButton.snp.left).offset(-13)
             make.centerY.equalTo(backButton)
-            make.height.width.equalTo(28)
+            make.height.width.equalTo(21)
         }
         
         super.updateConstraints()

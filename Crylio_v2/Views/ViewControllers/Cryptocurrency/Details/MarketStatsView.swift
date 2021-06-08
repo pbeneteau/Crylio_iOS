@@ -119,34 +119,34 @@ class MarketStatsView: UIView {
     
     func initValues() {
         
-        volume24Label.attributedText = volume24Label.getDollarMutableString(value: marketStats.volume24, precision: 0)
-        volume24ChangeLabel.attributedText = volume24ChangeLabel.getPercentMutableString(value: marketStats.volume24Change, colors: true)
-        marketCapLabel.attributedText = marketCapLabel.getDollarMutableString(value: marketStats.marketCap, precision: 0)
-        marketCapChangeLabel.attributedText = marketCapChangeLabel.getPercentMutableString(value: marketStats.marketCapChange, colors: true)
-        availableSupplyLabel.attributedText = availableSupplyLabel.getAmountMutableString(value: marketStats.availableSupply)
-        availableSupplyChangeLabel.attributedText = availableSupplyChangeLabel.getPercentMutableString(value: marketStats.availableSupplyChange, colors: true)
-        totalSupplyLabel.attributedText = totalSupplyLabel.getAmountMutableString(value: marketStats.totalSupply)
+        volume24Label.setDollarMutableString(value: marketStats.volume24, precision: 0)
+        volume24ChangeLabel.setPercentMutableString(value: marketStats.volume24Change, colors: true)
+        marketCapLabel.setDollarMutableString(value: marketStats.marketCap, precision: 0)
+        marketCapChangeLabel.setPercentMutableString(value: marketStats.marketCapChange, colors: true)
+        availableSupplyLabel.setAmountMutableString(value: marketStats.availableSupply)
+        availableSupplyChangeLabel.setPercentMutableString(value: marketStats.availableSupplyChange, colors: true)
+        totalSupplyLabel.setAmountMutableString(value: marketStats.totalSupply)
         
     }
     
     override func updateConstraints() {
         
         titleLabel.snp.makeConstraints { make in
-            make.width.equalTo(200)
-            make.left.equalTo(16)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
             make.top.equalToSuperview()
             make.height.equalTo(22)
         }
         
         backgroundBoxView.snp.makeConstraints { make in
-            make.left.equalTo(16)
+            make.left.equalToSuperview()
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
-            make.width.equalToSuperview().offset(-32)
+            make.right.equalToSuperview()
             make.bottom.equalToSuperview().offset(-10)
         }
         
         volumeIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
+            make.left.equalToSuperview().offset(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalTo(titleLabel.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }
@@ -163,14 +163,14 @@ class MarketStatsView: UIView {
             make.height.equalTo(20)
         }
         volume24ChangeLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-16)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalTo(volume24Label)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
         
         marketCapIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
+            make.left.equalToSuperview().offset(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalTo(volumeIcon.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }
@@ -187,14 +187,14 @@ class MarketStatsView: UIView {
             make.height.equalTo(20)
         }
         marketCapChangeLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-16)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalTo(marketCapLabel)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
         
         availableSupplyIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
+            make.left.equalToSuperview().offset(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalTo(marketCapIcon.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }
@@ -211,14 +211,14 @@ class MarketStatsView: UIView {
             make.height.equalTo(20)
         }
         availableSupplyChangeLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-16)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalTo(availableSupplyLabel)
             make.width.equalTo(150)
             make.height.equalTo(20)
         }
         
         totalSupplyIcon.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
+            make.left.equalToSuperview().offset(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalTo(availableSupplyIcon.snp.bottom).offset(30)
             make.width.height.equalTo(32)
         }

@@ -108,8 +108,10 @@ extension CryptoNewsCell {
     override func layoutIfNeeded() {
         
         contentBox.snp.makeConstraints { make in
-            make.left.top.equalToSuperview().offset(16)
-            make.right.bottom.equalToSuperview().inset(16)
+            make.left.equalTo(SAFE_AREA_MARGIN)
+            make.top.equalTo(16)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
+            make.bottom.equalToSuperview().inset(16)
         }
         
         typeImageBox.snp.makeConstraints { make in
@@ -138,7 +140,7 @@ extension CryptoNewsCell {
         timeLabel.snp.makeConstraints { make in
             make.left.equalTo(separatorView.snp.right).offset(5)
             make.centerY.equalTo(typeImageBox)
-            make.width.equalTo(autorLabel.intrinsicContentSize.width)
+            make.width.equalTo(timeLabel.intrinsicContentSize.width)
             make.height.equalTo(16)
         }
         

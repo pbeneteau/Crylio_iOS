@@ -22,15 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarVC = UITabBarController()
         
         let homeVC = HomeViewController()
-        let marketsVC = HomeViewController()
-                
-        homeVC.navigationController?.isNavigationBarHidden = true
-        marketsVC.navigationController?.isNavigationBarHidden = true
-        
+        let marketsVC = MarketViewController()
+
         homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         marketsVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
-        
-        tabBarVC.navigationController?.isNavigationBarHidden = true
         
         tabBarVC.viewControllers = [homeVC, marketsVC]
         

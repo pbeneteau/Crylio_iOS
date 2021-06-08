@@ -23,7 +23,7 @@ class CryptoDetailBalanceView: RoundedCornersView {
     
     var symbol: String! {
         didSet {
-            titleLabel.text = "\(symbol!) Balance"
+            titleLabel.text = "Balance"
         }
     }
     
@@ -60,7 +60,7 @@ class CryptoDetailBalanceView: RoundedCornersView {
         layer.borderColor = AppColors.background.secondary.cgColor
         
         titleLabel.font = .systemFont(ofSize: 15)
-        worthLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        worthLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         amountLabel.font = .systemFont(ofSize: 15)
         
         amountLabel.textColor = AppColors.label.secondary
@@ -94,7 +94,8 @@ extension CryptoDetailBalanceView {
     override func updateConstraints() {
         
         iconView.snp.makeConstraints { make in
-            make.left.top.equalTo(16)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.top.equalTo(CONTENT_TOP_MARGIN)
             make.width.height.equalTo(43)
         }
         
@@ -108,22 +109,22 @@ extension CryptoDetailBalanceView {
         worthLabel.snp.makeConstraints { make in
             make.left.equalTo(snp.centerX).offset(8)
             make.right.equalTo(arrowView.snp.left).offset(-16)
-            make.top.equalToSuperview().offset(16)
+            make.top.equalTo(CONTENT_TOP_MARGIN)
             make.height.equalTo(20)
         }
         
         amountLabel.snp.makeConstraints { make in
             make.left.equalTo(snp.centerX).offset(8)
             make.right.equalTo(arrowView.snp.left).offset(-16)
-            make.bottom.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(CONTENT_BOTTOM_MARGIN)
             make.height.equalTo(18)
         }
         
         arrowView.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(16)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalToSuperview()
-            make.width.equalTo(4)
-            make.height.equalTo(14)
+            make.width.equalTo(5)
+            make.height.equalTo(16)
         }
         
         super.updateConstraints()

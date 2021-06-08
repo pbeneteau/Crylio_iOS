@@ -32,8 +32,9 @@ class TransactionsHeaderView: UITableViewHeaderFooterView {
         addSubview(date)
         
         date.snp.makeConstraints { make in
-            make.left.top.equalTo(16)
-            make.width.equalTo(200)
+            make.left.equalTo(SAFE_AREA_MARGIN)
+            make.top.equalTo(16)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
             make.height.equalTo(24)
         }
     }

@@ -14,6 +14,7 @@ extension Float {
     
     func toDollarString(sign: Bool = false, precision: Int = 2) -> String {
         
+        
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = "USD"
@@ -23,7 +24,7 @@ extension Float {
         let number = NSNumber(value: self)
         
         if sign {
-            return  self < 0 ? "-": "+" + formatter.string(from: number)!
+            return (self < 0 ? "-": "+") + formatter.string(from: number)!
         }
         
         return formatter.string(from: number)!
@@ -38,7 +39,7 @@ extension Float {
         let number = NSNumber(value: self)
         
         if sign {
-            return  self < 0 ? "-": "+" + formatter.string(from: number)! + " %"
+            return (self < 0 ? "-": "+") + formatter.string(from: number)! + " %"
         }
         
         return formatter.string(from: number)! + " %"
@@ -57,7 +58,7 @@ extension Float {
         let number = NSNumber(value: self)
         
         if sign {
-            return  self < 0 ? "-": "+" + formatter.string(from: number)! + " \(symbol)"
+            return (self < 0 ? "-": "+") + formatter.string(from: number)! + " \(symbol)"
         }
         
         return formatter.string(from: number)! + " \(symbol)"
@@ -76,7 +77,7 @@ extension Float {
         } else {
             mutableAttributedString.append(NSAttributedString(string: dollarString, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize, weight: fontWeight)]))
         }
-                
+        
         return mutableAttributedString
     }
     
@@ -102,7 +103,7 @@ extension Float {
         let mutableAttributedString = NSMutableAttributedString()
         
         mutableAttributedString.append(NSAttributedString(string: amountString + " \(symbol)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize, weight: fontWeight)]))
-    
+        
         return mutableAttributedString
     }
     
@@ -110,19 +111,19 @@ extension Float {
 
 extension UILabel {
     
-    func getDollarMutableString(value: Float, colors: Bool = false, precision: Int = 2) -> NSMutableAttributedString {
+    func setDollarMutableString(value: Float, colors: Bool = false, precision: Int = 2) {
         
-        return value.toDollarMutableString(fontSize: self.font.pointSize, fontWeight: self.font.weight, colors: colors, precision: precision)
+        self.attributedText = value.toDollarMutableString(fontSize: self.font.pointSize, fontWeight: self.font.weight, colors: colors, precision: precision)
     }
     
-    func getAmountMutableString(value: Float, symbol: String = "", sign: Bool = false) -> NSMutableAttributedString {
+    func setAmountMutableString(value: Float, symbol: String = "", sign: Bool = false) {
         
-        return value.toAmountMutableString(fontSize: self.font.pointSize, fontWeight: self.font.weight, symbol: symbol, sign: sign)
+        self.attributedText = value.toAmountMutableString(fontSize: self.font.pointSize, fontWeight: self.font.weight, symbol: symbol, sign: sign)
     }
     
-    func getPercentMutableString(value: Float, colors: Bool = false) -> NSMutableAttributedString {
+    func setPercentMutableString(value: Float, colors: Bool = false) {
         
-        return value.toPercentMutableString(fontSize: self.font.pointSize, fontWeight: self.font.weight, colors: colors)
+        self.attributedText = value.toPercentMutableString(fontSize: self.font.pointSize, fontWeight: self.font.weight, colors: colors)
     }
 }
 

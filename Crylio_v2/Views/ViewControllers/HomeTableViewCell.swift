@@ -24,31 +24,25 @@ class HomeTableViewCell: UITableViewCell {
     lazy var balanceLabel = UILabel()
     lazy var amountLabel = UILabel()
     
-        
     var crypto: Cryptocurrency? {
-            didSet {
-                initValues()
-            }
+        didSet {
+            initValues()
+        }
     }
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         commonInit()
-
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     private func commonInit() {
-                        
+        
         selectionStyle = .none
         
         backgroundColor = .clear
@@ -57,22 +51,17 @@ class HomeTableViewCell: UITableViewCell {
         backgroundBox.backgroundColor = AppColors.background.secondary
         
         backgroundBox.layer.cornerRadius = 10
-        
-        symbolLabel.font = symbolLabel.font.withSize(17)
-        
+                
         nameLabel.textColor = .systemGray2
-        nameLabel.textAlignment = .left
         nameLabel.font = nameLabel.font.withSize(15)
         
         balanceLabel.textAlignment = .right
-        balanceLabel.font = balanceLabel.font.withSize(17)
         
-        amountLabel.textColor = .systemGray2
+        amountLabel.textColor = AppColors.label.secondary
         amountLabel.textAlignment = .right
         amountLabel.font = amountLabel.font.withSize(15)
         
         priceLabel.textAlignment = .right
-        priceLabel.font = priceLabel.font.withSize(17)
         
         changeLabel.textAlignment = .right
         changeLabel.font = amountLabel.font
@@ -97,7 +86,7 @@ class HomeTableViewCell: UITableViewCell {
             balanceLabel.text = crypto.balanceToString()
             amountLabel.text = crypto.amountToString()
             priceLabel.text = crypto.priceToString()
-            changeLabel.attributedText = changeLabel.getPercentMutableString(value: crypto.change, colors: true)
+            changeLabel.setPercentMutableString(value: crypto.change, colors: true)
         }
     }
     
@@ -112,55 +101,55 @@ extension HomeTableViewCell {
         
         backgroundBox.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().inset(CONTENT_BOTTOM_MARGIN)
         }
         
         iconImageView.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(12)
+            make.left.equalToSuperview().offset(CONTENT_HORIZONTAL_MARGIN)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(29)
         }
         
         symbolLabel.snp.makeConstraints { make in
             make.left.equalTo(iconImageView.snp.right).offset(10)
-            make.top.equalToSuperview().offset(12)
-            make.width.equalTo(100)
+            make.top.equalTo(CONTENT_TOP_MARGIN)
+            make.width.equalTo(60)
             make.height.equalTo(20)
         }
         
         nameLabel.snp.makeConstraints { make in
             make.left.equalTo(symbolLabel)
-            make.bottom.equalToSuperview().inset(12)
-            make.width.equalTo(100)
-            make.height.equalTo(18)
+            make.bottom.equalToSuperview().inset(CONTENT_BOTTOM_MARGIN)
+            make.width.equalTo(60)
+            make.height.equalTo(16)
         }
         
         priceLabel.snp.makeConstraints { make in
             make.right.equalTo(contentView.snp.centerX).offset(30)
             make.top.equalToSuperview().offset(15)
-            make.width.equalTo(100)
+            make.width.equalTo(110)
             make.height.equalTo(20)
         }
         
         changeLabel.snp.makeConstraints { make in
             make.right.equalTo(priceLabel)
             make.centerY.equalTo(nameLabel)
-            make.width.equalTo(100)
-            make.height.equalTo(18)
+            make.width.equalTo(110)
+            make.height.equalTo(16)
         }
         
         balanceLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(12)
-            make.top.equalToSuperview().offset(12)
-            make.width.equalTo(100)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
+            make.top.equalToSuperview().offset(CONTENT_TOP_MARGIN)
+            make.width.equalTo(110)
             make.height.equalTo(20)
         }
         
         amountLabel.snp.makeConstraints { make in
             make.right.equalTo(balanceLabel)
-            make.bottom.equalToSuperview().inset(12)
-            make.width.equalTo(100)
-            make.height.equalTo(18)
+            make.bottom.equalToSuperview().inset(CONTENT_BOTTOM_MARGIN)
+            make.width.equalTo(110)
+            make.height.equalTo(16)
         }
         
         super.layoutIfNeeded()

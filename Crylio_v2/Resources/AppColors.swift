@@ -13,8 +13,8 @@ class AppColors {
     
     
     struct background {
-        static var primary: UIColor { return UIColor.systemGray6 | UIColor(hexString: "#131721")}
-        static var secondary: UIColor { return UIColor.white | UIColor(hexString: "#181B26")}
+        static var primary: UIColor { return UIColor.systemBackground }
+        static var secondary: UIColor { return UIColor.white | UIColor(hexString: "#131621")}
         static var tertiary: UIColor { return UIColor.systemGray5 | UIColor(hexString: "#2A2D37") }
     }
     
@@ -56,6 +56,7 @@ class AppColors {
      
 }
 
+
 infix operator |: AdditionPrecedence
 public extension UIColor {
     
@@ -73,7 +74,8 @@ public extension UIColor {
     }
 }
 
-public extension UILabel {
+
+extension UILabel {
     
     func setSpannedColor (fullText : String , changeText : String, color: UIColor) {
         
@@ -84,6 +86,7 @@ public extension UILabel {
         self.attributedText = attribute
     }
 }
+
 
 extension UIColor {
     
@@ -112,5 +115,29 @@ extension UIColor {
         getRed(&r, green: &g, blue: &b, alpha: &a)
         let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
         return String(format:"#%06x", rgb)
+    }
+}
+
+
+extension UIColor {
+
+    func rgb() -> Int? {
+        var fRed : CGFloat = 0
+        var fGreen : CGFloat = 0
+        var fBlue : CGFloat = 0
+        var fAlpha: CGFloat = 0
+        if self.getRed(&fRed, green: &fGreen, blue: &fBlue, alpha: &fAlpha) {
+            let iRed = Int(fRed * 255.0)
+            let iGreen = Int(fGreen * 255.0)
+            let iBlue = Int(fBlue * 255.0)
+            let iAlpha = Int(fAlpha * 255.0)
+
+            //  (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are blue).
+            let rgb = (iAlpha << 24) + (iRed << 16) + (iGreen << 8) + iBlue
+            return rgb
+        } else {
+            // Could not extract RGBA components:
+            return nil
+        }
     }
 }

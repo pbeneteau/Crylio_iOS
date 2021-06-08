@@ -42,6 +42,7 @@ class CryptoHoldingsScrollView: UIScrollView {
         
         translatesAutoresizingMaskIntoConstraints = false
         contentInsetAdjustmentBehavior = .never
+        showsHorizontalScrollIndicator = false
         
         contentView.backgroundColor = .clear
         
@@ -68,13 +69,13 @@ class CryptoHoldingsScrollView: UIScrollView {
             profitLossView.title.text = "Loss"
         }
         
-        balanceView.value.attributedText = balanceView.value.getDollarMutableString(value: 13415.42)
+        balanceView.value.setDollarMutableString(value: 13415.42)
         balanceView.progressBar.progress = 0.63
         balanceView.percent.text = Float(0.63*100).toPercentString()
         costView.value.text = Float(6421.74).toDollarString()
         amountView.value.text = Float(3.1).toAmountString(symbol: "BTC")
-        changeView.value.attributedText = changeView.value.getPercentMutableString(value: 1401.85, colors: true)
-        profitLossView.value.attributedText = profitLossView.value.getDollarMutableString(value: 120415.06, colors: true)
+        changeView.value.setPercentMutableString(value: 1401.85, colors: true)
+        profitLossView.value.setDollarMutableString(value: 120415.06, colors: true)
     }
     
     func updateInsets(menuMaxY: CGFloat) {
@@ -99,19 +100,20 @@ extension CryptoHoldingsScrollView {
         
         contentView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
-            make.left.equalToSuperview().offset(16)
-            make.width.equalToSuperview().inset(16)
+            make.left.equalTo(SAFE_AREA_MARGIN)
+            make.width.equalToSuperview().offset(-SAFE_AREA_MARGIN*2)
             make.height.equalTo(700)
         }
         
         balanceView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalToSuperview().offset(16)
+            make.left.equalTo(0)
+            make.right.equalToSuperview()
+            make.top.equalTo(16)
             make.height.equalTo(126)
         }
         
         costView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
+            make.left.equalTo(0)
             make.right.equalTo(contentView.snp.centerX).offset(-8)
             make.top.equalTo(balanceView.snp.bottom).offset(16)
             make.height.equalTo(76)
@@ -125,7 +127,7 @@ extension CryptoHoldingsScrollView {
         }
         
         profitLossView.snp.makeConstraints { make in
-            make.left.equalToSuperview()
+            make.left.equalTo(0)
             make.right.equalTo(contentView.snp.centerX).offset(-8)
             make.top.equalTo(costView.snp.bottom).offset(16)
             make.height.equalTo(76)

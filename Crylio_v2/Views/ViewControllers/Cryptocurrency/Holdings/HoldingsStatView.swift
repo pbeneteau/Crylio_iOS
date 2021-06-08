@@ -53,15 +53,16 @@ extension HoldingsStatView {
     override func updateConstraints() {
         
         title.snp.makeConstraints { make in
-            make.left.top.equalTo(16)
-            make.width.equalToSuperview().offset(32)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
+            make.top.equalTo(CONTENT_TOP_MARGIN)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.height.equalTo(16)
         }
         
         value.snp.makeConstraints { make in
-            make.left.equalTo(16)
+            make.left.equalTo(CONTENT_HORIZONTAL_MARGIN)
             make.top.equalTo(title.snp.bottom).offset(5)
-            make.width.equalToSuperview().offset(32)
+            make.right.equalToSuperview().inset(CONTENT_HORIZONTAL_MARGIN)
             make.height.equalTo(20)
         }
         
