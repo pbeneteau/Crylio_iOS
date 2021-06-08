@@ -8,6 +8,7 @@ target 'Crylio_v2' do
   # Pods for Crylio_v2
   pod 'DropDown', '2.3.6'
   pod 'SwiftSVG', '~> 2.3'
+  pod "Macaw", "0.9.7"
   
   target 'Crylio_v2Tests' do
     inherit! :search_paths

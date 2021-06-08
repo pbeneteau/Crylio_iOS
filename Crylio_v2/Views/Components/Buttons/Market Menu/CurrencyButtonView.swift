@@ -32,6 +32,8 @@ class CurrencyButtonView: RoundCornersButton {
         titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
         titleLabel?.textAlignment = .center
         
+        setTitleColor(AppColors.label.primary, for: .normal)
+
         contentEdgeInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         
         setTitle(currencies[0], for: .normal)

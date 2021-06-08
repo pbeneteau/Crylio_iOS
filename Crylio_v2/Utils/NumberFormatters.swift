@@ -14,7 +14,6 @@ extension Float {
     
     func toDollarString(sign: Bool = false, precision: Int = 2) -> String {
         
-        
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = "USD"
@@ -22,10 +21,6 @@ extension Float {
         formatter.maximumFractionDigits = precision
         
         let number = NSNumber(value: self)
-        
-        if sign {
-            return (self < 0 ? "-": "+") + formatter.string(from: number)!
-        }
         
         return formatter.string(from: number)!
     }
@@ -38,11 +33,7 @@ extension Float {
         
         let number = NSNumber(value: self)
         
-        if sign {
-            return (self < 0 ? "-": "+") + formatter.string(from: number)! + " %"
-        }
-        
-        return formatter.string(from: number)! + " %"
+        return formatter.string(from: number)! + "%"
     }
     
     func toAmountString(sign: Bool = false, symbol: String = "") -> String {
@@ -56,10 +47,6 @@ extension Float {
         }
         
         let number = NSNumber(value: self)
-        
-        if sign {
-            return (self < 0 ? "-": "+") + formatter.string(from: number)! + " \(symbol)"
-        }
         
         return formatter.string(from: number)! + " \(symbol)"
     }

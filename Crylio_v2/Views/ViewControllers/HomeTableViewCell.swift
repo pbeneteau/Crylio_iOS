@@ -100,8 +100,10 @@ extension HomeTableViewCell {
     override func layoutIfNeeded() {
         
         backgroundBox.snp.makeConstraints { make in
-            make.left.top.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(CONTENT_BOTTOM_MARGIN)
+            make.left.equalTo(SAFE_AREA_MARGIN)
+            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
+            make.top.equalTo(8)
+            make.bottom.equalToSuperview().inset(8)
         }
         
         iconImageView.snp.makeConstraints { make in

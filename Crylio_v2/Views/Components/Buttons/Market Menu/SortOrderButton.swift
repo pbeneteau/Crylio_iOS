@@ -36,6 +36,28 @@ class SortOrderButton: RoundedCornersView {
         configure()
     }
     
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        let aPath = UIBezierPath()
+        
+        aPath.lineWidth = 2
+        aPath.lineCapStyle = .round
+        aPath.lineJoinStyle = .round
+
+        aPath.move(to: CGPoint(x: 5.31, y: 10.06))
+        aPath.addLine(to: CGPoint(x: 11.5, y: 16.71))
+        aPath.close()
+
+        aPath.move(to: CGPoint(x: 17.69, y: 10.06))
+        aPath.addLine(to: CGPoint(x: 11.5, y: 16.71))
+        aPath.close()
+
+        UIColor.systemBlue.set()
+        
+        aPath.stroke()
+    }
+    
     private func configure() {
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -44,55 +66,19 @@ class SortOrderButton: RoundedCornersView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(onTap(_:)))
         addGestureRecognizer(tap)
         
-        arrowView.contentMode = .scaleAspectFit
-        arrowView.loopMode = .playOnce
-        arrowView.animationSpeed = 2
-        
-        let keypath = AnimationKeypath(keys: ["**", "**", "**", "Color"])
-        let colorProvider = ColorValueProvider(UIColor.systemBlue.lottieColorValue)
-        arrowView.setValueProvider(colorProvider, keypath: keypath)
-        
-        arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
-        
-        addSubview(arrowView)
     }
     
     @objc func onTap(_ sender: UIButton) {
         
         ascendingOrder = !ascendingOrder
         
-        if !ascendingOrder {
-            arrowView.play(fromFrame: ProgressKeyFrames.start_1.rawValue, toFrame: ProgressKeyFrames.end_1.rawValue, loopMode: .none)
-        } else {
-            arrowView.play(fromFrame: ProgressKeyFrames.start_2.rawValue, toFrame: ProgressKeyFrames.end_2.rawValue, loopMode: .none)
-        }
-        
         print("sort order:", ascendingOrder == false ? "descending": "ascending")
-    }
-}
-
-
-// MARK: - Constraints
-
-extension SortOrderButton {
-    
-    override func layoutIfNeeded() {
-        super.layoutIfNeeded()
-
-        arrowView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.width.equalToSuperview().multipliedBy(0.8)
-        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        arrowView.snp.remakeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.width.equalToSuperview().multipliedBy(0.8)
-        }
-        
         layer.cornerRadius = frame.height/2
     }
 }
+

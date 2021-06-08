@@ -42,11 +42,11 @@ class MarketTableViewCell: UITableViewCell {
         
         nameLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         
-        symbolLabel.font = .systemFont(ofSize: 15, weight: .regular)
+        symbolLabel.font = .systemFont(ofSize: 15, weight: .medium)
         symbolLabel.textColor = AppColors.label.secondary
         
         rankLabel.textAlignment = .center
-        rankLabel.font = .systemFont(ofSize: 10)
+        rankLabel.font = .systemFont(ofSize: 12, weight: .medium)
         rankLabel.backgroundColor = .label.withAlphaComponent(0.1)
         rankLabel.layer.masksToBounds = true
         
@@ -102,8 +102,8 @@ class MarketTableViewCell: UITableViewCell {
         rankLabel.snp.makeConstraints { make in
             make.left.equalTo(nameLabel)
             make.top.equalTo(nameLabel.snp.bottom).offset(7)
-            make.height.equalTo(16)
-            make.width.equalTo(rankLabel.intrinsicContentSize.width).offset(20)
+            make.height.equalTo(18)
+            make.width.equalTo(rankLabel.intrinsicContentSize.width).offset(18)
         }
         
         symbolLabel.snp.makeConstraints { make in
@@ -139,10 +139,6 @@ class MarketTableViewCell: UITableViewCell {
             make.centerY.equalTo(symbolLabel)
             make.height.equalTo(18)
         }
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         
         rankLabel.layer.cornerRadius = rankLabel.frame.height/2
     }

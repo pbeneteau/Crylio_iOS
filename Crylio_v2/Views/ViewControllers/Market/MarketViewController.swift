@@ -19,7 +19,7 @@ class MarketViewController: BaseViewController {
     lazy var subMenuView = MarketSubMenu(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
     
     lazy var tableView = UITableView()
-    var searchBar = UISearchBar()
+    var searchBar = CustomSearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
     var searchActive = false
 
     var cryptos = [Cryptocurrency]()
@@ -43,28 +43,14 @@ class MarketViewController: BaseViewController {
         tableView.dataSource = self
         tableView.register(MarketTableViewCell.self, forCellReuseIdentifier: MarketTableViewCell.reuseId)
         tableView.tableHeaderView = searchBar
-        tableView.tableHeaderView?.frame.size.height = 45
+        
         tableView.keyboardDismissMode = .onDrag
         tableView.separatorColor = .label.withAlphaComponent(0.1)
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         tableView.tableFooterView = UIView()
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 63, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         searchBar.delegate = self
-        //searchBar.barTintColor = AppColors.background.primary
-        //searchBar.backgroundColor = .clear
-        searchBar.searchTextField.font = .systemFont(ofSize: 15.0)
-        searchBar.placeholder = "Search"
-        searchBar.spellCheckingType = .no
-        
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {            
-            //textfield.frame.size.height = 30
-            
-            if let backgroundview = textfield.subviews.first {
-                
-                //backgroundview.backgroundColor = .clear
-            }
-        }
 
         view.addSubview(subtitleLabel)
         view.addSubview(marketCapLabel)
@@ -79,9 +65,11 @@ class MarketViewController: BaseViewController {
         view.setNeedsUpdateConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        let searchBarHeight = searchBar.frame.size.height
-        tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: false) /// hide search bar
+        
     }
 
     private func initValues() {
@@ -120,10 +108,12 @@ class MarketViewController: BaseViewController {
                                                      marketStats: CryptoMarketStats(volume24: 115149016927.31, volume24Change: 2.61, marketCap: 625760348347.31, marketCapChange: 2.61, availableSupply: 45425790652.52, availableSupplyChange: 1.5, totalSupply: 100000000000.62))!
         
         cryptos += [crypto1, crypto2, crypto1, crypto2, crypto1]
+        filteredCryptos = cryptos
         
         tableView.reloadData()
     }
-
+    
+    
 }
 
 
@@ -133,7 +123,7 @@ extension MarketViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+                
         if searchActive {
             return filteredCryptos.count
         }
@@ -159,7 +149,6 @@ extension MarketViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.iconImageView.kf.cancelDownloadTask()
         cell.layoutIfNeeded()
-        cell.layoutSubviews()
                 
         return cell
     }
@@ -184,7 +173,6 @@ extension MarketViewController: UITableViewDelegate, UITableViewDataSource {
 extension MarketViewController: UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
-        
         tableView.reloadData()
     }
     
@@ -270,12 +258,12 @@ extension MarketViewController {
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(subMenuView.snp.bottom).offset(20)
+            make.top.equalTo(subMenuView.snp.bottom).offset(16)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-                
+                                
         super.updateViewConstraints()
     }
     

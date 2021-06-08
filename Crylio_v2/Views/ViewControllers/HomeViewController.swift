@@ -16,7 +16,7 @@ class HomeViewController: BaseViewController {
     lazy var header = UIView()
     lazy var filterMenuView = FilterMenuView()
     lazy var tableView = HomeTableView()
-    var searchBar = UISearchBar()
+    var searchBar = CustomSearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
 
     var searchActive = false
     
@@ -46,31 +46,9 @@ class HomeViewController: BaseViewController {
         tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
         tableView.keyboardDismissMode = .onDrag
-        
-        //view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing)))
-        
         tableView.tableHeaderView = searchBar
-        tableView.tableHeaderView?.frame.size.height = 35
 
         searchBar.delegate = self
-        
-        searchBar.barTintColor = AppColors.background.primary
-        searchBar.backgroundColor = .clear
-        
-        searchBar.searchTextField.font = .systemFont(ofSize: 15.0)
-        searchBar.placeholder = "Search"
-        searchBar.spellCheckingType = .no
-        
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            
-            textfield.backgroundColor = AppColors.background.secondary
-            textfield.frame.size.height = 30
-            
-            if let backgroundview = textfield.subviews.first {
-                
-                backgroundview.backgroundColor = .clear
-            }
-        }
                         
         view.addSubview(header)
         view.addSubview(filterMenuView)
@@ -81,10 +59,8 @@ class HomeViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if !offsetSet {
-            let searchBarHeight = searchBar.frame.size.height
-            tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
-        }
+        
+        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: false) /// hide search bar
     }
     
     func loadCryptos() {
@@ -268,9 +244,9 @@ extension HomeViewController {
         }
                 
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(filterMenuView.snp.bottom).offset(20)
-            make.left.equalToSuperview().offset(SAFE_AREA_MARGIN)
-            make.right.equalToSuperview().inset(SAFE_AREA_MARGIN)
+            make.top.equalTo(filterMenuView.snp.bottom).offset(16)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
             make.bottom.equalToSuperview()
         }
         
